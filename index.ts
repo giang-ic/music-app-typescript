@@ -1,8 +1,12 @@
 import express, {Express, Response, Request} from "express";
+import dotenv from "dotenv";
 
+// enviroment varibales
+dotenv.config();
+
+// express
 const app: Express = express();
-
-const port:(string | number) = 3000;
+const port:(string | number) = process.env.PORT || 3000;
 
 // template engines
 app.set('views', './views');
@@ -19,5 +23,5 @@ app.get(
 
 // listen port
 app.listen(port, () => {
-    console.log(`App listening on port ${port}`);
+    console.log(`Music App listening`);
 });
