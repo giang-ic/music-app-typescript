@@ -4,7 +4,7 @@ import {Router} from "express";
 const router: Router = Router();
 
 // controller
-import * as controller from "../../controller/client/topic.controller";
+import * as controller from "../../controllers/client/topic.controller";
 
 router.get(
     '/',
