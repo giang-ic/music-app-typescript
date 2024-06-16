@@ -45,3 +45,11 @@
     color: green;
 }
 /* End box-head */
+
+
+/* box-topic */
+.box-topic {
+    width: 200px;
+    height: auto;
+}
+/* end box-topic */

@@ -8,8 +8,8 @@ block main
                 +box-head(title)
         .row
             each topic in topics
-                .col-6.mb-3
-                    div(class="card")
+                .col-3.mb-3
+                    div(class="card box-topic")
                         img(src=topic.avatar)
                         div(class="card-body")
                             h5(class="card-title") #{topic.title}
