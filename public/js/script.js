@@ -1,11 +1,23 @@
 // APlayer
-const ap = new APlayer({
-    container: document.getElementById('aplayer'),
-    audio: [{
-        name: 'Cắt đôi nỗi sầu',
-        artist: 'Tăng Duy Tân',
-        url: 'https://backend.daca.vn/assets/audios/cat-doi-noi-sau.mp3',
-        cover: 'https://backend.daca.vn/assets/images/cat-doi-noi-sau.jpg'
-    }]
-});
+const aplayerExist = document.querySelector("#aplayer");
+if(aplayerExist){
+
+    // Get data's song & convert to JS
+    let dataSong = aplayerExist.getAttribute("data-song");
+    dataSong = JSON.parse(dataSong);
+
+    // Get data's singer & convert to JS
+    let dataSinger = aplayerExist.getAttribute("data-singer");
+    dataSinger = JSON.parse(dataSinger);
+
+    const ap = new APlayer({
+        container: aplayerExist,
+        audio: [{
+            name: dataSong.title,
+            artist: dataSinger.fullName,
+            url: dataSong.audio,
+            cover: dataSong.avatar
+        }]
+    });
+}
 // End APlayer

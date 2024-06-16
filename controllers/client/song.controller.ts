@@ -4,6 +4,7 @@ import { Response, Request } from "express";
 import Topic from "../../models/topic.model";
 import Song from "../../models/song.model";
 import Singer from "../../models/singer.model";
+import { title } from "process";
 
 // [GET] /songs/:topicSlug
 export const index = async (req: Request, res: Response) => {
@@ -63,20 +64,17 @@ export const detail = async (req: Request, res: Response) => {
             deleted: false
         }).select("fullName");
 
-        song["singer"] = singer.fullName || "Đang cập nhật";
-
-
         const topic = await Topic.findOne({
             _id: song.topicId,
             status: "active",
             deleted: false
         }).select("title");
 
-        song["topic"] = topic.title || "Đang cập nhật";
-
         res.render('client/pages/songs/detail', {
             title: `Chi tiết bài: ${song.title}`,
-            song
+            song,
+            singer,
+            topic
         });
     }
     catch(error){
