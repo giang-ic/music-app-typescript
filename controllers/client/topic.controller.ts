@@ -5,6 +5,7 @@ import Topic from "../../models/topic.model";
 
 export const index = async (req: Request, res: Response) => {
     try{
+        
         interface findInterface {
             title?: string,
             description?: string,
