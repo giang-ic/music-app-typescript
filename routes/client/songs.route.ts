@@ -11,4 +11,9 @@ router.get(
     controller.index
 );
 
+router.get(
+    '/detail/:songSlug',
+    controller.detail
+);
+
 export const songRouter: Router = router;

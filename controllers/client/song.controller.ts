@@ -5,7 +5,7 @@ import Topic from "../../models/topic.model";
 import Song from "../../models/song.model";
 import Singer from "../../models/singer.model";
 
-// [GET] /songs/:topicID
+// [GET] /songs/:topicSlug
 export const index = async (req: Request, res: Response) => {
     try{
         
@@ -40,6 +40,18 @@ export const index = async (req: Request, res: Response) => {
             topic,
             songs
         })
+    }
+    catch(error){
+
+    }
+}
+
+// [GET] /songs/detail/:songSlug
+export const detail = async (req: Request, res: Response) => {
+    try{
+        res.render('client/pages/songs/detail', {
+            title: "Chi tiết:"
+        });
     }
     catch(error){
 
