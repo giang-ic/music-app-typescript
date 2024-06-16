@@ -10,7 +10,9 @@ export const index = async (req: Request, res: Response) => {
         });
         console.log(topics);
         
-        res.send("Danh Mục Bài Hát");
+        res.render('client/pages/topics/index', {
+            title: "Danh mục bài hát"
+        });
     }
     catch(error){
         console.warn(error);
