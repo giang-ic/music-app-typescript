@@ -1,8 +1,9 @@
 import express, {Express, Response, Request} from "express";
 import dotenv from "dotenv";
+import {connect} from "./config/database";
 
-// enviroment varibales
-dotenv.config();
+dotenv.config(); // enviroment varibales
+connect(); // database
 
 // express
 const app: Express = express();
