@@ -7,7 +7,7 @@ const router: Router = Router();
 import * as controller from '../../controllers/client/song.controller';
 
 router.get(
-    '/',
+    '/:topicSlug',
     controller.index
 );
 

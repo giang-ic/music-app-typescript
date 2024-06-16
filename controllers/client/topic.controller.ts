@@ -3,9 +3,10 @@ import {Response, Request} from "express";
 // models
 import Topic from "../../models/topic.model";
 
+// [GET] /topics/
 export const index = async (req: Request, res: Response) => {
     try{
-        
+
         interface findInterface {
             title?: string,
             description?: string,
