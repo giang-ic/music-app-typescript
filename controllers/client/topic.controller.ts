@@ -17,11 +17,11 @@ export const index = async (req: Request, res: Response) => {
             status: "active",
             deleted: false
         }
-        
+
         const topics = await Topic.find(findObject);
         
         res.render('client/pages/topics/index', {
-            title: "Danh mục bài hát",
+            title: "Chủ đề bài hát",
             topics
         });
     }
