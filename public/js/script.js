@@ -19,5 +19,15 @@ if(aplayerExist){
             cover: dataSong.avatar
         }]
     });
+
+    // listen event 
+    const innerAvatar = document.querySelector(".inner-avatar"); // image disk rotate
+    ap.on('play', function () {
+        innerAvatar.style.animationPlayState = "running";
+    });
+
+    ap.on('pause', function () {
+        innerAvatar.style.animationPlayState = "paused";
+    });
 }
 // End APlayer
