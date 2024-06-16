@@ -1,6 +1,7 @@
-import express, {Express, Response, Request} from "express";
+import express, {Express} from "express";
 import dotenv from "dotenv";
 import {connect} from "./config/database";
+import clientRouter from "./routes/client/index.route";
 
 dotenv.config(); // enviroment varibales
 connect(); // database
@@ -13,14 +14,7 @@ const port:(string | number) = process.env.PORT || 3000;
 app.set('views', './views');
 app.set('view engine', 'pug');
 
-// router
-app.get(
-    '/topics', 
-    (req: Request, res: Response):void => {
-        console.log("music app topics");
-        res.send("TOPICS");
-    }
-);
+clientRouter(app); // client router
 
 // listen port
 app.listen(port, () => {
