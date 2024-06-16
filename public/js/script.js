@@ -1,0 +1,1 @@
+console.log("script.js in public static files");

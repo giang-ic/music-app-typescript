@@ -10,6 +10,8 @@ connect(); // database
 const app: Express = express();
 const port:(string | number) = process.env.PORT || 3000;
 
+app.use(express.static('public')); // static files
+
 // template engines
 app.set('views', './views');
 app.set('view engine', 'pug');
