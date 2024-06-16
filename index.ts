@@ -4,6 +4,11 @@ const app: Express = express();
 
 const port:(string | number) = 3000;
 
+// template engines
+app.set('views', './views');
+app.set('view engine', 'pug');
+
+// router
 app.get(
     '/topics', 
     (req: Request, res: Response):void => {
@@ -12,6 +17,7 @@ app.get(
     }
 );
 
+// listen port
 app.listen(port, () => {
     console.log(`App listening on port ${port}`);
 });
