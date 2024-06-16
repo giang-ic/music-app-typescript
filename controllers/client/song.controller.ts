@@ -49,8 +49,34 @@ export const index = async (req: Request, res: Response) => {
 // [GET] /songs/detail/:songSlug
 export const detail = async (req: Request, res: Response) => {
     try{
+
+        const songSlug: string = req.params.songSlug;
+        const song = await Song.findOne({
+            slug: songSlug,
+            status: "active",
+            deleted: false
+        });
+
+        const singer = await Singer.findOne({
+            _id: song.singerId,
+            status: "active",
+            deleted: false
+        }).select("fullName");
+
+        song["singer"] = singer.fullName || "Đang cập nhật";
+
+
+        const topic = await Topic.findOne({
+            _id: song.topicId,
+            status: "active",
+            deleted: false
+        }).select("title");
+
+        song["topic"] = topic.title || "Đang cập nhật";
+
         res.render('client/pages/songs/detail', {
-            title: "Chi tiết:"
+            title: `Chi tiết bài: ${song.title}`,
+            song
         });
     }
     catch(error){
