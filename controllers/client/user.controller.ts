@@ -214,9 +214,24 @@ export const forgotPassword = async (req: Request, res: Response) => {
         `;
         sendMail(toEmail, subject, html);
 
-        res.redirect('password/otp');
+        res.redirect(`/user/password/otp?email=${toEmail}`);
     }
     catch(error){
         console.log(error);
     }
 }
+
+// [GET] /user/password/otp
+export const otpUI = async (req: Request, res: Response) => {
+    try{
+        res.render('client/pages/user/otp-password', {
+            title: "Nhập mã OTP",
+            email: req.query.email
+        });
+    }
+    catch(error){
+
+    }
+}
+
+// [POST] /user/password/otp

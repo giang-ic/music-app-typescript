@@ -48,5 +48,10 @@ router.post(
     controller.forgotPassword
 );
 
+router.get(
+    '/password/otp',
+    controller.otpUI
+);
+
 // export
 export const userRouter: Router = router;
