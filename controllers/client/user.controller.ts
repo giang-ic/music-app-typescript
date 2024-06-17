@@ -153,3 +153,26 @@ export const forgotPasswordUI = async (req: Request, res: Response) => {
 
     }
 }
+
+// [POST] /user/password/forgot
+export const forgotPassword = async (req: Request, res: Response) => {
+    try{
+        // email is valid ?
+        const user = await User.findOne({
+            email: req.body.email,
+            status: "active",
+            deleted: false
+        }).select("-password");
+
+        if(!user){
+            // ...thông báo email không hợp lệ
+            res.redirect('back');
+            return;
+        }
+
+        res.redirect('back');
+    }
+    catch(error){
+
+    }
+}

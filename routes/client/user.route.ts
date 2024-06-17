@@ -42,5 +42,11 @@ router.get(
     controller.forgotPasswordUI
 );
 
+router.post(
+    '/password/forgot',
+    validate.forgotPassword,
+    controller.forgotPassword
+);
+
 // export
 export const userRouter: Router = router;
