@@ -32,5 +32,10 @@ router.post(
     controller.login
 );
 
+router.get(
+    '/logout',
+    controller.logout
+);
+
 // export
 export const userRouter: Router = router;

@@ -73,7 +73,6 @@ export const loginUI = async (req: Request, res: Response) => {
     }
 }
 
-
 // [POST] /user/login
 export const login = async (req: Request, res: Response) => {
     try{
@@ -124,6 +123,19 @@ export const login = async (req: Request, res: Response) => {
             }
         });
         
+    }
+    catch(error){
+
+    }
+}
+
+// [GET] /user/logout
+export const logout = async (req: Request, res: Response) => {
+    try{
+        // clear cookies
+        res.clearCookie('tokenUser');
+
+        res.redirect('/topics');
     }
     catch(error){
 
