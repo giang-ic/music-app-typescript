@@ -37,5 +37,10 @@ router.get(
     controller.logout
 );
 
+router.get(
+    '/password/forgot',
+    controller.forgotPasswordUI
+);
+
 // export
 export const userRouter: Router = router;

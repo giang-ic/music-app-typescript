@@ -141,3 +141,15 @@ export const logout = async (req: Request, res: Response) => {
 
     }
 }
+
+// [GET] /user/password/forgot
+export const forgotPasswordUI = async (req: Request, res: Response) => {
+    try{
+        res.render('client/pages/user/forgot-password', {
+            title: "Quên mật khẩu"
+        })
+    }
+    catch(error){
+
+    }
+}
