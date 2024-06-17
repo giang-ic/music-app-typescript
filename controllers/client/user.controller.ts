@@ -75,3 +75,57 @@ export const loginUI = async (req: Request, res: Response) => {
 
 
 // [POST] /user/login
+export const login = async (req: Request, res: Response) => {
+    try{
+        // is email exits ?
+        const user = await User.findOne({
+            email: req.body.email,
+            deleted: false
+        });
+
+        if(!user){
+            // ...thông báo email không tồn tại
+            res.redirect('back');
+            return;
+        }
+
+        // is user active ?
+        if(user.status != "active"){
+            // ...thông báo tài khoản đã dừng hoạt động
+            res.redirect('back');
+            return;
+        }
+
+        // compare(verify) password
+        const passwordLogin = req.body.password;
+        bcrypt.compare(passwordLogin, user.password, (err, result) => {
+            if (err) {
+                // Handle error
+                console.error('Error comparing passwords:', err);
+                return;
+            }
+        
+            if(result) {
+                // Passwords match, authentication successful
+                console.log('Passwords match! User authenticated.');
+
+                // set cookie
+                res.cookie('tokenUser', user.tokenUser, {
+                    maxAge: 1000 * 60 * 60, //expire cookie: 1h 
+                    httpOnly: true
+                });
+                
+                res.redirect('/topics');
+            } 
+            else {
+                // Passwords don't match, authentication failed
+                console.log('Passwords do not match! Authentication failed.');
+                // ...thông báo mật khẩu không chính xác
+            }
+        });
+        
+    }
+    catch(error){
+
+    }
+}
