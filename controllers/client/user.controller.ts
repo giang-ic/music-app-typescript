@@ -1,14 +1,17 @@
 // instance Response & Request 
 import { Request, Response } from "express";
 import bcrypt  from "bcrypt";
-const saltRounds = 10; // Typically a value between 10 and 12
 
 // models
 import User from "../../models/user.model";
+import ForgotPassword from "../../models/forgot-password.model";
 
 // helper
 import * as generateHelper from "../../helper/generate.helper";
+import { sendMail } from "../../helper/mail.helper";
 
+// define
+const saltRounds = 10; // Typically a value between 10 and 12 brcypt
 // [GET] /user/register
 export const registerUI = async (req: Request, res: Response) => {
     try{
@@ -170,9 +173,50 @@ export const forgotPassword = async (req: Request, res: Response) => {
             return;
         }
 
+        // STEP 1: CREATE OBJECT OTP & SAVE ON DB
+        const otp = generateHelper.randomStrNumber(6);
+
+        const record = new ForgotPassword({
+            email: req.body.email,
+            otp: otp,
+            expireAt: Date.now() + (1000*60*3) // 3m
+        });
+        await record.save();
+
+        // STEP 2: SEND OTP THROUGH MAIL 
+        const toEmail: string = req.body.email;
+        const subject: string = `Thiết lập lại mật khẩu `;
+        const html: string = `
+            <div>
+                Ai đó đã yêu cầu đặt lại mật khẩu cho tài khoản sau:
+            </div><br>
+            
+            <div>
+                <b>Tên trang web:</b> SoundLound Intelligence
+            </div><br>
+
+            <div>
+                <b>Email:</b> ${toEmail}
+            </div><br>
+
+            <div>
+                Nếu đây chỉ là sự nhầm lẫn, chỉ cần bỏ qua email này
+            </div><br>
+
+            <div>
+                <b>Mã OTP</b>: ${otp} <br>
+
+                <h3>
+                    <b>Lưu ý mã chỉ có hiệu lực trong 3 phút</b>
+                </h3>
+            </div>
+
+        `;
+        sendMail(toEmail, subject, html);
+
         res.redirect('back');
     }
     catch(error){
-
+        console.log(error);
     }
 }
