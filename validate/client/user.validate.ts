@@ -70,3 +70,21 @@ export const otp = (req: Request, res: Response, next: NextFunction) => {
     // next middlware
     next();
 }
+
+// [POST] /user/password/reset
+export const resetPassword = (req: Request, res: Response, next: NextFunction) => {
+    if(!req.body.password || !req.body.confirmPassword){
+        // ...thông báo điền đầy đủ thông tin
+        res.redirect('back');
+        return;
+    }
+
+    if(req.body.password != req.body.confirmPassword){
+        // ...thông báo 2 mật khẩu trong trùng khớp
+        res.redirect('back');
+        return;
+    }
+    
+    // next middleware
+    next();
+}

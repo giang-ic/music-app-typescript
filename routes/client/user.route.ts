@@ -9,6 +9,9 @@ import * as controller from "../../controllers/client/user.controller";
 // validate
 import * as validate from "../../validate/client/user.validate";
 
+// middlware
+import * as middleware from "../../middleware/client/user.middleware";
+
 // use
 router.get(
     '/register',
@@ -17,7 +20,7 @@ router.get(
 
 router.post(
     '/register',
-    // validate.register,
+    validate.register,
     controller.register
 );
 
@@ -61,7 +64,15 @@ router.post(
 
 router.get(
     '/password/reset',
+    middleware.accessResetPassword,
     controller.resetPasswordUI
+);
+
+router.post(
+    '/password/reset',
+    middleware.accessResetPassword,
+    validate.resetPassword,
+    controller.forgotPassword
 );
 
 // export

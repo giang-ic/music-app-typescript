@@ -267,6 +267,9 @@ export const otp = async (req: Request, res: Response) => {
             res.redirect('/user/password/forgot');
             return;
         }
+        
+        // cookie này phục vụ cho việc đổi mật khẩu mới, nhìn zậy chứ chưa bảo mật lắm
+        res.cookie('token_user_otp', user.tokenUser);
 
         res.redirect('/user/password/reset');
     }
@@ -281,6 +284,20 @@ export const resetPasswordUI = async (req: Request, res: Response) => {
         res.render('client/pages/user/reset-password', {
             title: "Reset Mật Khẩu"
         });
+    }
+    catch(error){
+
+    }
+}
+
+// [POST] /user/password/reset
+export const resetPassword= async (req: Request, res: Response) => {
+    try{
+        res.send("ok");
+        // if(!req.cookies.token_user_otp){
+        //     res.redirect('back');
+        //     return;
+        // }
     }
     catch(error){
 

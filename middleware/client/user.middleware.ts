@@ -26,3 +26,32 @@ export const accessLogin = async (req: Request, res: Response, next: NextFunctio
         console.log(error);
     }
 }
+
+/**
+ * This middleware has the role of checking whether the token user is exist or not
+ */
+export const accessResetPassword = async (req: Request, res: Response, next: NextFunction) => {
+    try{
+        if(!req.body.token_user_otp){
+            res.redirect('/user/password/forgot');
+            return;
+        }
+
+        const isValidToken = await User.findOne({
+            tokenUser: req.body.token_user_otp,
+            status: "active",
+            deleted: false
+        });
+
+        if(!isValidToken){
+            res.redirect('/user/password/forgot');
+            return;
+        }
+
+        // next middleware
+        next();
+    }
+    catch(error){
+
+    }
+}
