@@ -3,6 +3,10 @@ import dotenv from "dotenv";
 import {connect} from "./config/database";
 import clientRouter from "./routes/client/index.route";
 
+import flash from "express-flash";
+import cookieParser from "cookie-parser";
+import session  from "express-session";
+
 dotenv.config(); // enviroment varibales
 connect(); // database
 
@@ -11,6 +15,11 @@ const app: Express = express();
 const port:(string | number) = process.env.PORT || 3000;
 
 app.use(express.static('public')); // static files
+
+// express-flash
+app.use(cookieParser('keyboard cat'));
+app.use(session({ cookie: { maxAge: 60000 }}));
+app.use(flash());
 
 // template engines
 app.set('views', './views');
