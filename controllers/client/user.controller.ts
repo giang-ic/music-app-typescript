@@ -214,7 +214,7 @@ export const forgotPassword = async (req: Request, res: Response) => {
         `;
         sendMail(toEmail, subject, html);
 
-        res.redirect('back');
+        res.redirect('password/otp');
     }
     catch(error){
         console.log(error);
