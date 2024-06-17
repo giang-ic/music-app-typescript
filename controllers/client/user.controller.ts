@@ -60,3 +60,18 @@ export const register = async (req: Request, res: Response) => {
         console.log(error);
     }
 }
+
+// [GET] /user/login
+export const loginUI = async (req: Request, res: Response) => {
+    try{
+        res.render('client/pages/user/login', {
+            title: "Đăng nhập"
+        });
+    }
+    catch(error){
+
+    }
+}
+
+
+// [POST] /user/login

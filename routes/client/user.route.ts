@@ -20,5 +20,11 @@ router.post(
     // validate.register,
     controller.register
 );
+
+router.get(
+    '/login',
+    controller.loginUI
+);
+
 // export
 export const userRouter: Router = router;
