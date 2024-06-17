@@ -81,3 +81,38 @@ export const detail = async (req: Request, res: Response) => {
 
     }
 }
+
+// [PATCH] /songs/like/:songID
+export const like = async (req: Request, res: Response) => {
+    try{
+        const songID: string = req.params.songID;
+        
+
+        const song = await Song.findOne({
+            _id: songID,
+            status: "active",
+            deleted: false
+        }).select("like");
+
+        const updateLike: number = song.like + 1;
+
+        await Song.updateOne(
+            {
+                _id: songID,
+                status: "active",
+                deleted: false
+            },{
+                like: updateLike
+            }
+        );
+
+        res.status(200).json({
+            code: 200,
+            message: "Đã like",
+            like: updateLike
+        });
+    }
+    catch(error){
+
+    }
+}

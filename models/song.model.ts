@@ -12,7 +12,7 @@ const SongSchema = new mongoose.Schema(
         avatar: String,
         slug: String, // slug phục vụ cho tìm kiếm và SEO
         listen: Number, // lượt nghe, có thể sau này lưu vô collection
-        like: String, // lưu tạm, sau này lưu vô collection khác luôn
+        like: Number, // lưu tạm, sau này lưu vô collection khác luôn
         status: String,
         deleted: {
             type: Boolean,

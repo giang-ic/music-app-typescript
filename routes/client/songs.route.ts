@@ -16,4 +16,9 @@ router.get(
     controller.detail
 );
 
+router.patch(
+    '/like/:songID',
+    controller.like
+);
+
 export const songRouter: Router = router;

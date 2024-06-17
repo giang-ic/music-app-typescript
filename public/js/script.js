@@ -16,7 +16,8 @@ if(aplayerExist){
             name: dataSong.title,
             artist: dataSinger.fullName,
             url: dataSong.audio,
-            cover: dataSong.avatar
+            cover: dataSong.avatar,
+            preload: 'none'
         }]
     });
 
@@ -31,3 +32,23 @@ if(aplayerExist){
     });
 }
 // End APlayer
+
+
+// Like Song
+const buttonLikeSong = document.querySelector("[button-like]");
+if(buttonLikeSong){
+    buttonLikeSong.addEventListener("click", (event) => {
+        const id = buttonLikeSong.getAttribute("button-like");
+
+        fetch(`/songs/like/${id}`, {
+            method: 'PATCH'
+        })
+            .then(response => response.json())
+            .then(response => {
+                const innerNumber = buttonLikeSong.querySelector(".inner-number");
+                innerNumber.innerHTML = response.like;
+                buttonLikeSong.classList.toggle("active");
+            });
+    });
+}
+// End Like Song
