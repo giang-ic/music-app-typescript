@@ -6,6 +6,9 @@ import clientRouter from "./routes/client/index.route";
 import flash from "express-flash";
 import cookieParser from "cookie-parser";
 import session  from "express-session";
+import methodOverride  from "method-override";
+
+import bodyParser from "body-parser";
 
 dotenv.config(); // enviroment varibales
 connect(); // database
@@ -14,7 +17,11 @@ connect(); // database
 const app: Express = express();
 const port:(string | number) = process.env.PORT || 3000;
 
+app.use(methodOverride('_method')); //method-override
 app.use(express.static('public')); // static files
+
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
 
 // express-flash
 app.use(cookieParser('keyboard cat'));

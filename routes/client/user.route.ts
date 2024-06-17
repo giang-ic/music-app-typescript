@@ -6,6 +6,9 @@ const router: Router = Router();
 // controller
 import * as controller from "../../controllers/client/user.controller";
 
+// validate
+import * as validate from "../../validate/client/user.validate";
+
 // use
 router.get(
     '/register',
@@ -14,6 +17,7 @@ router.get(
 
 router.post(
     '/register',
+    // validate.register,
     controller.register
 );
 // export
