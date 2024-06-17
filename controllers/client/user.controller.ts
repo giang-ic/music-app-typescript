@@ -235,3 +235,42 @@ export const otpUI = async (req: Request, res: Response) => {
 }
 
 // [POST] /user/password/otp
+export const otp = async (req: Request, res: Response) => {
+    try{
+        // email is valid ?
+        const user = await User.findOne({
+            email: req.body.email,
+            deleted: false
+        });
+
+        if(!user){
+            // ...thông báo email không hợp lệ
+            res.redirect('/user/password/forgot');
+            return;
+        }
+
+        // is user active
+        if(user.status === "inactive"){
+            // ...thông báo tài khoản đã bị khóa
+            res.redirect('/user/password/forgot');
+            return;
+        }
+
+        // check otp
+        const isValidOTP = await ForgotPassword.findOne({
+            email: req.body.email,
+            otp: req.body.otp
+        });
+
+        if(!isValidOTP){
+            // ...thông báo OTP không hợp lệ
+            res.redirect('/user/password/forgot');
+            return;
+        }
+
+        res.send('ok');
+    }
+    catch(error){
+
+    }
+}

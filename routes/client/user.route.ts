@@ -53,5 +53,11 @@ router.get(
     controller.otpUI
 );
 
+router.post(
+    '/password/otp',
+    validate.otp,
+    controller.otp
+);
+
 // export
 export const userRouter: Router = router;

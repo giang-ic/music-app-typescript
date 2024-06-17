@@ -52,3 +52,21 @@ export const forgotPassword = (req: Request, res: Response, next: NextFunction) 
     // next middleware
     next();
 }
+
+// [POST] /user/password/otp
+export const otp = (req: Request, res: Response, next: NextFunction) => {
+    if(!req.body.email){
+        // ...thông báo không có email
+        res.redirect('back');
+        return;
+    }
+
+    if(!req.body.otp){
+        // ...thông báo không có otp
+        res.redirect('back');
+        return;
+    }
+
+    // next middlware
+    next();
+}
