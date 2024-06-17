@@ -59,5 +59,10 @@ router.post(
     controller.otp
 );
 
+router.get(
+    '/password/reset',
+    controller.resetPasswordUI
+);
+
 // export
 export const userRouter: Router = router;

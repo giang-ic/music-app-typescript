@@ -268,7 +268,19 @@ export const otp = async (req: Request, res: Response) => {
             return;
         }
 
-        res.send('ok');
+        res.redirect('/user/password/reset');
+    }
+    catch(error){
+
+    }
+}
+
+// [GET] /user/password/reset
+export const resetPasswordUI = async (req: Request, res: Response) => {
+    try{
+        res.render('client/pages/user/reset-password', {
+            title: "Reset Mật Khẩu"
+        });
     }
     catch(error){
 
