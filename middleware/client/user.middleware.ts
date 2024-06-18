@@ -32,13 +32,13 @@ export const accessLogin = async (req: Request, res: Response, next: NextFunctio
  */
 export const accessResetPassword = async (req: Request, res: Response, next: NextFunction) => {
     try{
-        if(!req.body.token_user_otp){
+        if(!req.cookies.token_user_otp){
             res.redirect('/user/password/forgot');
             return;
         }
 
         const isValidToken = await User.findOne({
-            tokenUser: req.body.token_user_otp,
+            tokenUser: req.cookies.token_user_otp,
             status: "active",
             deleted: false
         });

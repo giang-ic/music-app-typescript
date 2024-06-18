@@ -73,8 +73,14 @@ export const otp = (req: Request, res: Response, next: NextFunction) => {
 
 // [POST] /user/password/reset
 export const resetPassword = (req: Request, res: Response, next: NextFunction) => {
-    if(!req.body.password || !req.body.confirmPassword){
+    if(!req.body.password){
         // ...thông báo điền đầy đủ thông tin
+        res.redirect('back');
+        return;
+    }
+
+    if(!req.body.confirmPassword){
+        // ...thông báo xác nhận lại mật khẩu
         res.redirect('back');
         return;
     }

@@ -72,7 +72,7 @@ router.post(
     '/password/reset',
     middleware.accessResetPassword,
     validate.resetPassword,
-    controller.forgotPassword
+    controller.resetPassword
 );
 
 // export

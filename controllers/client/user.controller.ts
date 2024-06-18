@@ -11,7 +11,7 @@ import * as generateHelper from "../../helper/generate.helper";
 import { sendMail } from "../../helper/mail.helper";
 
 // define
-const saltRounds = 10; // Typically a value between 10 and 12 brcypt
+const saltRounds: number = 10; // Typically a value between 10 and 12 brcypt
 // [GET] /user/register
 export const registerUI = async (req: Request, res: Response) => {
     try{
@@ -39,7 +39,7 @@ export const register = async (req: Request, res: Response) => {
         }
 
         // hashing password
-        const password = req.body.password; 
+        const password: string = req.body.password; 
         bcrypt.hash(password, saltRounds, async (err, hash) => {
             if (err) {
                 // Handle error
@@ -99,7 +99,7 @@ export const login = async (req: Request, res: Response) => {
         }
 
         // compare(verify) password
-        const passwordLogin = req.body.password;
+        const passwordLogin: string = req.body.password;
         bcrypt.compare(passwordLogin, user.password, (err, result) => {
             if (err) {
                 // Handle error
@@ -174,7 +174,7 @@ export const forgotPassword = async (req: Request, res: Response) => {
         }
 
         // STEP 1: CREATE OBJECT OTP & SAVE ON DB
-        const otp = generateHelper.randomStrNumber(6);
+        const otp: string = generateHelper.randomStrNumber(6);
 
         const record = new ForgotPassword({
             email: req.body.email,
@@ -271,6 +271,8 @@ export const otp = async (req: Request, res: Response) => {
         // cookie này phục vụ cho việc đổi mật khẩu mới, nhìn zậy chứ chưa bảo mật lắm
         res.cookie('token_user_otp', user.tokenUser);
 
+        // clear otp
+        
         res.redirect('/user/password/reset');
     }
     catch(error){
@@ -293,11 +295,32 @@ export const resetPasswordUI = async (req: Request, res: Response) => {
 // [POST] /user/password/reset
 export const resetPassword= async (req: Request, res: Response) => {
     try{
-        res.send("ok");
-        // if(!req.cookies.token_user_otp){
-        //     res.redirect('back');
-        //     return;
-        // }
+        const password: string = req.body.password;
+        const tokenUserOtp: string = req.cookies.token_user_otp;
+        console.log(password, tokenUserOtp);
+        bcrypt.hash(password, saltRounds, async (err, hash) => {
+            if (err) {
+                // Handle error
+                return;
+            }
+        
+            // Hashing successful, 'hash' contains the hashed password
+            // ...thông báo đổi mật khẩu thành công
+            await User.updateOne(
+                {
+                    tokenUser: tokenUserOtp,
+                    status: "active",
+                    deleted: false
+                },{
+                    password: hash
+                }
+            );
+        });
+
+        // clear cookies otp
+        res.clearCookie('token_user_otp');
+        res.redirect(`/user/login`);
+        
     }
     catch(error){
 
