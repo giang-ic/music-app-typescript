@@ -33,14 +33,15 @@ if(aplayerExist){
 }
 // End APlayer
 
-
 // Like Song
 const buttonLikeSong = document.querySelector("[button-like]");
 if(buttonLikeSong){
     buttonLikeSong.addEventListener("click", (event) => {
         const id = buttonLikeSong.getAttribute("button-like");
 
-        fetch(`/songs/like/${id}`, {
+        const status = buttonLikeSong.classList.contains("active") ? "dislike" : "like";
+
+        fetch(`/songs/like/${status}/${id}`, {
             method: 'PATCH'
         })
             .then(response => response.json())

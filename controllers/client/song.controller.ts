@@ -94,7 +94,9 @@ export const like = async (req: Request, res: Response) => {
         }).select("like");
 
         // update amount of like
-        const updateLike: number = song.like + 1;
+        const status: string = req.params.status; // like or dislike
+        const updateLike: number =  status === "like" ? song.like + 1 : song.like - 1;
+
         await Song.updateOne(
             {
                 _id: songID,
@@ -109,30 +111,44 @@ export const like = async (req: Request, res: Response) => {
         const likeSong = await LikeSong.findOne({
             songID: songID,
         });
-
-        if(likeSong){
-            await LikeSong.updateOne(
-                {songID: songID},
-                {
-                    $push: {
-                        userIDs: res.locals.user.id
+        
+        if(status === "like"){
+            if(likeSong){
+                await LikeSong.updateOne(
+                    {songID: songID},
+                    {
+                        $push: {
+                            userIDs: res.locals.user.id
+                        }
                     }
-                }
-            )
+                )
+            }
+    
+            else{
+                const record = new LikeSong({
+                    songID: songID,
+                    userIDs: [res.locals.user.id]
+                });
+                await record.save();
+            }
         }
-
-        else{
-            const record = new LikeSong({
-                songID: songID,
-                userIDs: [res.locals.user.id]
-            });
-            await record.save();
+        else {
+            if(likeSong){
+                await LikeSong.updateOne(
+                    {songID: songID},
+                    {
+                        $pull: {
+                            userIDs: res.locals.user.id
+                        }
+                    }
+                )
+            }
+            // nếu số lượng like về 0, cũng không cần xóa Database
         }
-
         
         res.status(200).json({
             code: 200,
-            message: "Đã like",
+            message: status === "like" ? "Đã like bài nhạc" : "Đã dislike bài nhạc",
             like: updateLike
         });
     }
