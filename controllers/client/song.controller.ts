@@ -4,7 +4,7 @@ import { Response, Request } from "express";
 import Topic from "../../models/topic.model";
 import Song from "../../models/song.model";
 import Singer from "../../models/singer.model";
-import { title } from "process";
+import LikeSong from "../../models/likes-song.model";
 
 // [GET] /songs/:topicSlug
 export const index = async (req: Request, res: Response) => {
@@ -87,15 +87,14 @@ export const like = async (req: Request, res: Response) => {
     try{
         const songID: string = req.params.songID;
         
-
         const song = await Song.findOne({
             _id: songID,
             status: "active",
             deleted: false
         }).select("like");
 
+        // update amount of like
         const updateLike: number = song.like + 1;
-
         await Song.updateOne(
             {
                 _id: songID,
@@ -106,6 +105,31 @@ export const like = async (req: Request, res: Response) => {
             }
         );
 
+        // save user liked song
+        const likeSong = await LikeSong.findOne({
+            songID: songID,
+        });
+
+        if(likeSong){
+            await LikeSong.updateOne(
+                {songID: songID},
+                {
+                    $push: {
+                        userIDs: res.locals.user.id
+                    }
+                }
+            )
+        }
+
+        else{
+            const record = new LikeSong({
+                songID: songID,
+                userIDs: [res.locals.user.id]
+            });
+            await record.save();
+        }
+
+        
         res.status(200).json({
             code: 200,
             message: "Đã like",

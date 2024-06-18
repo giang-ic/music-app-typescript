@@ -6,7 +6,7 @@ const LikeSongSchema = new mongoose.Schema({
     userIDs: {
         type: Array,
         default: []
-    } // contain list user was like
+    } // contain  users id liked song
 });
 
 // create Model
