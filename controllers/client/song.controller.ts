@@ -113,7 +113,13 @@ export const like = async (req: Request, res: Response) => {
         });
         
         if(status === "like"){
-            if(likeSong){
+            // check userID exist in LikeSong ?
+            const userExistInLikeSong = await LikeSong.findOne({
+                songID: songID,
+                "userIDs": res.locals.user.id
+            });
+            
+            if(likeSong && !userExistInLikeSong){
                 await LikeSong.updateOne(
                     {songID: songID},
                     {
@@ -124,7 +130,7 @@ export const like = async (req: Request, res: Response) => {
                 )
             }
     
-            else{
+            else if(!likeSong){
                 const record = new LikeSong({
                     songID: songID,
                     userIDs: [res.locals.user.id]
