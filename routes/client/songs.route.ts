@@ -6,6 +6,8 @@ const router: Router = Router();
 // controller
 import * as controller from '../../controllers/client/song.controller';
 
+import * as middlewareUser from '../../middleware/client/user.middleware';
+
 router.get(
     '/:topicSlug',
     controller.index
@@ -17,7 +19,8 @@ router.get(
 );
 
 router.patch(
-    '/like/:songID',
+    '/like/:status/:songID',
+    middlewareUser.accessLogin,
     controller.like
 );
 

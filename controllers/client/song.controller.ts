@@ -82,7 +82,7 @@ export const detail = async (req: Request, res: Response) => {
     }
 }
 
-// [PATCH] /songs/like/:songID
+// [PATCH] /songs/like/:status/:songID
 export const like = async (req: Request, res: Response) => {
     try{
         const songID: string = req.params.songID;
