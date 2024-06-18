@@ -271,8 +271,12 @@ export const otp = async (req: Request, res: Response) => {
         // cookie này phục vụ cho việc đổi mật khẩu mới, nhìn zậy chứ chưa bảo mật lắm
         res.cookie('token_user_otp', user.tokenUser);
 
-        // clear otp
-        
+        // clear otp on database
+        await ForgotPassword.deleteOne({
+            email: req.body.email,
+            otp: req.body.otp
+        });
+
         res.redirect('/user/password/reset');
     }
     catch(error){
