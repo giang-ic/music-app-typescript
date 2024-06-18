@@ -9,7 +9,6 @@ import LikeSong from "../../models/likes-song.model";
 // [GET] /songs/:topicSlug
 export const index = async (req: Request, res: Response) => {
     try{
-        
         // FIND TOPIC
         const topicSlug: string = req.params.topicSlug;
         const topic = await Topic.findOne({
@@ -58,12 +57,22 @@ export const detail = async (req: Request, res: Response) => {
             deleted: false
         });
 
+        // check user has liked song or not
+        const userLikeSong = await LikeSong.findOne({
+            songID: song.id,
+            "userIDs": res.locals.user.id
+        });
+        
+        song["likeStatus"] = userLikeSong != null ? "active" : "";
+
+        // get singer's song
         const singer = await Singer.findOne({
             _id: song.singerId,
             status: "active",
             deleted: false
         }).select("fullName");
 
+        // get topic's song
         const topic = await Topic.findOne({
             _id: song.topicId,
             status: "active",
