@@ -65,8 +65,9 @@ const buttonFavoriteSong = document.querySelector("[button-favorite]");
 if(buttonFavoriteSong){
     buttonFavoriteSong.addEventListener("click", (event) => {
         const id = buttonFavoriteSong.getAttribute("button-favorite");
+        const status = buttonFavoriteSong.classList.contains("active") ? "unfavorite" : "favorite";
 
-        fetch(`/songs/favorite/${id}`, {
+        fetch(`/songs/favorite/${status}/${id}`, {
             method: 'PATCH'
         })
             .then(response => response.json())

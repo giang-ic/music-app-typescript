@@ -25,7 +25,7 @@ router.patch(
 );
 
 router.patch(
-    '/favorite/:songID',
+    '/favorite/:status/:songID',
     middlewareUser.accessActive,
     controller.favorite
 );

@@ -182,40 +182,55 @@ export const like = async (req: Request, res: Response) => {
     }
 }
 
-// [PATCH] /songs/favorite/:songID
+// [PATCH] /songs/favorite/:status/:songID
 export const favorite = async (req: Request, res: Response) => {
     try{
-        const songID = req.params.songID;
-        const userID = res.locals.user.id;
+        const songID: string = req.params.songID;
+        const userID: string = res.locals.user.id;
+        const status: string = req.params.status;
 
         // save user favorite song on Database
         const favoriteSongExist = await FavoriteSong.findOne({
             songID: songID
         });
 
-        if(!favoriteSongExist){
-            const favoriteSong = new FavoriteSong({
-                songID: songID,
-                userIDs: [userID]
-            });
-            await favoriteSong.save();
+        const userExistInFavoriteSong = await FavoriteSong.findOne({
+            songID: songID,
+            "userIDs": userID
+        });
+
+        if(status === "favorite"){
+            if(!favoriteSongExist){
+                const favoriteSong = new FavoriteSong({
+                    songID: songID,
+                    userIDs: [userID]
+                });
+                await favoriteSong.save();
+            }
+            else{
+                if(!userExistInFavoriteSong){
+                    await FavoriteSong.updateOne(
+                        {songID: songID},
+                        {
+                            $push: {
+                                userIDs: userID
+                            }
+                        }
+                    );
+                }
+            }
         }
         else{
-            const userExistInFavoriteSong = await FavoriteSong.findOne({
-                songID: songID,
-                "userIDs": userID
-            });
-            if(!userExistInFavoriteSong){
+            if(favoriteSongExist){
                 await FavoriteSong.updateOne(
                     {songID: songID},
                     {
-                        $push: {
+                        $pull: {
                             userIDs: userID
                         }
                     }
                 );
             }
-            
         }
 
         res.status(200).json({
