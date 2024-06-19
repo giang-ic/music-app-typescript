@@ -6,6 +6,7 @@ import Song from "../../models/song.model";
 import Singer from "../../models/singer.model";
 import LikeSong from "../../models/likes-song.model";
 import FavoriteSong from "../../models/favorites-song.model";
+import exp from "constants";
 
 // [GET] /songs/:topicSlug
 export const index = async (req: Request, res: Response) => {
@@ -43,7 +44,7 @@ export const index = async (req: Request, res: Response) => {
         })
     }
     catch(error){
-
+        console.log(error);
     }
 }
 
@@ -240,5 +241,41 @@ export const favorite = async (req: Request, res: Response) => {
     }
     catch(error){
 
+    }
+}
+
+// [GET] /songs/favorite
+export const listFavorite = async (req: Request, res: Response) => {
+    try{
+        const userID: string = res.locals.user.id;
+        const songsFavorited = await FavoriteSong.find({
+            "userIDs": userID
+        }).select("songID");
+
+        const listIdFavoriteSong: string[] = songsFavorited.map(item => item.songID); // contain list id's favorite song in array
+
+        const songs = await Song.find({
+            _id: {$in: listIdFavoriteSong},
+            status: "active",
+            deleted: false
+        }).select("-lyrics");
+
+        for(const song of songs){
+            const singer = await Singer.findOne({
+                _id: song.singerId,
+                status: "active",
+                deleted: false
+            }).select('fullName');
+
+            song["singer"] = singer.fullName || "Đang cập nhật";
+        }
+
+        res.render('client/pages/songs/favorite', {
+            title : "Bài nhạc yêu thích",
+            songs
+        })
+    }
+    catch(error){
+        console.log(error);
     }
 }

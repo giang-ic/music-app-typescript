@@ -9,6 +9,11 @@ import * as controller from '../../controllers/client/song.controller';
 import * as middlewareUser from '../../middleware/client/user.middleware';
 
 router.get(
+    '/favorite',
+    controller.listFavorite
+);
+
+router.get(
     '/:topicSlug',
     controller.index
 );
