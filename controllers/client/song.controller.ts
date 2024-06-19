@@ -5,6 +5,7 @@ import Topic from "../../models/topic.model";
 import Song from "../../models/song.model";
 import Singer from "../../models/singer.model";
 import LikeSong from "../../models/likes-song.model";
+import FavoriteSong from "../../models/favorites-song.model";
 
 // [GET] /songs/:topicSlug
 export const index = async (req: Request, res: Response) => {
@@ -178,7 +179,38 @@ export const like = async (req: Request, res: Response) => {
 export const favorite = async (req: Request, res: Response) => {
     try{
         const songID = req.params.songID;
-        
+        const userID = res.locals.user.id;
+
+        // save user favorite song on Database
+        const favoriteSongExist = await FavoriteSong.findOne({
+            songID: songID
+        });
+
+        if(!favoriteSongExist){
+            const favoriteSong = new FavoriteSong({
+                songID: songID,
+                userIDs: [userID]
+            });
+            await favoriteSong.save();
+        }
+        else{
+            const userExistInFavoriteSong = await FavoriteSong.findOne({
+                songID: songID,
+                "userIDs": userID
+            });
+            if(!userExistInFavoriteSong){
+                await FavoriteSong.updateOne(
+                    {songID: songID},
+                    {
+                        $push: {
+                            userIDs: userID
+                        }
+                    }
+                );
+            }
+            
+        }
+
         res.status(200).json({
             code: 200,
             message: "Đã yêu thích bài hát"
