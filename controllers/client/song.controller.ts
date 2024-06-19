@@ -5,6 +5,7 @@ import Topic from "../../models/topic.model";
 import Song from "../../models/song.model";
 import Singer from "../../models/singer.model";
 import LikeSong from "../../models/likes-song.model";
+import { equal } from "assert";
 
 // [GET] /songs/:topicSlug
 export const index = async (req: Request, res: Response) => {
@@ -58,12 +59,14 @@ export const detail = async (req: Request, res: Response) => {
         });
 
         // check user has liked song or not
-        const userLikeSong = await LikeSong.findOne({
-            songID: song.id,
-            "userIDs": res.locals.user.id
-        });
-        
-        song["likeStatus"] = userLikeSong != null ? "active" : "";
+        if(res.locals.user){
+            const userLikeSong = await LikeSong.findOne({
+                songID: song.id,
+                "userIDs": res.locals.user.id
+            });
+            
+            song["likeStatus"] = userLikeSong != null ? "active" : "";
+        }
 
         // get singer's song
         const singer = await Singer.findOne({
@@ -87,7 +90,7 @@ export const detail = async (req: Request, res: Response) => {
         });
     }
     catch(error){
-
+        console.log(error);
     }
 }
 
@@ -168,6 +171,6 @@ export const like = async (req: Request, res: Response) => {
         });
     }
     catch(error){
-
+        console.log(error);
     }
 }
