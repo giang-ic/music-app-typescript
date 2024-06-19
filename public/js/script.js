@@ -46,10 +46,33 @@ if(buttonLikeSong){
         })
             .then(response => response.json())
             .then(response => {
-                const innerNumber = buttonLikeSong.querySelector(".inner-number");
-                innerNumber.innerHTML = response.like;
-                buttonLikeSong.classList.toggle("active");
+                if(response.code === 400){
+                    alert('Vui lòng đăng nhập');
+                }
+                else {
+                    const innerNumber = buttonLikeSong.querySelector(".inner-number");
+                    innerNumber.innerHTML = response.like;
+                    buttonLikeSong.classList.toggle("active");
+                }
+                
             });
     });
 }
 // End Like Song
+
+// Favorite Song
+const buttonFavoriteSong = document.querySelector("[button-favorite]");
+if(buttonFavoriteSong){
+    buttonFavoriteSong.addEventListener("click", (event) => {
+        const id = buttonFavoriteSong.getAttribute("button-favorite");
+         console.log(id);
+        fetch(`/songs/favorite/${id}`, {
+            method: 'PATCH'
+        })
+            .then(response => response.json())
+            .then(response => {
+
+            });
+    });
+}
+// End Favorite Song

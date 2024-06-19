@@ -20,8 +20,14 @@ router.get(
 
 router.patch(
     '/like/:status/:songID',
-    middlewareUser.accessLogin,
+    middlewareUser.accessActive,
     controller.like
+);
+
+router.patch(
+    '/favorite/:songID',
+    middlewareUser.accessActive,
+    controller.favorite
 );
 
 export const songRouter: Router = router;

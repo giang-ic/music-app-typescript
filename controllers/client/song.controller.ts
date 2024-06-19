@@ -5,7 +5,6 @@ import Topic from "../../models/topic.model";
 import Song from "../../models/song.model";
 import Singer from "../../models/singer.model";
 import LikeSong from "../../models/likes-song.model";
-import { equal } from "assert";
 
 // [GET] /songs/:topicSlug
 export const index = async (req: Request, res: Response) => {
@@ -172,5 +171,20 @@ export const like = async (req: Request, res: Response) => {
     }
     catch(error){
         console.log(error);
+    }
+}
+
+// [PATCH] /songs/favorite/:songID
+export const favorite = async (req: Request, res: Response) => {
+    try{
+        const songID = req.params.songID;
+        
+        res.status(200).json({
+            code: 200,
+            message: "Đã yêu thích bài hát"
+        })
+    }
+    catch(error){
+
     }
 }
