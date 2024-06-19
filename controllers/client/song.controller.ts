@@ -65,7 +65,14 @@ export const detail = async (req: Request, res: Response) => {
                 "userIDs": res.locals.user.id
             });
             
-            song["likeStatus"] = userLikeSong != null ? "active" : "";
+            song["likeStatus"] = userLikeSong ? "active" : "";
+
+            const userFavoriteSong = await FavoriteSong.findOne({
+                songID: song.id,
+                "userIDs": res.locals.user.id
+            });
+
+            song["favoriteStatus"] = userFavoriteSong ? true : false;
         }
 
         // get singer's song
