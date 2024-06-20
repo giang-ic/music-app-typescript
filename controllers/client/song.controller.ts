@@ -236,7 +236,7 @@ export const favorite = async (req: Request, res: Response) => {
 
         res.status(200).json({
             code: 200,
-            message: "Đã yêu thích bài hát"
+            message: status === "favorite" ? "Đã yêu thích bài hát" : "Đã bỏ yêu thích bài hát"
         })
     }
     catch(error){

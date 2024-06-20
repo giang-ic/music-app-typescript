@@ -61,24 +61,27 @@ if(buttonLikeSong){
 // End Like Song
 
 // Favorite Song
-const buttonFavoriteSong = document.querySelector("[button-favorite]");
-if(buttonFavoriteSong){
-    buttonFavoriteSong.addEventListener("click", (event) => {
-        const id = buttonFavoriteSong.getAttribute("button-favorite");
-        const status = buttonFavoriteSong.classList.contains("active") ? "unfavorite" : "favorite";
-
-        fetch(`/songs/favorite/${status}/${id}`, {
-            method: 'PATCH'
-        })
-            .then(response => response.json())
-            .then(response => {
-                if(response.code === 400){
-                    alert('Vui lòng đăng nhập');
-                }
-                else {
-                    buttonFavoriteSong.classList.toggle("active");
-                }
-            });
+const listButtonFavoriteSong = document.querySelectorAll("[button-favorite]");
+if(listButtonFavoriteSong.length > 0){
+    listButtonFavoriteSong.forEach(button => {
+        button.addEventListener("click", (event) => {
+            const id = button.getAttribute("button-favorite");
+            const status = button.classList.contains("active") ? "unfavorite" : "favorite";
+    
+            fetch(`/songs/favorite/${status}/${id}`, {
+                method: 'PATCH'
+            })
+                .then(response => response.json())
+                .then(response => {
+                    if(response.code === 400){
+                        alert('Vui lòng đăng nhập');
+                    }
+                    else {
+                        button.classList.toggle("active");
+                    }
+                });
+        });
     });
+   
 }
 // End Favorite Song
