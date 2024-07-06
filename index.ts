@@ -10,7 +10,9 @@ import session  from "express-session";
 import methodOverride  from "method-override";
 
 import bodyParser from "body-parser";
+import { systemConfig } from "./config/system";
 
+systemConfig
 dotenv.config(); // enviroment varibales
 connect(); // database
 
@@ -28,6 +30,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser('keyboard cat'));
 app.use(session({ cookie: { maxAge: 60000 }}));
 app.use(flash());
+
+// locals variable
+app.locals.path_admin = systemConfig.prefix_admin;
 
 // template engines
 app.set('views', './views');
