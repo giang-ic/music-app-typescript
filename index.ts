@@ -2,6 +2,7 @@ import express, {Express} from "express";
 import dotenv from "dotenv";
 import {connect} from "./config/database";
 import clientRouter from "./routes/client/index.route";
+import adminRouter from "./routes/admin/index.route";
 
 import flash from "express-flash";
 import cookieParser from "cookie-parser";
@@ -33,7 +34,8 @@ app.set('views', './views');
 app.set('view engine', 'pug');
 
 clientRouter(app); // client router
-
+adminRouter(app); // admin router
+    
 // listen port
 app.listen(port, () => {
     console.log(`Music App listening`);
