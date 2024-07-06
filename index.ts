@@ -11,6 +11,7 @@ import methodOverride  from "method-override";
 
 import bodyParser from "body-parser";
 import { systemConfig } from "./config/system";
+import path from "path";
 
 systemConfig
 dotenv.config(); // enviroment varibales
@@ -33,6 +34,9 @@ app.use(flash());
 
 // locals variable
 app.locals.path_admin = systemConfig.prefix_admin;
+
+// tinymce
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
 
 // template engines
 app.set('views', './views');

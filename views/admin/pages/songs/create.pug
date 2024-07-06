@@ -61,7 +61,7 @@ block main
             label(for="desc") Mô tả
             textarea(
                 type="text"
-                class="form-control"
+                class="form-control style-textarea-tinymce"
                 id="desc"
                 name="description"
                 rows="5"
@@ -91,3 +91,6 @@ block main
                 type="submit"
                 class="btn btn-primary"
             ) Tạo mới
+block script
+    script(src= "/tinymce/tinymce.min.js")
+    script(src="/admin/js/tinymce-config.js")
