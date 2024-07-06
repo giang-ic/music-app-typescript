@@ -8,7 +8,7 @@ const router: Router = Router();
 import * as controller from "../../controllers/client/search.controller";
 
 // use
-router.get('/result', controller.result);
+router.get('/:type', controller.result);
 
 // export 
 export const searchRouter: Router = router;
