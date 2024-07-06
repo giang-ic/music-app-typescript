@@ -30,6 +30,22 @@ if(aplayerExist){
     ap.on('pause', function () {
         innerAvatar.style.animationPlayState = "paused";
     });
+
+    // statistic listen
+    ap.on('ended', () => {
+        fetch(`/songs/listen/${dataSong._id}`, {
+            method: 'PATCH'
+        })
+            .then(response => response.json())
+            .then(response => {
+                if(response.code === 200){
+                    const listen = response.song.listen;
+                    const innerNumber = document.querySelector('.inner-listen .inner-number');
+                    innerNumber.innerHTML = listen;
+                }
+            });
+    });
+    // end statistic listen 
 }
 // End APlayer
 

@@ -11,8 +11,14 @@ const SongSchema = new mongoose.Schema(
         audio: String, 
         avatar: String,
         slug: String, // slug phục vụ cho tìm kiếm và SEO
-        listen: Number, // lượt nghe, có thể sau này lưu vô collection
-        like: Number, // lưu tạm, sau này lưu vô collection khác luôn
+        listen:{
+            type: Number,
+            default: 0
+        }, // lượt nghe, có thể sau này lưu vô collection
+        like:{
+            type: Number,
+            default: 0
+        }, // lưu tạm, sau này lưu vô collection khác luôn
         status: String,
         deleted: {
             type: Boolean,

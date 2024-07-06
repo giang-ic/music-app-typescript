@@ -279,3 +279,41 @@ export const listFavorite = async (req: Request, res: Response) => {
         console.log(error);
     }
 }
+
+// [PATCH] /songs/listen/:songID
+export const listen = async (req: Request, res: Response) => {
+    try{
+        const songID = req.params.songID;
+        // update listen
+        const songListened = await Song.findOne({
+            _id: songID,
+            status: "active",
+            deleted: false
+        }).select("listen");
+
+        const statisticListen = songListened.listen + 1;
+        
+        await Song.updateOne({
+            _id: songID,
+            status: "active",
+            deleted: false
+        }, {
+            listen: statisticListen
+        });
+        // end update listen
+
+        const song = await Song.findOne({
+            _id: songID,
+            status: "active",
+            deleted: false
+        }).select("listen");
+        
+        res.status(200).json({
+            code: 200,
+            song
+        });
+    }
+    catch(error){
+
+    }
+}
