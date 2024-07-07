@@ -35,14 +35,16 @@ let streamUpload = (buffer: any) => {
 // upload
 const upload = async (buffer: any) => {
   let result = await streamUpload(buffer);
-  console.log(result);
+  // console.log(result);
+  return result["url"];
 }
 
 // end upload
-export const uploadSingle = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const uploadSingle = async (req: Request, res: Response, next: NextFunction): Promise <void> => {
   try{
       if(req["file"]){
-        upload(req["file"].buffer);
+        const linkImage = await upload(req["file"].buffer);
+        req.body[req["file"].fieldname] = linkImage;
       }
       next();
   }

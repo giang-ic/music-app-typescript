@@ -50,8 +50,9 @@ export const createUI = async (req: Request, res: Response) => {
 // [POST] /admin/songs/create
 export const create = async (req: Request, res: Response) => {
     try{
-        // console.log(req["file"]);
-        res.redirect('/admin/topics');
+        const record = new Song(req.body);
+        await record.save();
+        res.redirect('back');
     }
     catch(error){
 

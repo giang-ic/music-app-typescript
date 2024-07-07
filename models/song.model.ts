@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import slug from "mongoose-slug-updater";
+mongoose.plugin(slug);
 
 // create schema
 const SongSchema = new mongoose.Schema(
@@ -10,7 +12,11 @@ const SongSchema = new mongoose.Schema(
         lyrics: String,
         audio: String, 
         avatar: String,
-        slug: String, // slug phục vụ cho tìm kiếm và SEO
+        slug: {
+            type: String,
+            slug: "title",
+            unique: true
+        }, // slug phục vụ cho tìm kiếm và SEO
         listen:{
             type: Number,
             default: 0
