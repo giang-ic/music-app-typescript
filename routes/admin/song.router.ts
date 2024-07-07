@@ -1,4 +1,8 @@
 import {Router} from "express";
+import multer from "multer";
+// const upload = multer({ dest: '/uploads' }); /** test */
+import { diskStorageHelper } from "../../helper/diskStorage.helper";
+const upload = multer({ storage: diskStorageHelper() }) /**disk storage */
 
 // create instance router
 const router: Router = Router();
@@ -15,6 +19,12 @@ router.get(
 router.get(
     '/create',
     controller.createUI
+);
+
+router.post(
+    '/create',
+    upload.single('avatar'),
+    controller.create
 );
 
 // export
