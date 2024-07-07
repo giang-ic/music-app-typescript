@@ -50,9 +50,8 @@ export const createUI = async (req: Request, res: Response) => {
 // [POST] /admin/songs/create
 export const create = async (req: Request, res: Response) => {
     try{
-        console.log(req["file"]);
-        console.log(req.body);
-        res.redirect('back');
+        // console.log(req["file"]);
+        res.redirect('/admin/topics');
     }
     catch(error){
 
