@@ -26,7 +26,8 @@ tinymce.init({
         reader.addEventListener('load', () => {
             /*
             Note: Now we need to register the blob in TinyMCEs image blob
-            registry. In the next release this part hopefully won't be
+            registry. 
+            In the next release this part hopefully won't be
             necessary, as we are looking to handle it internally.
             */
             const id = 'blobid' + (new Date()).getTime();
