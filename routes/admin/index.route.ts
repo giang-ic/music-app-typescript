@@ -4,6 +4,7 @@ import { DashboardRouter } from "./dashboard.router";
 import { TopicRouter } from "./topics.route";
 import { SongRouter } from "./song.router";
 import { RoleRouter } from "./role.router";
+import { AccountRouter } from "./account.route";
 
 const adminRouter = (app: Express): void => {
     const PATH_ADMIN = systemConfig.prefix_admin;
@@ -28,6 +29,10 @@ const adminRouter = (app: Express): void => {
         RoleRouter
     ); 
 
+    app.use(
+        `${PATH_ADMIN}/accounts`,
+        AccountRouter
+    ); 
 }
 
 export default adminRouter;
