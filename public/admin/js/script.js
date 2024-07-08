@@ -34,6 +34,7 @@ if(uploadAudio){
     const uploadAudioInput = uploadAudio.querySelector("[upload-audio-input]");
     const uploadAudioPreview = uploadAudio.querySelector("[upload-audio-preview]");
     const sourceUploadAudioPreview = uploadAudioPreview.querySelector("source");
+    const closeAudio = uploadAudio.querySelector("[close-audio]");
 
     uploadAudioInput.addEventListener("change", (event) => {
         const audio = uploadAudioInput.files[0];
@@ -41,7 +42,21 @@ if(uploadAudio){
         if(audio){
             sourceUploadAudioPreview.src = URL.createObjectURL(audio);
             uploadAudioPreview.load();
+            uploadAudioPreview.classList.toggle("hide");
+            closeAudio.classList.toggle("hide");
+            // uploadAudioInput.classList.add("hide");
         }
+
+        // close audio
+        if(closeAudio){
+            closeAudio.addEventListener("click", (event) => {
+                uploadAudioInput.value = "";
+                sourceUploadAudioPreview.src = ""
+                uploadAudioPreview.classList.toggle("hide");
+                closeAudio.classList.toggle("hide");
+            });
+        }
+        // end close audio
     });
 }
 // end upload preview audio
