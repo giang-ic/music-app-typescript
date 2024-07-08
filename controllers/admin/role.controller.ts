@@ -19,3 +19,15 @@ export const index = async (req: Request, res: Response) => {
 
     }
 }
+
+// [GET] /admin/roles/create
+export const createUI = async (req: Request, res: Response) => {
+    try{
+        res.render("admin/pages/roles/create", {
+            title: "Tạo nhóm quyền"
+        })
+    }
+    catch(error){
+
+    }
+}
