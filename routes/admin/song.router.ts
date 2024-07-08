@@ -43,5 +43,18 @@ router.get(
     controller.editUI
 );
 
+router.patch(
+    '/edit/:songID',
+    upload.fields(
+        [
+            {name: 'avatar', maxCount: 1},
+            {name: 'audio', maxCount: 1}
+        ]
+    ),
+    cloudMiddlware.uploadFields,
+    //validate
+    controller.edit
+);
+
 // export
 export const SongRouter: Router = router;

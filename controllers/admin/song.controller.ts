@@ -100,3 +100,21 @@ export const editUI = async (req: Request, res: Response) => {
 
     }
 }
+
+// [PATCH] /admin/songs/edit/:songID
+export const edit = async (req: Request, res: Response) => {
+    try{   
+        const songID = req.params.songID;
+        await Song.updateOne({
+            _id: songID,
+            status: "active",
+            deleted: false
+        },
+        req.body
+        )
+        res.redirect('back');
+    }
+    catch(error){
+
+    }
+}
