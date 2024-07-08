@@ -47,3 +47,20 @@ export const create = async (req: Request, res: Response) => {
 
     }
 }
+
+// [GET] /admin/roles/permissions
+export const permissionsUI = async (req: Request, res: Response) => {
+    try{
+        const roles = await Role.find({
+            deleted: false
+        });
+
+        res.render("admin/pages/roles/permissions", {
+            title: "Phân quyền",
+            roles
+        })
+    }
+    catch(error){
+        
+    }
+}

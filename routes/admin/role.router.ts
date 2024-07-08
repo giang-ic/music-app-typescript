@@ -23,5 +23,9 @@ router.post(
     controller.create
 );
 
+router.get(
+    '/permissions',
+    controller.permissionsUI
+);
 // export
 export const RoleRouter: Router = router;
