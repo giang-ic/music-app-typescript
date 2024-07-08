@@ -13,5 +13,10 @@ router.get(
     controller.index
 );
 
+router.get(
+    '/create',
+    controller.createUI
+);
+
 // export 
 export const AccountRouter: Router = router;
