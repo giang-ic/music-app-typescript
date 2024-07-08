@@ -50,35 +50,42 @@ block main
             class="form-group"
             upload-image
         )
-        label(for="avatar") Ảnh
-        input(
-            type="file"
-            class="form-control-file"
-            id="avatar"
-            name="avatar"
-            accept="image/*"
-            upload-image-input
-        )
-        img(
-            src=song.avatar
-            class="image-preview"
-            upload-image-preview
-        )
+            label(for="avatar") Ảnh
+            input(
+                type="file"
+                class="form-control-file"
+                id="avatar"
+                name="avatar"
+                accept="image/*"
+                upload-image-input
+            )
+            img(
+                src=song.avatar
+                class="image-preview"
+                upload-image-preview
+            )
+            span(close-image class=song.avatar ? "" : "hide") x
         div(
             class="form-group"
             upload-audio
         )
-        label(for="audio") File âm thanh
-        input(
-            type="file"
-            class="form-control-file"
-            id="audio"
-            name="audio"
-            accept="audio/*"
-            upload-audio-input
-        )
-        audio(controls upload-audio-preview style="margin-top: 20px")
-            source(src=song.audio)
+            label(for="audio") File âm thanh
+            input(
+                type="file"
+                class="form-control-file"
+                id="audio"
+                name="audio"
+                accept="audio/*"
+                upload-audio-input
+            )
+            audio(
+                controls 
+                upload-audio-preview 
+                style="margin-top: 20px"
+                class=song.audio ? "" : "hide"
+            )
+                source(src=song.audio)
+            span(close-audio  class=song.audio ? "" : "hide") x
         div(class="form-group")
             label(for="desc") Mô tả
             textarea(
