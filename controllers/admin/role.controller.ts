@@ -53,7 +53,7 @@ export const permissionsUI = async (req: Request, res: Response) => {
     try{
         const roles = await Role.find({
             deleted: false
-        });
+        }).select('-description');
 
         res.render("admin/pages/roles/permissions", {
             title: "Phân quyền",

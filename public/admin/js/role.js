@@ -43,3 +43,23 @@ if(buttonSubmitPermissions && formChangePermissions && tablePermissions){
     });
 }
 // End Submit form change permissions
+
+// Preview checked permissions
+const dataRolesElement = document.querySelector("[data-roles]");
+if(dataRolesElement){
+    const dataRolesJSON = dataRolesElement.getAttribute("data-roles");
+    const dataRolesJS = JSON.parse(dataRolesJSON); // convert JSON to JS
+    
+    // [Xác định hàng của quyền] => [Checked Cột]
+    dataRolesJS.forEach((item, index) => {
+        const permissionsArray = item.permissions;
+        permissionsArray.forEach(permission => {
+            const elementContainNamePermissions = tablePermissions.querySelector(`[data-name="${permission}"]`);
+            
+            const elementCheckedPermissions = elementContainNamePermissions.querySelectorAll("input")[index];
+
+            elementCheckedPermissions.checked = true;
+        });
+    });
+}
+// End Preview checked permissions
