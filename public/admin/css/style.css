@@ -86,6 +86,10 @@
 /* End Show Alert */
   
 /* Image Preview */
+[upload-image] {
+    position: relative;
+}
+
 .image-preview {
     width: 150px;
     height: auto;
@@ -96,6 +100,25 @@
 }
   
 .image-preview[src=""] {
+    display: none;
+}
+
+[close-image] {
+    background-color: black;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    position: absolute;
+    top: 66px;
+    left: 143px;
+    cursor: pointer;
+}
+
+[close-image].hide {
     display: none;
 }
 /* End Image Preview */
