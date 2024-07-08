@@ -80,12 +80,12 @@ block main
             )
             audio(
                 controls 
-                upload-audio-preview 
+                upload-audio-preview
                 style="margin-top: 20px"
                 class=song.audio ? "" : "hide"
             )
                 source(src=song.audio)
-            span(close-audio  class=song.audio ? "" : "hide") x
+            span(close-audio class=song.audio ? "" : "hide") x
         div(class="form-group")
             label(for="desc") Mô tả
             textarea(
