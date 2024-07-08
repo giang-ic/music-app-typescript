@@ -27,8 +27,13 @@ router.get(
 
 router.post(
     '/create',
-    upload.single('avatar'),
-    cloudMiddlware.uploadSingle,
+    upload.fields(
+        [
+            {name: 'avatar', maxCount: 1},
+            {name: 'audio', maxCount: 1}
+        ]
+    ),
+    cloudMiddlware.uploadFields,
     controller.create
 );
 

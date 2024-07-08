@@ -50,6 +50,13 @@ export const createUI = async (req: Request, res: Response) => {
 // [POST] /admin/songs/create
 export const create = async (req: Request, res: Response) => {
     try{
+        if(req.body["avatar"]){
+            req.body.avatar = req.body["avatar"][0]; // only one file avatar of music
+        }
+
+        if(req.body["audio"]){
+            req.body.audio = req.body["audio"][0]; // only one file audio
+        }
         const record = new Song(req.body);
         await record.save();
         res.redirect('back');
