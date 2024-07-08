@@ -157,7 +157,6 @@ block main
                     each item in roles
                         td(class="text-center")
                             input(type="checkbox")
-
         form(
             form-change-permissions
             method="POST"
@@ -166,10 +165,11 @@ block main
         )
             div(class="form-group")
                 input(
-                type="text"
-                class="form-control"
-                name="roles"
+                    type="text"
+                    class="form-control"
+                    name="permissions"
                 )
-
     else
         p Chưa có nhóm quyền nào
+block script
+    script(src="/admin/js/role.js")

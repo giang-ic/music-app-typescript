@@ -27,5 +27,10 @@ router.get(
     '/permissions',
     controller.permissionsUI
 );
+
+router.patch(
+    '/permissions',
+    controller.permissions
+);
 // export
 export const RoleRouter: Router = router;

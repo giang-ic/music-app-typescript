@@ -61,6 +61,34 @@ export const permissionsUI = async (req: Request, res: Response) => {
         })
     }
     catch(error){
+
+    }
+}
+
+// [PATCH] /admin/roles/permissions
+export const permissions = async (req: Request, res: Response) => {
+    try{
+        const permissionsJS = JSON.parse(req.body.permissions);
+        
+        for(const item of permissionsJS){
+            const roleID = item.id;
+            const permissionsArray = item.permissions;
+            
+            // check các item trong array permissions có valid không ?
+
+            await Role.updateOne(
+                {
+                    _id: roleID,
+                    deleted: false
+                },
+                {
+                    permissions: permissionsArray
+                }
+            );
+        }
+        res.redirect('back');
+    }
+    catch(error){
         
     }
 }
