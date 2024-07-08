@@ -59,15 +59,23 @@ block main
             )
         div(
             class="form-group"
+            upload-audio
         )
             label(for="audio") File âm thanh
             input(
-            type="file"
-            class="form-control-file"
-            id="audio"
-            name="audio"
-            accept="audio/*"
+                type="file"
+                class="form-control-file"
+                id="audio"
+                name="audio"
+                accept="audio/*"
+                upload-audio-input
             )
+            audio(
+                controls
+                upload-audio-preview
+                style="margin-top: 20px"
+            ) 
+                source(src="")
         div(class="form-group")
             label(for="desc") Mô tả
             textarea(
