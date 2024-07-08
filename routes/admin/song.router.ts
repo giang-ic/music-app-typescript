@@ -34,7 +34,13 @@ router.post(
         ]
     ),
     cloudMiddlware.uploadFields,
+    //validate
     controller.create
+);
+
+router.get(
+    '/edit/:songID',
+    controller.editUI
 );
 
 // export
