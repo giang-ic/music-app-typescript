@@ -3,6 +3,7 @@ import { systemConfig } from "../../config/system";
 import { DashboardRouter } from "./dashboard.router";
 import { TopicRouter } from "./topics.route";
 import { SongRouter } from "./song.router";
+import { RoleRouter } from "./role.router";
 
 const adminRouter = (app: Express): void => {
     const PATH_ADMIN = systemConfig.prefix_admin;
@@ -21,6 +22,11 @@ const adminRouter = (app: Express): void => {
         `${PATH_ADMIN}/songs`,
         SongRouter
     );    
+
+    app.use(
+        `${PATH_ADMIN}/roles`,
+        RoleRouter
+    ); 
 
 }
 
