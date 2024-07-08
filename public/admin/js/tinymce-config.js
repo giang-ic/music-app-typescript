@@ -2,8 +2,9 @@
 console.log('ok');
 tinymce.init({
     selector: '.style-textarea-tinymce',
-    plugins: 'image', //enables the user to insert an image into TinyMCE’s editable area
+    plugins: 'image code', //enables the user to insert an image into TinyMCE’s editable area
     /* enable title field in the Image dialog*/
+    toolbar: 'undo redo | link image | code',
     image_title: true,
     /* enable automatic uploads of images represented by blob or data URIs*/
     automatic_uploads: true,
