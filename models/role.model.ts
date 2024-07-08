@@ -19,7 +19,7 @@ const RoleSchema = new mongoose.Schema({
 );
 
 // define model
-const Role = mongoose.model('Role', RoleSchema, 'models');
+const Role = mongoose.model('Role', RoleSchema, 'roles');
 
 // export
 export default Role;

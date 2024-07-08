@@ -17,5 +17,11 @@ router.get(
     controller.createUI
 );
 
+router.post(
+    '/create',
+    // validate
+    controller.create
+);
+
 // export
 export const RoleRouter: Router = router;
