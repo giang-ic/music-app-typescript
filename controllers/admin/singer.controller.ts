@@ -50,3 +50,23 @@ export const create = async (req: Request, res: Response) => {
         
     }
 }
+
+// [GET] /admin/singers/edit/:singerID
+export const editUI = async (req: Request, res: Response) => {
+    try{
+        const singerID: string = req.params.singerID;
+        const singer = await Singer.findOne({
+            _id: singerID,
+            status: "active",
+            deleted: false
+        });
+
+        res.render("admin/pages/singer/edit", {
+            title: "Chỉnh sửa thông tin ca sĩ",
+            singer
+        })
+    }
+    catch(error){
+
+    }
+}

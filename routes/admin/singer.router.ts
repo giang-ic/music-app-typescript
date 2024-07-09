@@ -29,6 +29,11 @@ router.post(
     controller.create
 );
 
+router.get(
+    '/edit/:singerID',
+    controller.editUI
+);
+
 // export
 export const SingerRouter: Router = router;
 
