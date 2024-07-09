@@ -5,6 +5,10 @@ import Topic  from "../../models/topic.model";
 // instance Express
 import { Request, Response } from "express";
 
+// system config
+import { systemConfig } from "../../config/system";
+const PATH_ADMIN = systemConfig.prefix_admin;
+
 // [GET] /admin/singers/
 export const index = async (req: Request, res: Response) => {
     try{
@@ -32,5 +36,17 @@ export const createUI = async (req: Request, res: Response) => {
     }
     catch(error){
 
+    }
+}
+
+// [POST] /admin/singers/create
+export const create = async (req: Request, res: Response) => {
+    try{
+        const record = new Singer(req.body);
+        await record.save();
+        res.redirect(PATH_ADMIN + '/singers/');
+    }
+    catch(error){
+        
     }
 }
