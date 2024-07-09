@@ -17,5 +17,10 @@ router.post(
     // validate 
     controller.login
 );
+
+router.get(
+    '/logout',
+    controller.logout
+);
 // export
 export const AuthRouter: Router = router;

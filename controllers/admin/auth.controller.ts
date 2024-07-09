@@ -7,7 +7,7 @@ import bcrypt from "bcrypt";
 
 // system config
 import { systemConfig } from "../../config/system";
-const PATH_ADMIN = systemConfig.prefix_admin;
+const PATH_ADMIN: string = systemConfig.prefix_admin;
 
 // [GET] /admin/auth/login
 export const loginUI = async (req: Request, res: Response) => {
@@ -81,3 +81,13 @@ export const login = async (req: Request, res: Response) => {
     }
 }
 
+// [GET] /admin/auth/logout
+export const logout = async (req: Request, res: Response) => {
+    try{
+        res.clearCookie("token_user_login");
+        res.redirect(PATH_ADMIN + "/auth/login");
+    }
+    catch(error){
+
+    }
+}
