@@ -14,6 +14,7 @@ if(uploadImage){
             uploadImageInput.classList.add("opacity-file");
             uploadImagePreview.src = URL.createObjectURL(image);
             closeImage.classList.toggle("hide");
+            uploadImagePreview.classList.toggle("hide");
         }
     });
 
@@ -21,6 +22,7 @@ if(uploadImage){
     if(closeImage){
         closeImage.addEventListener("click", (event) => {
             closeImage.classList.add("hide");
+            uploadImagePreview.classList.toggle("hide");
             uploadImagePreview.src = "";
             uploadImageInput.value = "";
         });
