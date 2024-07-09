@@ -81,3 +81,29 @@ export const create = async (req: Request, res: Response) => {
 
     }
 }
+
+// [GET] /admin/accounts/edit/:accountID
+export const editUI = async (req: Request, res: Response) => {
+    try{
+        const accountID: string = req.params.accountID;
+
+        const account = await Account.findOne({
+            _id: accountID,
+            status: "active",
+            deleted: false
+        }).select("-password");
+
+        const roles = await Role.find({
+            deleted: false
+        }).select("-description");
+
+        res.render('admin/pages/account/edit', {
+            title: "Chỉnh sửa tài khoản",
+            account,
+            roles
+        })
+    }
+    catch(error){
+
+    }
+}

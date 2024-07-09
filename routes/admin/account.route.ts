@@ -30,5 +30,10 @@ router.post(
     controller.create
 );
 
+router.get(
+    '/edit/:accountID',
+    controller.editUI
+);
+
 // export 
 export const AccountRouter: Router = router;
