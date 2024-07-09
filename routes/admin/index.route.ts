@@ -6,32 +6,38 @@ import { SongRouter } from "./song.router";
 import { RoleRouter } from "./role.router";
 import { AccountRouter } from "./account.route";
 import { AuthRouter } from "./auth.route";
+import { requireAuth } from "../../middleware/admin/auth.middlware";
 
 const adminRouter = (app: Express): void => {
     const PATH_ADMIN = systemConfig.prefix_admin;
-    
+
     app.use(
         `${PATH_ADMIN}/dashboard`,
+        requireAuth,
         DashboardRouter
     );
 
     app.use(
         `${PATH_ADMIN}/topics`,
+        requireAuth,
         TopicRouter
     );    
 
     app.use(
         `${PATH_ADMIN}/songs`,
+        requireAuth,
         SongRouter
     );    
 
     app.use(
         `${PATH_ADMIN}/roles`,
+        requireAuth,
         RoleRouter
     ); 
 
     app.use(
         `${PATH_ADMIN}/accounts`,
+        requireAuth,
         AccountRouter
     ); 
 
