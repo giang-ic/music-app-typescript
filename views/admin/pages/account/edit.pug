@@ -60,7 +60,7 @@ block main
             )
             img(
                 src=account.avatar
-                class="image-preview hide"
+                class=`image-preview ${account.avatar ? "" : "hide"}`
                 upload-image-preview
             )
             span(close-image class=account.avatar ? "" : "hide") x
