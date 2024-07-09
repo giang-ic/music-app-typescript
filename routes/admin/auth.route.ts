@@ -12,5 +12,10 @@ router.get(
     controller.loginUI
 );
 
+router.post(
+    '/login',
+    // validate 
+    controller.login
+);
 // export
 export const AuthRouter: Router = router;
