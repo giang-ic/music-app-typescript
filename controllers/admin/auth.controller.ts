@@ -70,7 +70,8 @@ export const login = async (req: Request, res: Response) => {
         }
         // end check status
 
-        res.cookie("token_user_login", user.token); // set cookie with token user
+        const timeCookie: number = 1000 * 60 * 60; // 1 hour
+        res.cookie("token_user_login", user.token, { maxAge: timeCookie, httpOnly: true }); // set cookie with token user
 
         res.locals.user = user; // response locals variable
         res.redirect(PATH_ADMIN + '/dashboard');
