@@ -34,6 +34,13 @@ router.get(
     controller.editUI
 );
 
+router.patch(
+    '/edit/:singerID',
+    upload.single("avatar"),
+    cloudMiddlware.uploadSingle,
+    controller.edit
+);
+
 // export
 export const SingerRouter: Router = router;
 

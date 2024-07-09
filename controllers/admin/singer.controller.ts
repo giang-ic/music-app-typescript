@@ -70,3 +70,22 @@ export const editUI = async (req: Request, res: Response) => {
 
     }
 }
+
+// [PATCH] /admin/singers/edit/:singerID
+export const edit = async (req: Request, res: Response) => {
+    try{
+        const singerID = req.params.singerID;
+        await Singer.updateOne(
+            {
+                _id: singerID,
+                status: "active",
+                deleted: false
+            },
+            req.body
+        );
+        res.redirect('back');
+    }
+    catch(error){
+
+    }
+}
