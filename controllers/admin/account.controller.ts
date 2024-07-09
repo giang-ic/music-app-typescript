@@ -4,6 +4,7 @@ import { Request, Response } from "express";
 import Role from "../../models/role.model";
 import { systemConfig } from "../../config/system";
 import bcrypt from "bcrypt";    
+import * as generateHelper from "../../helper/generate.helper";
 
 // system config
 const PATH_ADMIN = systemConfig.prefix_admin;
@@ -69,7 +70,8 @@ export const create = async (req: Request, res: Response) => {
             // Hashing successful, 'hash' contains the hashed password
             const record = new Account({
                 ...req.body,
-                password: hash
+                password: hash,
+                token: generateHelper.randomString(20)
             });
             await record.save();
         });
