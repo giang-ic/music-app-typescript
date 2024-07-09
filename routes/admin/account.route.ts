@@ -1,5 +1,9 @@
 import { Router } from "express";
-import { format } from "path";
+import multer from "multer";
+const upload = multer();
+
+// middlware
+import * as cloudMiddlware  from "../../middleware/admin/uploadCloudinary.middlware";
 
 // create instance Router
 const router: Router = Router();
@@ -16,6 +20,14 @@ router.get(
 router.get(
     '/create',
     controller.createUI
+);
+
+router.post(
+    '/create',
+    upload.single('avatar'),
+    cloudMiddlware.uploadSingle,
+    // valiate
+    controller.create
 );
 
 // export 

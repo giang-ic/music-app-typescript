@@ -2,6 +2,12 @@
 import Account from "../../models/account.model";
 import { Request, Response } from "express";
 import Role from "../../models/role.model";
+import { systemConfig } from "../../config/system";
+import bcrypt from "bcrypt";    
+
+// system config
+const PATH_ADMIN = systemConfig.prefix_admin;
+const saltRounds = 10; // Typically a value between 10 and 12 (Brcypt)
 
 // [GET] /admin/accounts/
 export const index = async (req: Request, res: Response) => {
@@ -31,6 +37,45 @@ export const createUI = async (req: Request, res: Response) => {
             title: "Tạo tài khoản admin",
             roles
         });
+    }
+    catch(error){
+
+    }
+}
+
+// [POST] /admin/accounts/create
+export const create = async (req: Request, res: Response) => {
+    try{
+        // check email
+        const email: string = req.body["email"];
+        const emailExists = await Account.findOne({
+            email: email,
+            deleted: false
+        }).select("-password");
+
+        if(emailExists){
+            // thông báo flash
+            res.redirect('back');
+            return;
+
+        }
+        // end check email
+
+        // hashing password & save
+        const password: string = req.body["password"];
+        delete req.body.password;
+
+        bcrypt.hash(password, saltRounds, async (err: any, hash: string) => {
+            // Hashing successful, 'hash' contains the hashed password
+            const record = new Account({
+                ...req.body,
+                password: hash
+            });
+            await record.save();
+        });
+        // end hashing password & save
+
+        res.redirect(PATH_ADMIN + '/accounts/');
     }
     catch(error){
 
