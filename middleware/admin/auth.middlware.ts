@@ -13,8 +13,6 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
     try{
         const tokenUserLogin: string = req.cookies.token_user_login; // cookie
 
-        console.log(tokenUserLogin);
-
         // check cookie
         const user = await Account.findOne({
             token: tokenUserLogin,
@@ -36,6 +34,7 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
         }
         // end check status
 
+        res.locals.user = user;
 
         next(); // next middlware
     }
