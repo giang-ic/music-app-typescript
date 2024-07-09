@@ -12,6 +12,11 @@ router.get(
     controller.index
 );
 
+router.get(
+    '/create',
+    controller.createUI
+);
+
 // export
 export const SingerRouter: Router = router;
 

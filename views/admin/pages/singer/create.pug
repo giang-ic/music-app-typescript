@@ -9,7 +9,7 @@ block main
         enctype="multipart/form-data"
     )
         div(class="form-group")
-            label(for="title") Tiêu đề
+            label(for="title") Họ tên
             input(
                 type="text"
                 class="form-control"
@@ -17,28 +17,6 @@ block main
                 name="title"
                 required
             )
-        div(class="form-group")
-            label(for="topic") Chủ đề
-            select(
-                name="topicId"
-                id="topic"
-                class="form-control"
-                required
-            )
-                option(value="" disabled selected) -- Chọn chủ đề --
-                each item in topics
-                    option(value=item.id) #{item.title}
-        div(class="form-group")
-            label(for="singer") Ca sĩ
-            select(
-                name="singerId"
-                id="singer"
-                class="form-control"
-                required
-            )
-                option(value="" disabled selected) -- Chọn ca sĩ --
-                each item in singers
-                    option(value=item.id) #{item.fullName}
         div(
             class="form-group"
             upload-image
@@ -58,46 +36,7 @@ block main
                 upload-image-preview
             )
             span(close-image class="hide") x
-        div(
-            class="form-group"
-            upload-audio
-        )
-            label(for="audio") File âm thanh
-            input(
-                type="file"
-                class="form-control-file"
-                id="audio"
-                name="audio"
-                accept="audio/*"
-                upload-audio-input
-            )
-            audio(
-                controls
-                upload-audio-preview
-                style="margin-top: 20px"
-                class="hide"
-            ) 
-                source(src="")
-            span(close-audio class="hide") x
-        div(class="form-group")
-            label(for="desc") Mô tả
-            textarea(
-                type="text"
-                class="form-control style-textarea-tinymce"
-                id="desc"
-                name="description"
-                rows="5"
-                textarea-mce
-            )
-        div(class="form-group")
-            label(for="lyrics") Lời bài hát
-            textarea(
-                type="text"
-                class="form-control style-textarea-tinymce"
-                id="lyrics"
-                name="lyrics"
-                rows="5"
-            )
+
         div(class="form-group form-check form-check-inline")
             input(
                 type="radio"
