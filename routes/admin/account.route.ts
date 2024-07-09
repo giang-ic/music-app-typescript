@@ -35,5 +35,12 @@ router.get(
     controller.editUI
 );
 
+router.patch(
+    '/edit/:accountID',
+    upload.single('avatar'),
+    cloudMiddlware.uploadSingle,
+    // validate
+    controller.edit
+);
 // export 
 export const AccountRouter: Router = router;

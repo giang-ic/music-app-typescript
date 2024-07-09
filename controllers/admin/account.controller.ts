@@ -107,3 +107,58 @@ export const editUI = async (req: Request, res: Response) => {
 
     }
 }
+
+// [PATCH] /admin/accounts/edit/:accountID
+export const edit = async (req: Request, res: Response) => {
+    try{
+        const accountID: string = req.params.accountID;
+        const email: string = req.body.email;
+        console.log([...req.body]);
+        // check email [find email with different myID]
+        const emailExist = await Account.findOne({
+            _id: {$ne: accountID},
+            email: email,
+            status: "active",
+            deleted: false
+        });
+
+        if(emailExist){
+            // thông báo flash
+            res.redirect('back');
+            return;
+        }
+        // end check email
+
+        // check password & hashing [is empty then not update password]
+        const password: string = req.body.password;
+        delete req.body.password;
+
+        if(password !== '') {
+            req.body["password"] = await new Promise((resolve, reject) => {
+                bcrypt.hash(password, saltRounds, (err, hash) => {
+                    resolve(hash)
+                });
+              })
+        }
+        // end check password & hashing
+
+        // update
+        await Account.updateOne(
+            {
+                _id: accountID,
+                email: email,
+                status: "active",
+                deleted: false
+            },
+            {
+                ...req.body,
+            }
+        );
+        // end update 
+        
+        res.redirect('back');
+    }
+    catch(error){
+
+    }
+}

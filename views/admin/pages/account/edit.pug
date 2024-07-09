@@ -6,7 +6,7 @@ block main
     form(
         action=`${path_admin}/accounts/edit/${account.id}?_method=PATCH`
         method="POST"
-        enctype="multipart/form-account"
+        enctype="multipart/form-data"
     )
         div(class="form-group")
             label(for="fullName") Họ tên *
