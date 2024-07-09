@@ -15,7 +15,7 @@ if(uploadImage){
             uploadImagePreview.src = URL.createObjectURL(image);
             closeImage.classList.toggle("hide");
 
-            uploadImagePreview.classList.toggle("hide");
+            uploadImagePreview.classList.remove("hide");
         }
     });
 
@@ -23,7 +23,7 @@ if(uploadImage){
     if(closeImage){
         closeImage.addEventListener("click", (event) => {
             closeImage.classList.add("hide");
-            uploadImagePreview.classList.toggle("hide"); //
+            uploadImagePreview.classList.add("hide"); //
             uploadImagePreview.src = "";
             uploadImageInput.value = "";
         });
