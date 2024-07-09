@@ -7,9 +7,16 @@ import { RoleRouter } from "./role.router";
 import { AccountRouter } from "./account.route";
 import { AuthRouter } from "./auth.route";
 import { requireAuth } from "../../middleware/admin/auth.middlware";
+import * as dashboardController from "../../controllers/admin/dashboard.controller";
 
 const adminRouter = (app: Express): void => {
     const PATH_ADMIN = systemConfig.prefix_admin;
+
+    app.get(
+        PATH_ADMIN + '/',
+        requireAuth,
+        dashboardController.index
+    );
 
     app.use(
         `${PATH_ADMIN}/dashboard`,
