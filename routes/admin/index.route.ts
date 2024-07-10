@@ -9,6 +9,7 @@ import { AuthRouter } from "./auth.route";
 import { requireAuth } from "../../middleware/admin/auth.middlware";
 import * as dashboardController from "../../controllers/admin/dashboard.controller";
 import { SingerRouter } from "./singer.router";
+import { SettingGeneralRouter } from "./setting-general.route";
 
 const adminRouter = (app: Express): void => {
     const PATH_ADMIN = systemConfig.prefix_admin;
@@ -53,6 +54,12 @@ const adminRouter = (app: Express): void => {
         PATH_ADMIN + '/singers',
         requireAuth,
         SingerRouter
+    );
+
+    app.use(
+        PATH_ADMIN + '/settings',
+        requireAuth,
+        SettingGeneralRouter
     );
 
     app.use(
