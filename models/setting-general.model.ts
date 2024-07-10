@@ -6,7 +6,7 @@ const SettingGeneralSchema = new mongoose.Schema(
         websiteName: String,
         logo: String,
         email: String,
-        phone: String,
+        tel: String,
         address: String,
         copyright: String,
         googleMap: String,

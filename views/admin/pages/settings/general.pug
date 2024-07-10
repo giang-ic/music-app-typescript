@@ -41,9 +41,9 @@ block main
             input(
                 type="text"
                 class="form-control"
-                id="phone"
-                name="phone"
-                value=(settingGeneral ? settingGeneral.phone : "")
+                id="tel"
+                name="tel"
+                value=(settingGeneral ? settingGeneral.tel : "")
             )
         div(class="form-group")
             label(for="email") Email
@@ -72,6 +72,16 @@ block main
                 name="copyright"
                 value=(settingGeneral ? settingGeneral.copyright : "")
             )
+        div(class="form-group")
+            label(for="googleMap") Google Map
+            input(
+                type="text"
+                class="form-control mb-1"
+                id="googleMap"
+                name="googleMap"
+                value=(settingGeneral ? settingGeneral.googleMap : "")
+            )
+           
         div(class="form-group")
         button(
             type="submit"
