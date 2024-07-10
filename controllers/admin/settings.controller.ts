@@ -20,3 +20,21 @@ export const generalUI = async (req: Request, res: Response) => {
 
     }
 }
+
+// [PATCH] /admin/settings/general
+export const general = async (req: Request, res: Response) => {
+    try{
+        const settingGeneral = await SettingGeneral.findOne({});
+
+        await SettingGeneral.updateOne(
+            {
+                _id: settingGeneral.id,
+            },
+            req.body
+        );
+        res.redirect('back');
+    }
+    catch(error){
+
+    }
+}
