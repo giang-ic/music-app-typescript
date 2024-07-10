@@ -9,6 +9,7 @@ import { findTopicInterface, filterStatusInterface, paginationInterface } from "
 // helper
 import * as filterHelper from "../../helper/filter.helper";
 import * as searchHelper from "../../helper/search.helper";
+import {index as paginationHelper} from "../../helper/pagination.helper";
 
 // [GET] /admin/topics/
 export const index = async (req: Request, res: Response) => {
@@ -30,19 +31,10 @@ export const index = async (req: Request, res: Response) => {
         const keywordObjectHelper = searchHelper.keywordAdvance(req.query);
         // End Search keyword
 
-        // Pagination
-        const paginationObject: paginationInterface = {
-            limit: 5,
-            current: 1
-        }
-        if(req.query.page){
-            paginationObject.current = parseInt(`${req.query.page}`);
-        }
-        // End Pagination
-
         let sizeOfDocuments: number = 0;
         let topics; // contain records get
-
+        let paginationObject; // pagination
+        
         if(req.query.keyword){
             sizeOfDocuments = await Topic.countDocuments({
                 $or: [
@@ -53,9 +45,8 @@ export const index = async (req: Request, res: Response) => {
             }); // count documents
 
             // pagination
-            paginationObject.skip = (paginationObject.current - 1) * paginationObject.limit;
-            paginationObject.total = Math.ceil((sizeOfDocuments/paginationObject.limit));
-
+            paginationObject = paginationHelper(req.query, 5, sizeOfDocuments);
+            
             // get database
             const record = await Topic.find({   
                 $or: [
@@ -71,8 +62,7 @@ export const index = async (req: Request, res: Response) => {
             sizeOfDocuments = await Topic.countDocuments(findObjectTopic); // count documents
 
             // pagination
-            paginationObject.skip = (paginationObject.current - 1) * paginationObject.limit;
-            paginationObject.total = Math.ceil((sizeOfDocuments/paginationObject.limit));
+            paginationObject =  paginationHelper(req.query, 5, sizeOfDocuments);
 
             const record = await Topic.find(findObjectTopic).limit(paginationObject.limit).skip(paginationObject.skip); // get database
 
