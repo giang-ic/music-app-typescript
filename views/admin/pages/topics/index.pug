@@ -1,19 +1,19 @@
 extends ../../layouts/default.pug
+include ../../mixins/filter.pug
+include ../../mixins/search.pug
 
 block main
   h1(class="mb-4") #{title}
 
 
   .card.mb-3
-        .card-header Danh sách
-            button(
-                class=`btn btn-sm ml-1 btn-outline-success`
-                button-status = "active"
-            ) Hoạt động
-            button(
-                class=`btn btn-sm ml-1 btn-outline-success`
-                button-status = "inactive"
-            ) Dừng hoạt động
+        .card-header 
+            .row 
+                .col-8
+                    |   Danh sách
+                    +filter-status(filterStatusArray) 
+                .col-4
+                    +search("")
         .card-body
             .row
                 .col-8
