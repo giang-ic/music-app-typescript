@@ -1,5 +1,3 @@
-
-
 // upload preview image
 const uploadImage = document.querySelector('[upload-image]');
 if(uploadImage){
@@ -63,3 +61,17 @@ if(uploadAudio){
     // end close audio
 }
 // end upload preview audio
+
+// button filter status
+const listButtonStatus = document.querySelectorAll("[button-status]");
+if(listButtonStatus.length > 0){
+    let url = new URL(window.location.href); // create new url
+    listButtonStatus.forEach(button => {
+        button.addEventListener("click", (event) => {
+            const status = button.getAttribute("button-status");
+            url.searchParams.set("status", status); // add query params
+            window.location.href = url.href;
+        });
+    });
+}
+// end button filter status
