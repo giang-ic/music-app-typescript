@@ -1,5 +1,4 @@
 import { Response, Request } from "express";
-import unidecode from "unidecode";
 
 // model 
 import Topic from "../../models/topic.model";
@@ -9,6 +8,7 @@ import { findTopicInterface, filterStatusInterface } from "../../config/interfac
 
 // helper
 import * as filterHelper from "../../helper/filter.helper";
+import * as searchHelper from "../../helper/search.helper";
 
 // [GET] /admin/topics/
 export const index = async (req: Request, res: Response) => {
@@ -26,21 +26,16 @@ export const index = async (req: Request, res: Response) => {
         // End Filter stautus
         
         // Search keyword
-        const keyword: string = `${req.query.keyword}` || "";
-
-        const keywordUnidecode: string = unidecode(keyword);
-        const keywordReplaceWhiteSpace: string = keywordUnidecode.replace(/\s+/g, "-");
-        
-        const keywordRegexTitle: RegExp = new RegExp(keyword, "i"); // find keyword with title
-        const keywordRegexSlug: RegExp = new RegExp(keywordReplaceWhiteSpace, "i"); // find keyword with slug
+        const keyword: string = req.query.keyword ? `${req.query.keyword}` : undefined;
+        const keywordObjectHelper = searchHelper.keywordAdvance(req.query);
         // End Search keyword
 
         let topics;
         if(req.query.keyword){
             const record = await Topic.find({
                 $or: [
-                    {title: keywordRegexTitle},
-                    {slug: keywordRegexSlug}
+                    {title: keywordObjectHelper.keywordRegexTitle},
+                    {slug: keywordObjectHelper.keywordRegexSlug}
                 ],
                 ...findObjectTopic
             });
@@ -55,7 +50,8 @@ export const index = async (req: Request, res: Response) => {
         res.render('admin/pages/topics/index', {
             title: "Quản lý chủ đề bài hát",
             topics,
-            filterStatusArray
+            filterStatusArray,
+            keyword
         })
     }
     catch(error){

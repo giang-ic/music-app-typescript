@@ -69,8 +69,16 @@ if(listButtonStatus.length > 0){
     listButtonStatus.forEach(button => {
         button.addEventListener("click", (event) => {
             const status = button.getAttribute("button-status");
-            url.searchParams.set("status", status); // add query params
-            window.location.href = url.href;
+
+            if(status){
+                url.searchParams.set("status", status); // add query params
+            }
+            else{
+                url.searchParams.delete("status");
+                url.searchParams.delete("keyword");
+            }
+
+            window.location.href = url.href; // redirect url
         });
     });
 }

@@ -1,27 +1,19 @@
 extends ../../layouts/default.pug
 include ../../mixins/filter.pug
-<<<<<<< HEAD
 include ../../mixins/search.pug
-=======
->>>>>>> 24df44ef5e799a5f4930329f3227c8e8b39b8a6e
 
 block main
   h1(class="mb-4") #{title}
 
 
   .card.mb-3
-<<<<<<< HEAD
         .card-header 
             .row 
                 .col-8
                     |   Danh sách
                     +filter-status(filterStatusArray) 
                 .col-4
-                    +search("")
-=======
-        .card-header Danh sách
-            +filter-status(filterStatusArray)
->>>>>>> 24df44ef5e799a5f4930329f3227c8e8b39b8a6e
+                    +search(keyword)
         .card-body
             .row
                 .col-8
