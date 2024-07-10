@@ -72,10 +72,12 @@ if(listButtonStatus.length > 0){
 
             if(status){
                 url.searchParams.set("status", status); // add query params
+                url.searchParams.set("page", 1);
             }
             else{
                 url.searchParams.delete("status");
                 url.searchParams.delete("keyword");
+                url.searchParams.delete("page");
             }
 
             window.location.href = url.href; // redirect url
@@ -83,3 +85,23 @@ if(listButtonStatus.length > 0){
     });
 }
 // end button filter status
+
+// pagination
+const listButtonPagination = document.querySelectorAll("[button-pagination]");
+if(listButtonPagination.length > 0){
+    let url = new URL(window.location.href);
+    listButtonPagination.forEach(button => {
+        button.addEventListener("click", (event) => {
+            const page = button.getAttribute("button-pagination");
+            console.log(page);
+            if(page){
+                url.searchParams.set("page", page);
+            }
+            else {
+                url.searchParams.delete("page");
+            }
+            window.location.href = url.href;
+        });
+    });
+}
+// end pagination

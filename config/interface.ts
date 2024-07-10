@@ -13,3 +13,12 @@ export interface filterStatusInterface {
     class?: string
 }
 // end interface filter status 
+
+// interface pagination
+export interface paginationInterface {
+    limit: number,
+    current: number,
+    skip?: number,
+    total?: number
+}
+// interface pagination

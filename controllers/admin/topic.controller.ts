@@ -4,7 +4,7 @@ import { Response, Request } from "express";
 import Topic from "../../models/topic.model";
 
 // interface
-import { findTopicInterface, filterStatusInterface } from "../../config/interface";
+import { findTopicInterface, filterStatusInterface, paginationInterface } from "../../config/interface";
 
 // helper
 import * as filterHelper from "../../helper/filter.helper";
@@ -30,20 +30,52 @@ export const index = async (req: Request, res: Response) => {
         const keywordObjectHelper = searchHelper.keywordAdvance(req.query);
         // End Search keyword
 
-        let topics;
+        // Pagination
+        const paginationObject: paginationInterface = {
+            limit: 5,
+            current: 1
+        }
+        if(req.query.page){
+            paginationObject.current = parseInt(`${req.query.page}`);
+        }
+        // End Pagination
+
+        let sizeOfDocuments: number = 0;
+        let topics; // contain records get
+
         if(req.query.keyword){
-            const record = await Topic.find({
+            sizeOfDocuments = await Topic.countDocuments({
                 $or: [
                     {title: keywordObjectHelper.keywordRegexTitle},
                     {slug: keywordObjectHelper.keywordRegexSlug}
                 ],
                 ...findObjectTopic
-            });
+            }); // count documents
+
+            // pagination
+            paginationObject.skip = (paginationObject.current - 1) * paginationObject.limit;
+            paginationObject.total = Math.ceil((sizeOfDocuments/paginationObject.limit));
+
+            // get database
+            const record = await Topic.find({   
+                $or: [
+                    {title: keywordObjectHelper.keywordRegexTitle},
+                    {slug: keywordObjectHelper.keywordRegexSlug}
+                ],
+                ...findObjectTopic
+            }).limit(paginationObject.limit).skip(paginationObject.skip);
             topics = record;
         }
         
         else {
-            const record = await Topic.find(findObjectTopic);
+            sizeOfDocuments = await Topic.countDocuments(findObjectTopic); // count documents
+
+            // pagination
+            paginationObject.skip = (paginationObject.current - 1) * paginationObject.limit;
+            paginationObject.total = Math.ceil((sizeOfDocuments/paginationObject.limit));
+
+            const record = await Topic.find(findObjectTopic).limit(paginationObject.limit).skip(paginationObject.skip); // get database
+
             topics = record;
         }
 
@@ -51,7 +83,10 @@ export const index = async (req: Request, res: Response) => {
             title: "Quản lý chủ đề bài hát",
             topics,
             filterStatusArray,
-            keyword
+            keyword,
+            sizeOfDocuments,
+            paginationObject
+
         })
     }
     catch(error){
