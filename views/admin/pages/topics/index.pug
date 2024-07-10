@@ -1,4 +1,5 @@
 extends ../../layouts/default.pug
+include ../../mixins/filter.pug
 
 block main
   h1(class="mb-4") #{title}
@@ -6,14 +7,7 @@ block main
 
   .card.mb-3
         .card-header Danh sách
-            button(
-                class=`btn btn-sm ml-1 btn-outline-success`
-                button-status = "active"
-            ) Hoạt động
-            button(
-                class=`btn btn-sm ml-1 btn-outline-success`
-                button-status = "inactive"
-            ) Dừng hoạt động
+            +filter-status(filterStatusArray)
         .card-body
             .row
                 .col-8
