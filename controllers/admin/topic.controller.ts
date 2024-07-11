@@ -284,3 +284,21 @@ export const create = async (req: Request, res: Response) => {
         console.log(error);
     }
 }
+
+// [GET] /admin/topics/edit/:topicID
+export const editUI = async (req: Request, res: Response) => {
+    try{
+        const topicID: string = req.params.topicID;
+        const topic = await Topic.findOne({
+            _id: topicID,
+        });
+        
+        res.render("admin/pages/topics/edit", {
+            title: "Chỉnh sửa chủ đề",
+            topic
+        })
+    }
+    catch(error){
+
+    }
+}
