@@ -43,12 +43,18 @@ router.get(
     '/create',
     controller.createUI
 );
+
 router.post(
     '/create',
     upload.single('avatar'),
     cloudMiddlware.uploadSingle,
     // validate
     controller.create
+);
+
+router.get(
+    '/edit/:topicID',
+    controller.editUI
 );
 
 // export
