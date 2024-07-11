@@ -11,6 +11,10 @@ import * as filterHelper from "../../helper/filter.helper";
 import * as searchHelper from "../../helper/search.helper";
 import {index as paginationHelper} from "../../helper/pagination.helper";
 
+// system config
+import { systemConfig } from "../../config/system";
+const PATH_ADMIN = systemConfig.prefix_admin;
+
 // [GET] /admin/topics/
 export const index = async (req: Request, res: Response) => {
     try{
@@ -252,6 +256,29 @@ export const createUI = async (req: Request, res: Response) => {
         res.render("admin/pages/topics/create", {
             title: "Tạo chủ đề mới"
         });
+    }
+    catch(error){
+        console.log(error);
+    }
+}
+
+// [POST] /admin/topics/create
+export const create = async (req: Request, res: Response) => {
+    try{
+        const findObjectTopic: findTopicInterface = {
+            status: "active",
+            deleted: false
+        };
+
+        const sizeOfDocuments = await Topic.countDocuments(findObjectTopic); // count document
+
+        if(req.body.position === ""){
+            req.body["position"] = sizeOfDocuments + 1;  
+        }
+
+        const record = new Topic(req.body);
+        await record.save();
+        res.redirect(PATH_ADMIN + '/topics');
     }
     catch(error){
         console.log(error);
