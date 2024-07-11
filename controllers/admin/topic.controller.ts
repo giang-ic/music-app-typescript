@@ -245,3 +245,15 @@ export const restore = async (req: Request, res: Response) => {
         console.log(error);
     }
 }
+
+// [GET] /admin/topics/create
+export const createUI = async (req: Request, res: Response) => {
+    try{
+        res.render("admin/pages/topics/create", {
+            title: "Tạo chủ đề mới"
+        });
+    }
+    catch(error){
+        console.log(error);
+    }
+}

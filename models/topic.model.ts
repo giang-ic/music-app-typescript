@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+import slug from "mongoose-slug-updater";
+mongoose.plugin(slug);
 
 // create shcema
 const TopicSchema = new mongoose.Schema(

@@ -34,5 +34,10 @@ router.patch(
     controller.restore
 );
 
+router.get(
+    '/create',
+    controller.createUI
+);
+
 // export
 export const TopicRouter: Router = router;
