@@ -55,6 +55,7 @@ block main
                             th Hình ảnh
                             th Tiêu đề
                             th Vị trí
+                            th Xóa bởi
                             th Trạng thái
                             th Hành động
 
@@ -84,6 +85,9 @@ block main
                                         style="width: 60px;"
                                         min="1"
                                     )
+                                td
+                                    div(class="mb-2") #{item.deletedFullName}
+                                    div #{moment(item.deletedAt).format("DD-MM-YYYY HH:mm")}
                                 td(button-change-id = item.id)
                                     if (item.status === "active")
                                         a(

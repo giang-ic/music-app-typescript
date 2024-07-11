@@ -2,6 +2,7 @@ import { Response, Request } from "express";
 
 // model 
 import Topic from "../../models/topic.model";
+import Account from "../../models/account.model";
 
 // interface
 import { findTopicInterface, filterStatusInterface, paginationInterface } from "../../config/interface";
@@ -13,7 +14,6 @@ import {index as paginationHelper} from "../../helper/pagination.helper";
 
 // system config
 import { systemConfig } from "../../config/system";
-import Account from "../../models/account.model";
 const PATH_ADMIN = systemConfig.prefix_admin;
 
 // [GET] /admin/topics/
@@ -98,8 +98,6 @@ export const index = async (req: Request, res: Response) => {
         for(const topic of topics){
             const createdFullName = await Account.findOne({
                 _id: topic.createdBy.account_id,
-                status: "active",
-                deleted: false
             }).select("fullName");
             topic["createdFullName"] = createdFullName ? createdFullName.fullName : "Đang cập nhật";
         }
@@ -209,11 +207,16 @@ export const changeMulti = async (req: Request, res: Response) => {
 export const deleteSoft = async (req: Request, res: Response) => {
     try{
         const topicID: string = req.params.topicID;
+        
         await Topic.updateOne(
             {_id: topicID},
             {
                 status: "inactive",
-                deleted: true
+                deleted: true,
+                deletedBy: {
+                    account_id: res.locals.user._id,
+                    deletedAt: Date.now()
+                }
             }
         );
 
@@ -233,6 +236,15 @@ export const trashUI = async (req: Request, res: Response) => {
             deleted: true
         };
         const topics = await Topic.find(findObjectTopic);
+
+        // get user
+        for(const topic of topics){
+            const deletedFullName = await Account.findOne({
+                _id: topic.deletedBy.account_id,
+            }).select("fullName");
+            topic["deletedFullName"] = deletedFullName ? deletedFullName.fullName : "Đang cập nhật";
+        }
+
         res.render("admin/pages/topics/trash",{
             title: "Chủ đề đã xóa",
             topics
