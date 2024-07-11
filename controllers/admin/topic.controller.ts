@@ -13,6 +13,7 @@ import {index as paginationHelper} from "../../helper/pagination.helper";
 
 // system config
 import { systemConfig } from "../../config/system";
+import Account from "../../models/account.model";
 const PATH_ADMIN = systemConfig.prefix_admin;
 
 // [GET] /admin/topics/
@@ -66,7 +67,7 @@ export const index = async (req: Request, res: Response) => {
             paginationObject = paginationHelper(req.query, 5, sizeOfDocuments);
             
             // get database
-            const record = await Topic.find({   
+            const records = await Topic.find({   
                 $or: [
                     {title: keywordObjectHelper.keywordRegexTitle},
                     {slug: keywordObjectHelper.keywordRegexSlug}
@@ -76,7 +77,7 @@ export const index = async (req: Request, res: Response) => {
             .skip(paginationObject.skip)
             .sort(sortObject);
             
-            topics = record;
+            topics = records;
         }
         
         else {
@@ -85,13 +86,24 @@ export const index = async (req: Request, res: Response) => {
             // pagination
             paginationObject =  paginationHelper(req.query, 5, sizeOfDocuments);
 
-            const record = await Topic.find(findObjectTopic)
+            const records = await Topic.find(findObjectTopic)
                                     .limit(paginationObject.limit)
                                     .skip(paginationObject.skip)
                                     .sort(sortObject); // get database
 
-            topics = record;
+            topics = records;
         }
+
+        // get user
+        for(const topic of topics){
+            const createdFullName = await Account.findOne({
+                _id: topic.createdBy.account_id,
+                status: "active",
+                deleted: false
+            }).select("fullName");
+            topic["createdFullName"] = createdFullName ? createdFullName.fullName : "Đang cập nhật";
+        }
+        // end get user
 
         res.render('admin/pages/topics/index', {
             title: "Quản lý chủ đề bài hát",
@@ -275,6 +287,10 @@ export const create = async (req: Request, res: Response) => {
         if(req.body.position === ""){
             req.body["position"] = sizeOfDocuments + 1;  
         }
+
+        req.body["createdBy"] = {
+            account_id: res.locals.user._id
+        };
 
         const record = new Topic(req.body);
         await record.save();

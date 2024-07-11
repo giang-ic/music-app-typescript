@@ -12,6 +12,7 @@ import methodOverride  from "method-override";
 import bodyParser from "body-parser";
 import { systemConfig } from "./config/system";
 import path from "path";
+import moment = require("moment");
 
 systemConfig
 dotenv.config(); // enviroment varibales
@@ -34,6 +35,8 @@ app.use(flash());
 
 // locals variable
 app.locals.path_admin = systemConfig.prefix_admin;
+app.locals.moment = moment;
+// console.log(moment('2016-01-01T23:35:01').format('MM/DD/YYYY'));
 
 // tinymce
 app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));

@@ -62,6 +62,7 @@ block main
                             th Tiêu đề
                             th Vị trí
                             th Trạng thái
+                            th Tạo bởi
                             th Hành động
 
                     tbody
@@ -103,6 +104,9 @@ block main
                                             class="badge badge-danger"
                                             button-change-data = "inactive"
                                         ) Dừng hoạt động
+                                td
+                                    div(class="mb-2") #{item.createdFullName}
+                                    div #{moment(item.createdAt).format("DD-MM-YYYY HH:mm")}
                                 td
                                     a(
                                         class="btn btn-secondary btn-sm"

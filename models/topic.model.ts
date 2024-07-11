@@ -15,6 +15,13 @@ const TopicSchema = new mongoose.Schema(
             unique: true
         },
         status: String,
+        createdBy: {
+            account_id: String,
+            createdAt: {
+                type: Date,
+                default: Date.now
+            }
+        },
         deleted: {
             type: Boolean,
             default: false
