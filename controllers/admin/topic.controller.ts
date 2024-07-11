@@ -113,9 +113,37 @@ export const changeStatus = async (req: Request, res: Response) => {
 // [PATCH] /admin/topics/change-multi
 export const changeMulti = async (req: Request, res: Response) => {
     try{
+        const type: string = req.body.type;
+        const listID: string[] = (req.body.ids).split(", ");
 
+        switch(type){
+            case "active":
+                await Topic.updateMany(
+                    {
+                        _id: {$in : listID}
+                    },
+                    {
+                        status: "active"
+                    }
+                );
+                break;
+            
+            case "inactive":
+                await Topic.updateMany(
+                    {
+                        _id: {$in : listID}
+                    },
+                    {
+                        status: "inactive"
+                    }
+                );
+            default: 
+                break;
+        }
+        
+        res.redirect('back');
     }
     catch(error){
-        
+
     }
 }

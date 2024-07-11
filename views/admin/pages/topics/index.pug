@@ -18,7 +18,7 @@ block main
             .row
                 .col-8
                     form(
-                        action=`${path_admin}/products/change-multi?_method=PATCH`
+                        action=`${path_admin}/topics/change-multi?_method=PATCH`
                         method="POST"
                         form-change-multi
                     ) 
@@ -64,7 +64,8 @@ block main
                                     input(
                                         type="checkbox" 
                                         name="checkbox-single" 
-                                        value=item.id)
+                                        value=item.id
+                                    )
                                 td #{index+1}
                                 td
                                     img(

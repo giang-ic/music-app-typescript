@@ -181,3 +181,33 @@ if(tableData){
 
 }
 // end check box
+
+// change multi
+const formChangeMulti = document.querySelector("[form-change-multi]");
+if(formChangeMulti){
+    formChangeMulti.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const inputContainID = formChangeMulti.querySelector('input[name="ids"]');
+        const checkedBoxSingle = tableData.querySelectorAll('input[name="checkbox-single"]:checked');
+
+        if(!checkedBoxSingle.length){
+            // alert
+            return;
+        }
+
+        // get id checked box
+        const listID = [];
+        checkedBoxSingle.forEach(box => {
+            const id = box.value;
+            listID.push(id);
+        });
+        // end get id checked box
+
+        // into input contain list id
+        inputContainID.value = listID.join(", ");
+        // end into input contain list id
+
+        formChangeMulti.submit();
+    });
+}
+// end change multi
