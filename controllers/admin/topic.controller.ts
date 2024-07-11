@@ -147,6 +147,17 @@ export const changeMulti = async (req: Request, res: Response) => {
                     );
                 }
                 break;
+            case "delete":
+                await Topic.updateMany(
+                    {
+                        _id: {$in : listID}
+                    },
+                    {
+                        status: "inactive",
+                        deleted: true
+                    }
+                );
+                break;
             default: 
                 break;
         }
