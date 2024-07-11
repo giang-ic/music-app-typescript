@@ -178,3 +178,20 @@ export const deleteSoft = async (req: Request, res: Response) => {
 
     }
 }
+
+// [PATCH] /admin/topics/trash
+export const trashUI = async (req: Request, res: Response) => {
+    try{
+        const findObjectTopic: findTopicInterface = {
+            deleted: true
+        };
+        const topics = await Topic.find(findObjectTopic);
+        res.render("admin/pages/topics/trash",{
+            title: "Chủ đề đã xóa",
+            topics
+        })
+    }
+    catch(error){
+        console.log(error);
+    }
+}

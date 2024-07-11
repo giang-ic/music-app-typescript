@@ -24,5 +24,10 @@ router.patch(
     controller.deleteSoft
 )
 
+router.get(
+    '/trash',
+    controller.trashUI
+);
+
 // export
 export const TopicRouter: Router = router;

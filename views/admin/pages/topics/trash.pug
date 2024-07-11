@@ -11,11 +11,7 @@ block main
             .row 
                 .col-8
                     |   Danh sách
-                    +filter-status(filterStatusArray) 
-                    a(
-                        class=`btn btn-sm ml-1 btn-outline-success`
-                        href=`${path_admin}/topics/trash`
-                    ) Đã xóa
+                    //- +filter-status(filterStatusArray) 
                 .col-4
                     +search(keyword)
         .card-body
@@ -114,4 +110,4 @@ block main
                                         class="btn btn-danger btn-sm ml-1"
                                         button-delete-soft=item.id
                                     ) Xóa
-                +pagination(paginationObject)
+                //- +pagination(paginationObject)
