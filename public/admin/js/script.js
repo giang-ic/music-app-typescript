@@ -105,3 +105,47 @@ if(listButtonPagination.length > 0){
     });
 }
 // end pagination
+
+
+// change status
+const listButtonChangeStatus = document.querySelectorAll("[button-change-id]");
+if(listButtonChangeStatus.length > 0){
+    listButtonChangeStatus.forEach(button => {
+        button.addEventListener("click", (event) => {
+            const topicID = button.getAttribute("button-change-id");
+            const elementContainStatus = button.querySelector("[button-change-data]");
+            let status  = elementContainStatus.getAttribute("button-change-data");
+
+            status = (status === "active" ? "inactive" : "active"); //toggle status
+
+            // API
+            fetch(`/admin/topics/change-status/${status}/${topicID}`, {
+                method: 'PATCH'
+            })
+                .then(response => response.json())
+                .then(response => {
+                    if(response.code === 200){
+                        const topicID = response.topicID;
+                        const status = response.status;
+
+                        // remove element
+                        button.removeChild(elementContainStatus);
+
+                        // create element
+                        const child = document.createElement("a");
+                        
+                        // setting attribute
+                        child.href = "javascript:;";
+                        child.classList.add("badge");
+                        child.classList.add(status === "active" ? "badge-success" : "badge-danger");
+                        child.setAttribute("button-change-data", status);   
+                        child.innerText = status === "active" ? "Hoạt động" : "Dừng hoạt động";
+
+                        // append
+                        button.appendChild(child);
+                    }
+                })
+        });
+    });
+}
+// end change status

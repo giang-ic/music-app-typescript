@@ -83,3 +83,29 @@ export const index = async (req: Request, res: Response) => {
         console.log(error);
     }
 }
+
+// [PATCH] /admin/topics/change-status/:topicID/:status
+export const changeStatus = async (req: Request, res: Response) => {
+    try{
+        const topicID: string = req.params.topicID;
+        const status: string  = req.params.status;
+
+        await Topic.updateOne(
+            {
+                _id: topicID,
+                deleted: false
+            },{
+                status: status
+            }
+        );
+
+        res.json({
+            code: 200,
+            topicID,
+            status
+        })
+    }
+    catch(error){
+
+    }
+}
