@@ -29,5 +29,10 @@ router.get(
     controller.trashUI
 );
 
+router.patch(
+    '/restore/:topicID',
+    controller.restore
+);
+
 // export
 export const TopicRouter: Router = router;

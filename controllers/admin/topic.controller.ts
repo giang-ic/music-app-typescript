@@ -195,3 +195,22 @@ export const trashUI = async (req: Request, res: Response) => {
         console.log(error);
     }
 }
+
+// [PATCH] /admin/topics/restore/:topicID
+export const restore = async (req: Request, res: Response) => {
+    try{
+        const topicID = req.params.topicID;
+        await Topic.updateOne(
+            {_id: topicID},
+            {
+                deleted: false
+            }
+        );
+        res.status(200).json({
+            code: 200
+        });
+    }
+    catch(error){
+        console.log(error);
+    }
+}

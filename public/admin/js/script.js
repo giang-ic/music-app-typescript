@@ -250,3 +250,26 @@ if(listButtonDelete.length > 0){
     });
 }
 // end delete soft
+
+// restore
+const listButtonRestore = document.querySelectorAll("[button-restore]");
+if(listButtonRestore.length > 0){
+    listButtonRestore.forEach(button => {
+        button.addEventListener("click", (event) => {
+            const topicID = button.getAttribute("button-restore");
+
+            // API
+            fetch(`/admin/topics/restore/${topicID}`, {
+                method: "PATCH"
+            })
+                .then(response => response.json())
+                .then(response => {
+                    if(response.code === 200){
+                        const parent = button.closest('tr');
+                        parent.remove();
+                    }
+                });
+        });
+    });
+}
+// end restore 
