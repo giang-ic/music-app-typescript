@@ -273,3 +273,30 @@ if(listButtonRestore.length > 0){
     });
 }
 // end restore 
+
+// sort citeria
+const blockSort = document.querySelector("[sort]");
+if(blockSort){
+    const sortSelect = blockSort.querySelector("[sort-select]");
+    let url = new URL(window.location.href); // url
+
+    sortSelect.addEventListener("change", (event) => {
+        const [key, value] = (sortSelect.value).split("-");
+        url.searchParams.set("sortKey", key);
+        url.searchParams.set("sortValue", value);
+
+        window.location.href = url.href; // redirect url
+    });
+
+    // clear sort citeria
+    const buttonSortClear = blockSort.querySelector("[sort-clear]");
+    console.log(buttonSortClear);
+    buttonSortClear.addEventListener("click", (event) => {
+        url.searchParams.delete("sortKey");
+        url.searchParams.delete("sortValue");
+        window.location.href = url.href;    
+    });
+    // end clear sort citeria
+
+}
+// end sort citeria

@@ -35,6 +35,20 @@ export const index = async (req: Request, res: Response) => {
         let topics; // contain records get
         let paginationObject; // pagination
         
+        // sort citeria
+        const sortObject = {};
+
+        if(req.query.sortKey && req.query.sortValue){
+            const sortKey: string = `${req.query.sortKey}`;
+            const sortValue: string = `${req.query.sortValue}`;
+
+            sortObject[sortKey] = sortValue;
+        }
+        else {
+            sortObject["position"] = "desc";
+        }
+        // end sort citeria
+
         if(req.query.keyword){
             sizeOfDocuments = await Topic.countDocuments({
                 $or: [
@@ -54,7 +68,10 @@ export const index = async (req: Request, res: Response) => {
                     {slug: keywordObjectHelper.keywordRegexSlug}
                 ],
                 ...findObjectTopic
-            }).limit(paginationObject.limit).skip(paginationObject.skip);
+            }).limit(paginationObject.limit)
+            .skip(paginationObject.skip)
+            .sort(sortObject);
+            
             topics = record;
         }
         
@@ -64,7 +81,10 @@ export const index = async (req: Request, res: Response) => {
             // pagination
             paginationObject =  paginationHelper(req.query, 5, sizeOfDocuments);
 
-            const record = await Topic.find(findObjectTopic).limit(paginationObject.limit).skip(paginationObject.skip); // get database
+            const record = await Topic.find(findObjectTopic)
+                                    .limit(paginationObject.limit)
+                                    .skip(paginationObject.skip)
+                                    .sort(sortObject); // get database
 
             topics = record;
         }
