@@ -165,6 +165,7 @@ export const deleteSoft = async (req: Request, res: Response) => {
         await Topic.updateOne(
             {_id: topicID},
             {
+                status: "inactive",
                 deleted: true
             }
         );
