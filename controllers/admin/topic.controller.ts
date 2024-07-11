@@ -109,3 +109,13 @@ export const changeStatus = async (req: Request, res: Response) => {
 
     }
 }
+
+// [PATCH] /admin/topics/change-multi
+export const changeMulti = async (req: Request, res: Response) => {
+    try{
+
+    }
+    catch(error){
+        
+    }
+}

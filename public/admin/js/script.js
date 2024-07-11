@@ -149,3 +149,35 @@ if(listButtonChangeStatus.length > 0){
     });
 }
 // end change status
+
+// check box
+const tableData = document.querySelector("[table-data]");
+if(tableData){
+    const checkBoxAll = tableData.querySelector('input[name="checkall"]');
+    const checkBoxSingle = tableData.querySelectorAll('input[name="checkbox-single"]');
+    
+    // size of check box
+    const sizeOfCheckBox = checkBoxSingle.length;
+    console.log(sizeOfCheckBox);
+    // if u check all or not
+    checkBoxAll.addEventListener("click", (event) => {
+        const checked = checkBoxAll.checked;
+        checkBoxSingle.forEach(box => {
+            box.checked = checked;
+        });
+    });
+    // end if u check all or not
+
+    // check single
+    checkBoxSingle.forEach(box => {
+        box.addEventListener("click", (event) => {
+            // size of checked box
+            const sizeOfCheckedBox = tableData.querySelectorAll('input[name="checkbox-single"]:checked').length;
+
+            checkBoxAll.checked = (sizeOfCheckBox === sizeOfCheckedBox);
+        });
+    });
+    // end check single
+
+}
+// end check box
