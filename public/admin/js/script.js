@@ -106,7 +106,6 @@ if(listButtonPagination.length > 0){
 }
 // end pagination
 
-
 // change status
 const listButtonChangeStatus = document.querySelectorAll("[button-change-id]");
 if(listButtonChangeStatus.length > 0){
@@ -229,3 +228,25 @@ if(formChangeMulti){
     });
 }
 // end change multi
+
+// delete soft
+const listButtonDelete = document.querySelectorAll('[button-delete-soft]');
+if(listButtonDelete.length > 0){
+    listButtonDelete.forEach(button => {
+        button.addEventListener("click", (event) => {
+            const topicID = button.getAttribute("button-delete-soft");
+            // API
+            fetch(`/admin/topics/delete-soft/${topicID}`, {
+                method: 'PATCH'
+            })
+                .then(response => response.json())
+                .then(response => {
+                    if(response.code === 200){
+                        const parent = button.closest("tr");
+                        parent.remove();
+                    }
+                })
+        });
+    });
+}
+// end delete soft

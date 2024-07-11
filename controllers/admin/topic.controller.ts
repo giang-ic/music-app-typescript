@@ -157,3 +157,23 @@ export const changeMulti = async (req: Request, res: Response) => {
 
     }
 }
+
+// [PATCH] /admin/topics/delete-soft/:topicID
+export const deleteSoft = async (req: Request, res: Response) => {
+    try{
+        const topicID: string = req.params.topicID;
+        await Topic.updateOne(
+            {_id: topicID},
+            {
+                deleted: true
+            }
+        );
+
+        res.status(200).json({
+            code: 200,
+        })
+    }
+    catch(error){
+
+    }
+}

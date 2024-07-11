@@ -19,5 +19,10 @@ router.patch(
     controller.changeMulti
 );
 
+router.patch(
+    '/delete-soft/:topicID',
+    controller.deleteSoft
+)
+
 // export
 export const TopicRouter: Router = router;
