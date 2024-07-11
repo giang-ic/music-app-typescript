@@ -115,7 +115,6 @@ export const changeMulti = async (req: Request, res: Response) => {
     try{
         const type: string = req.body.type;
         const listID: string[] = (req.body.ids).split(", ");
-
         switch(type){
             case "active":
                 await Topic.updateMany(
@@ -137,6 +136,17 @@ export const changeMulti = async (req: Request, res: Response) => {
                         status: "inactive"
                     }
                 );
+            case "position":
+                for(const item of listID){
+                    const [id, position] = item.split("-");
+                    await Topic.updateOne(
+                        {_id: id},
+                        {
+                            position: position
+                        }
+                    );
+                }
+                break;
             default: 
                 break;
         }

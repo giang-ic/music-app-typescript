@@ -195,11 +195,29 @@ if(formChangeMulti){
             return;
         }
 
+        const isConfirm = confirm("Bạn có muốn thay đổi nhiều...");
+        if(!isConfirm){
+            return;
+        }
+        
+        // get type change multi 
+        const type = formChangeMulti.querySelector('select[name="type"]').value;
+
         // get id checked box
         const listID = [];
         checkedBoxSingle.forEach(box => {
             const id = box.value;
-            listID.push(id);
+
+            if(type === "position"){
+                // gửi kèm vị trí [id-vị trí]
+                const parent = box.closest("tr");
+                const position = parent.querySelector('input[name="position"]').value;
+                listID.push(`${id}-${position}`);
+            }
+            else{
+                listID.push(id);
+            }
+            
         });
         // end get id checked box
 

@@ -27,7 +27,7 @@ block main
                                 select(name="type" class="form-control")
                                     option(value="active") Hoạt động
                                     option(value="inactive") Dừng hoạt động
-                                    option(value="change-position") Thay đổi vị trí
+                                    option(value="position") Thay đổi vị trí
                                     option(value="delete-all") Xóa tất cả
                             .form-group.d-none
                                 input(
@@ -54,6 +54,7 @@ block main
                             th STT
                             th Hình ảnh
                             th Tiêu đề
+                            th Vị trí
                             th Trạng thái
                             th Hành động
 
@@ -75,6 +76,14 @@ block main
                                         height="auto"
                                     )
                                 td #{item.title}
+                                td
+                                    input(
+                                        name="position"
+                                        value=item.position
+                                        type="number"
+                                        style="width: 60px;"
+                                        min="1"
+                                    )
                                 td(button-change-id = item.id)
                                     if (item.status === "active")
                                         a(
