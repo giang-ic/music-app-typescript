@@ -302,3 +302,18 @@ export const editUI = async (req: Request, res: Response) => {
 
     }
 }
+
+// [PATCH] /admin/topics/edit/:topicID
+export const edit = async (req: Request, res: Response) => {
+    try{
+        const topicID: string = req.params.topicID;
+        await Topic.updateOne(
+            {_id: topicID},
+            req.body
+        );
+        res.redirect('back');
+    }
+    catch(error){
+
+    }
+}

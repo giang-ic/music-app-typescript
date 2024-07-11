@@ -4,7 +4,7 @@ block main
     h1(class="mb-4") #{title}
 
     form(
-        action=`${path_admin}/topics/edit`
+        action=`${path_admin}/topics/edit/${topic.id}?_method=PATCH`
         method="POST"
         enctype="multipart/form-data"
     )

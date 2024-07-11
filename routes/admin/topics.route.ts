@@ -57,5 +57,13 @@ router.get(
     controller.editUI
 );
 
+router.patch(
+    '/edit/:topicID',
+    upload.single('avatar'),
+    cloudMiddlware.uploadSingle,
+    // validate
+    controller.edit
+);
+
 // export
 export const TopicRouter: Router = router;
