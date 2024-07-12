@@ -236,8 +236,9 @@ if(listButtonDelete.length > 0){
     listButtonDelete.forEach(button => {
         button.addEventListener("click", (event) => {
             const id = button.getAttribute("button-delete-soft");
+            const type = button.getAttribute("button-delete-type");
             // API
-            fetch(`/admin/topics/delete-soft/${id}`, {
+            fetch(`/admin/${type}/delete-soft/${id}`, {
                 method: 'PATCH'
             })
                 .then(response => response.json())

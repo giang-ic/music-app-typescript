@@ -267,3 +267,25 @@ export const changeMulti = async (req: Request, res: Response) => {
 
     }
 }
+
+// [PATCH] /admin/songs/delete-soft/:topicID
+export const deleteSoft = async (req: Request, res: Response) => {
+    try{
+        const songID: string = req.params.songID;
+        
+        await Song.updateOne(
+            {_id: songID},
+            {
+                status: "inactive",
+                deleted: true,
+            }
+        );
+
+        res.status(200).json({
+            code: 200,
+        })
+    }
+    catch(error){
+
+    }
+}

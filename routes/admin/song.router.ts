@@ -65,5 +65,10 @@ router.patch(
     '/change-multi',
     controller.changeMulti
 );
+
+router.patch(
+    '/delete-soft/:songID',
+    controller.deleteSoft
+);
 // export
 export const SongRouter: Router = router;
