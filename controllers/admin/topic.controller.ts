@@ -414,3 +414,18 @@ export const edit = async (req: Request, res: Response) => {
 
     }
 }
+
+// [GET] /admin/topics/edit/:topicID
+export const detailUI = async (req: Request, res: Response) => {
+    try{
+        const topicID: string = req.params.topicID;
+        const topic = await Topic.findOne({ _id: topicID });
+        res.render("admin/pages/topics/detail", {
+            title: "Chi tiết chủ đề",
+            topic
+        })
+    }
+    catch(error){
+
+    }
+}

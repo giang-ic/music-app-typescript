@@ -65,5 +65,10 @@ router.patch(
     controller.edit
 );
 
+router.get(
+    '/detail/:topicID',
+    controller.detailUI
+);
+
 // export
 export const TopicRouter: Router = router;
