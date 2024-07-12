@@ -75,5 +75,10 @@ router.get(
     '/trash',
     controller.trashUI
 ); 
+
+router.patch(
+    '/restore/:songID',
+    controller.restore
+);
 // export
 export const SongRouter: Router = router;

@@ -259,9 +259,10 @@ if(listButtonRestore.length > 0){
     listButtonRestore.forEach(button => {
         button.addEventListener("click", (event) => {
             const id = button.getAttribute("button-restore");
+            const type = button.getAttribute("button-restore-type");
 
             // API
-            fetch(`/admin/topics/restore/${id}`, {
+            fetch(`/admin/${type}/restore/${id}`, {
                 method: "PATCH"
             })
                 .then(response => response.json())

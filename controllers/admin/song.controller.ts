@@ -331,3 +331,29 @@ export const trashUI = async (req: Request, res: Response) => {
         console.log(error);
     }
 }
+
+// [PATCH] /admin/songs/restore/:topicID
+export const restore = async (req: Request, res: Response) => {
+    try{
+        const songID = req.params.songID;
+        await Song.updateOne(
+            {_id: songID},
+            {
+                deleted: false,
+                // $push: {
+                //     updatedBy: {
+                //         account_id: res.locals.user._id,
+                //         did: "Khôi phục chủ đề đã xóa",
+                //         updatedAt: Date.now()
+                //     }
+                // }   
+            }
+        );
+        res.status(200).json({
+            code: 200
+        });
+    }
+    catch(error){
+        console.log(error);
+    }
+}
