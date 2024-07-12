@@ -332,7 +332,7 @@ export const trashUI = async (req: Request, res: Response) => {
     }
 }
 
-// [PATCH] /admin/songs/restore/:topicID
+// [PATCH] /admin/songs/restore/:songID
 export const restore = async (req: Request, res: Response) => {
     try{
         const songID = req.params.songID;
@@ -355,5 +355,28 @@ export const restore = async (req: Request, res: Response) => {
     }
     catch(error){
         console.log(error);
+    }
+}
+
+// [PATCH] /admin/songs/detail/:songID
+export const detail = async (req: Request, res: Response) => {
+    try{
+        const songID: string = req.params.songID;
+        const song = await Song.findOne({_id: songID});
+
+        // get singer full name
+        const singer = await Singer.findOne({_id: song.singerId}).select("fullName");
+
+        song["singer"] = {
+            fullName: singer.fullName
+        }
+
+        res.render("admin/pages/songs/detail", {
+            title: "Chi tiết bài nhạc",
+            song
+        })
+    }
+    catch(error){
+
     }
 }

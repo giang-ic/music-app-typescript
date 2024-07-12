@@ -80,5 +80,10 @@ router.patch(
     '/restore/:songID',
     controller.restore
 );
+
+router.get(
+    '/detail/:songID',
+    controller.detail
+);
 // export
 export const SongRouter: Router = router;

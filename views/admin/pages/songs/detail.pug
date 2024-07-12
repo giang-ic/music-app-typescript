@@ -1,0 +1,29 @@
+extends ../../layouts/default.pug
+
+block main
+    if (song.title)
+        h1(class="mb-4") #{song.title}
+
+    if (song.singer.fullName)
+        div(class="mb-4") Còn lại: <b>#{song.singer.fullName}</b>
+
+    if (song.avatar)
+        div(class="mb-4")
+        img(
+            src=song.avatar
+            style="width: 100px"
+        )
+
+    if (song.status)
+        div(class="mb-4")
+        span Trạng thái:
+        if (song.status === "active")
+            span(class="badge badge-success") Hoạt động
+        else
+            span(class="badge badge-danger") Dừng hoạt động
+
+    if (song.position)
+        div(class="mb-4") Vị trí: <b>#{song.position}</b>
+
+    //- if (topic.description)
+    //-     div(class="mb-4") !{topic.description}
