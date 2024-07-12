@@ -3,6 +3,7 @@ include ../../mixins/filter.pug
 include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/sort.pug
+include ../../mixins/change-multi.pug
 block main
   h1(class="mb-4") #{title}
 
@@ -23,26 +24,7 @@ block main
         .card-body
             .row
                 .col-8
-                    form(
-                        action=`${path_admin}/topics/change-multi?_method=PATCH`
-                        method="POST"
-                        form-change-multi
-                    ) 
-                        .d-flex.align-items-start
-                            .form-group
-                                select(name="type" class="form-control")
-                                    option(value="active") Hoạt động
-                                    option(value="inactive") Dừng hoạt động
-                                    option(value="position") Thay đổi vị trí
-                                    option(value="delete") Xóa tất cả
-                            .form-group.d-none
-                                input(
-                                    type="text"
-                                    name="ids"
-                                    value=""
-                                    class="form-control"
-                                )
-                            button(type="submit" class="btn btn-primary") Áp dụng
+                    +select-change-multi
                 .col-4.text-right.mb-2
                     a(
                         href=`${path_admin}/topics/create`
