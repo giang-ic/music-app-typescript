@@ -8,6 +8,7 @@ import Singer from "../../models/singer.model";
 // helper
 import * as filterHelper from "../../helper/filter.helper";
 import * as searchHelper from "../../helper/search.helper";
+import {index as paginationHelper} from "../../helper/pagination.helper";
 
 // interface
 import { filterStatusInterface, findSongInterface } from "../../config/interface";
@@ -34,8 +35,20 @@ export const index = async (req: Request, res: Response) => {
 
         // declare variable
         let songs;
+        let sizeOfDocuments: number = 0;
+        let paginationObject; // pagination
 
         if(req.query.keyword){
+            sizeOfDocuments = await Song.countDocuments({
+                $or: [
+                    {title: keywordObjectHelper.keywordRegexTitle},
+                    {slug: keywordObjectHelper.keywordRegexSlug}
+                ],
+                ...findObjectSong
+            }); // count documents
+
+            // pagination
+            paginationObject = paginationHelper(req.query, 5, sizeOfDocuments);
             // get database
             const records = await Song.find({   
                 $or: [
@@ -43,13 +56,21 @@ export const index = async (req: Request, res: Response) => {
                     {slug: keywordObjectHelper.keywordRegexSlug}
                 ],
                 ...findObjectSong
-            });
+            }).limit(paginationObject.limit)
+            .skip(paginationObject.skip)
             
             songs = records;
         }
 
         else {
-            const records = await Song.find(findObjectSong);
+            sizeOfDocuments = await Song.countDocuments(findObjectSong); // count documents
+
+            // pagination
+            paginationObject =  paginationHelper(req.query, 5, sizeOfDocuments);
+
+            const records = await Song.find(findObjectSong)
+                                    .limit(paginationObject.limit)
+                                    .skip(paginationObject.skip)
             songs = records;
         }
 
@@ -57,11 +78,13 @@ export const index = async (req: Request, res: Response) => {
             title: "Danh sách bài nhạc",
             songs,
             filterStatusArray,
-            keyword
+            keyword,
+            sizeOfDocuments,
+            paginationObject
         });
     }
     catch(error){
-
+        console.log(error);
     }
 }
 
