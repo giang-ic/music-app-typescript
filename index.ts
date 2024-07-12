@@ -47,7 +47,14 @@ app.set('view engine', 'pug');
 
 clientRouter(app); // client router
 adminRouter(app); // admin router
-    
+
+// error router
+app.get("*", (req, res) => {
+    res.render("client/pages/errors/404", {
+      pageTitle: "404 Not Found",
+    });
+});
+
 // listen port
 app.listen(port, () => {
     console.log(`Music App listening`);
