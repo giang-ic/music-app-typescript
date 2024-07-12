@@ -151,22 +151,19 @@ export const create = async (req: Request, res: Response) => {
 export const editUI = async (req: Request, res: Response) => {
     try{
         // get song needed edit
-        const songID = req.params.songID;
+        const songID: string = req.params.songID;
         const song = await Song.findOne({
             _id: songID,
-            status: "active",
             deleted: false
         });
 
         // get topics
         const topics = await Topic.find({
-            status: "active",
             deleted: false
         });
 
         // get singers
         const singers = await Singer.find({
-            status: "active",
             deleted: false
         });
 
