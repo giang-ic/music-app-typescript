@@ -43,7 +43,7 @@ const SongSchema = new mongoose.Schema(
         ],
         deletedBy: {
             account_id: String,
-            deletedAt: {
+            deletedAt: {    
                 type: Date,
                 default: Date
             }

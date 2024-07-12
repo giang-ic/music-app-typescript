@@ -1,11 +1,25 @@
 extends ../../layouts/default.pug
+include ../../mixins/filter.pug
+include ../../mixins/search.pug
+include ../../mixins/pagination.pug
+include ../../mixins/sort.pug
+include ../../mixins/change-multi.pug
 
 block main
     h1(class="mb-4") #{title}
 
 
     .card.mb-3
-        .card-header Danh sách
+        .card-header 
+            .row 
+                .col-8
+                    |   Danh sách
+                    +filter-status(filterStatusArray) 
+                    a(
+                        class=`btn btn-sm ml-1 btn-outline-success`
+                        href=`${path_admin}/songs/trash`
+                    ) Đã xóa
+                .col-4
         .card-body
             .row
                 .col-8

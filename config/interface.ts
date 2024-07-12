@@ -11,6 +11,11 @@ export interface findSongInterface {
     deleted: boolean
 }
 
+export interface findSingerInterface {
+    status?: string,
+    deleted: boolean
+}
+
 // interface filter status 
 export interface filterStatusInterface {
     name: string,

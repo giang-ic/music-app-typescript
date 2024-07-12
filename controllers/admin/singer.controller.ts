@@ -9,17 +9,32 @@ import { Request, Response } from "express";
 import { systemConfig } from "../../config/system";
 const PATH_ADMIN = systemConfig.prefix_admin;
 
+// helper
+import * as filterHelper from "../../helper/filter.helper";
+import { findSingerInterface, filterStatusInterface } from "../../config/interface";
+
 // [GET] /admin/singers/
 export const index = async (req: Request, res: Response) => {
     try{
-        const singers = await Singer.find({
-            status: "active",
+        const findObjectSinger: findSingerInterface = {
             deleted: false
-        });
+        }
+
+        // Filter stautus
+        const status: string = `${req.query.status}` || "";
+        if(req.query.status){    
+            findObjectSinger["status"] = status;// không gán biến status vào vì nó sẽ bị tìm theo status = ""
+        }
+
+        const filterStatusArray: filterStatusInterface[] = filterHelper.status(req.query);
+        // End Filter stautus
+
+        const singers = await Singer.find(findObjectSinger);
 
         res.render('admin/pages/singer/index', {
             title: "Danh sách ca sĩ",
-            singers
+            singers,
+            filterStatusArray
         })
     }
     catch(error){
