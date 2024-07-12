@@ -38,6 +38,20 @@ export const index = async (req: Request, res: Response) => {
         let sizeOfDocuments: number = 0;
         let paginationObject; // pagination
 
+        // sort citeria
+        const sortObject = {};
+
+        if(req.query.sortKey && req.query.sortValue){
+            const sortKey: string = `${req.query.sortKey}`;
+            const sortValue: string = `${req.query.sortValue}`;
+ 
+            sortObject[sortKey] = sortValue;
+        }
+        else {
+            sortObject["position"] = "desc";
+        }
+        // end sort citeria
+
         if(req.query.keyword){
             sizeOfDocuments = await Song.countDocuments({
                 $or: [
@@ -58,6 +72,7 @@ export const index = async (req: Request, res: Response) => {
                 ...findObjectSong
             }).limit(paginationObject.limit)
             .skip(paginationObject.skip)
+            .sort(sortObject);
             
             songs = records;
         }
@@ -71,6 +86,7 @@ export const index = async (req: Request, res: Response) => {
             const records = await Song.find(findObjectSong)
                                     .limit(paginationObject.limit)
                                     .skip(paginationObject.skip)
+                                    .sort(sortObject);
             songs = records;
         }
 
