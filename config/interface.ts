@@ -5,6 +5,11 @@ export interface findTopicInterface {
     deleted: boolean, 
 }   
 
+export interface findSongInterface {
+    title?: string,
+    status?: string,
+    deleted: boolean
+}
 
 // interface filter status 
 export interface filterStatusInterface {

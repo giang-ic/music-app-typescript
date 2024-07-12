@@ -5,17 +5,33 @@ import Song from "../../models/song.model";
 import Topic from "../../models/topic.model";
 import Singer from "../../models/singer.model";
 
+// helper
+import * as filterHelper from "../../helper/filter.helper";
+
+// interface
+import { filterStatusInterface, findSongInterface } from "../../config/interface";
+
 // [GET] /admin/songs/
 export const index = async (req: Request, res: Response) => {
     try{
-        const songs = await Song.find({
-            status: "active",
+        const findObjectSong: findSongInterface = {
             deleted: false
-        });
+        }
+
+        // filter
+        const status: string = req.query.status ? `${req.query.status}` : undefined;
+        if(status){
+            findObjectSong["status"] = status;
+        }
+        const filterStatusArray: filterStatusInterface[] = filterHelper.status(req.query);
+        // end filter
+
+        const songs = await Song.find(findObjectSong);
 
         res.render('admin/pages/songs/index', {
             title: "Danh sách bài nhạc",
-            songs
+            songs,
+            filterStatusArray
         });
     }
     catch(error){
