@@ -24,7 +24,7 @@ block main
         .card-body
             .row
                 .col-8
-                    
+                    +select-change-multi("songs")
                 .col-4.text-right
                     a(
                         href=`${path_admin}/songs/create`
@@ -34,21 +34,30 @@ block main
 
                 table(
                     class="table table-hover table-sm"
+                    table-data
                 )
                     thead
                         tr
-                        th STT
-                        th Hình ảnh
-                        th Tiêu đề
-                        //- th Ca sĩ
-                        //- th Chủ đề
-                        //- th Vị trí
-                        th Trạng thái
-                        th Hành động
+                            td
+                                input(type="checkbox" name="checkall")
+                            th STT
+                            th Hình ảnh
+                            th Tiêu đề
+                            //- th Ca sĩ
+                            //- th Chủ đề
+                            //- th Vị trí
+                            th Trạng thái
+                            th Hành động
 
                     tbody
                         each item, index in songs
                             tr 
+                                td
+                                    input(
+                                        type="checkbox" 
+                                        name="checkbox-single" 
+                                        value=item.id
+                                    )
                                 td #{index+1}
                                 td
                                     img(

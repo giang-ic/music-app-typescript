@@ -208,3 +208,62 @@ export const changeStatus = async (req: Request, res: Response) => {
 
     }
 }
+
+// [PATCH] /admin/songs/change-multi
+export const changeMulti = async (req: Request, res: Response) => {
+    try{
+        const type: string = req.body.type;
+        const listID: string[] = (req.body.ids).split(", ");
+        switch(type){
+            case "active":
+                await Song.updateMany(
+                    {
+                        _id: {$in : listID}
+                    },
+                    {
+                        status: "active",
+                    }
+                );
+                break;
+            
+            case "inactive":
+                await Song.updateMany(
+                    {
+                        _id: {$in : listID}
+                    },
+                    {
+                        status: "inactive",
+                    }
+                );
+            case "position":
+                for(const item of listID){
+                    const [id, position] = item.split("-");
+                    await Song.updateOne(
+                        {_id: id},
+                        {
+                            position: position,
+                        }
+                    );
+                }
+                break;
+            case "delete":
+                await Song.updateMany(
+                    {
+                        _id: {$in : listID}
+                    },
+                    {
+                        status: "inactive",
+                        deleted: true,
+                    }
+                );
+                break;
+            default: 
+                break;
+        }
+        
+        res.redirect('back');
+    }
+    catch(error){
+
+    }
+}

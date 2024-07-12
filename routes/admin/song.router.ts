@@ -61,5 +61,9 @@ router.patch(
     controller.changeStatus
 );
 
+router.patch(
+    '/change-multi',
+    controller.changeMulti
+);
 // export
 export const SongRouter: Router = router;

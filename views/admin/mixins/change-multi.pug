@@ -1,6 +1,6 @@
-mixin select-change-multi 
+mixin select-change-multi(type)
     form(
-        action=`${path_admin}/topics/change-multi?_method=PATCH`
+        action=`${path_admin}/${type}/change-multi?_method=PATCH`
         method="POST"
         form-change-multi
     ) 
