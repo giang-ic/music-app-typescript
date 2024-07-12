@@ -70,5 +70,10 @@ router.patch(
     '/delete-soft/:songID',
     controller.deleteSoft
 );
+
+router.get(
+    '/trash',
+    controller.trashUI
+); 
 // export
 export const SongRouter: Router = router;

@@ -305,3 +305,29 @@ export const deleteSoft = async (req: Request, res: Response) => {
 
     }
 }
+
+// [PATCH] /admin/songs/trash
+export const trashUI = async (req: Request, res: Response) => {
+    try{
+        const findObjectSong: findSongInterface = {
+            deleted: true
+        };
+        const songs = await Song.find(findObjectSong);
+
+        // // get user
+        // for(const topic of topics){
+        //     const deletedFullName = await Account.findOne({
+        //         _id: topic.deletedBy.account_id,
+        //     }).select("fullName");
+        //     topic["deletedFullName"] = deletedFullName ? deletedFullName.fullName : "Đang cập nhật";
+        // }
+
+        res.render("admin/pages/songs/trash",{
+            title: "Bài nhạc đã xóa",
+            songs
+        })
+    }
+    catch(error){
+        console.log(error);
+    }
+}

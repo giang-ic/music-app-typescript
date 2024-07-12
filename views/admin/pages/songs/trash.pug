@@ -14,11 +14,11 @@ block main
             .row 
                 .col-8
                     |   Danh sách
-                    +filter-status(filterStatusArray) 
-                    a(
-                        class=`btn btn-sm ml-1 btn-outline-success`
-                        href=`${path_admin}/songs/trash`
-                    ) Đã xóa
+                    //- +filter-status(filterStatusArray) 
+                    //- a(
+                    //-     class=`btn btn-sm ml-1 btn-outline-success`
+                    //-     href=`${path_admin}/topics/trash`
+                    //- ) Đã xóa
                 .col-4
                     +search(keyword)
             +sort-criteria
@@ -100,4 +100,4 @@ block main
                                         button-delete-soft=item.id
                                         button-delete-type= "songs"
                                     ) Xóa
-                +pagination(paginationObject)
+                //- +pagination(paginationObject)
