@@ -183,3 +183,28 @@ export const edit = async (req: Request, res: Response) => {
 
     }
 }
+
+// [PATCH] /admin/songs/change-status/:status/:songID
+export const changeStatus = async (req: Request, res: Response) => {
+    try{
+        const songID: string = req.params.songID;
+        const status: string  = req.params.status;
+        await Song.updateOne(
+            {
+                _id: songID,
+                deleted: false
+            },{
+                status: status,
+            }
+        );
+
+        res.json({
+            code: 200,
+            id: songID,
+            status
+        })
+    }
+    catch(error){
+
+    }
+}

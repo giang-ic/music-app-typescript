@@ -152,7 +152,7 @@ export const index = async (req: Request, res: Response) => {
     }
 }
 
-// [PATCH] /admin/topics/change-status/:topicID/:status
+// [PATCH] /admin/topics/change-status/:status/:topicID
 export const changeStatus = async (req: Request, res: Response) => {
     try{
         const topicID: string = req.params.topicID;
@@ -176,7 +176,7 @@ export const changeStatus = async (req: Request, res: Response) => {
 
         res.json({
             code: 200,
-            topicID,
+            id: topicID,
             status
         })
     }

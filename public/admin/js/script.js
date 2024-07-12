@@ -111,20 +111,21 @@ const listButtonChangeStatus = document.querySelectorAll("[button-change-id]");
 if(listButtonChangeStatus.length > 0){
     listButtonChangeStatus.forEach(button => {
         button.addEventListener("click", (event) => {
-            const topicID = button.getAttribute("button-change-id");
+            const id = button.getAttribute("button-change-id");
             const elementContainStatus = button.querySelector("[button-change-data]");
             let status  = elementContainStatus.getAttribute("button-change-data");
-
+            const type  = elementContainStatus.getAttribute("button-change-type");
+            console.log(type);
             status = (status === "active" ? "inactive" : "active"); //toggle status
 
             // API
-            fetch(`/admin/topics/change-status/${status}/${topicID}`, {
+            fetch(`/admin/${type}/change-status/${status}/${id}`, {
                 method: 'PATCH'
             })
                 .then(response => response.json())
                 .then(response => {
                     if(response.code === 200){
-                        const topicID = response.topicID;
+                        const id = response.id;
                         const status = response.status;
 
                         // remove element
@@ -234,9 +235,9 @@ const listButtonDelete = document.querySelectorAll('[button-delete-soft]');
 if(listButtonDelete.length > 0){
     listButtonDelete.forEach(button => {
         button.addEventListener("click", (event) => {
-            const topicID = button.getAttribute("button-delete-soft");
+            const id = button.getAttribute("button-delete-soft");
             // API
-            fetch(`/admin/topics/delete-soft/${topicID}`, {
+            fetch(`/admin/topics/delete-soft/${id}`, {
                 method: 'PATCH'
             })
                 .then(response => response.json())
@@ -256,10 +257,10 @@ const listButtonRestore = document.querySelectorAll("[button-restore]");
 if(listButtonRestore.length > 0){
     listButtonRestore.forEach(button => {
         button.addEventListener("click", (event) => {
-            const topicID = button.getAttribute("button-restore");
+            const id = button.getAttribute("button-restore");
 
             // API
-            fetch(`/admin/topics/restore/${topicID}`, {
+            fetch(`/admin/topics/restore/${id}`, {
                 method: "PATCH"
             })
                 .then(response => response.json())

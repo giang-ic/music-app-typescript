@@ -56,5 +56,10 @@ router.patch(
     controller.edit
 );
 
+router.patch(
+    '/change-status/:status/:songID',
+    controller.changeStatus
+);
+
 // export
 export const SongRouter: Router = router;

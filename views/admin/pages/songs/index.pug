@@ -61,16 +61,20 @@ block main
                                 //- td Dữ liệu ca sĩ
                                 //- td Dữ liệu chủ đề
                                 //- td Dữ liệu vị trí
-                                td
+                                td(button-change-id = item.id)
                                     if (item.status === "active")
                                         a(
-                                        href="javascript:;"
-                                        class="badge badge-success"
+                                            href="javascript:;"
+                                            class="badge badge-success"                            
+                                            button-change-data = "active"
+                                            button-change-type="songs"
                                         ) Hoạt động
                                     else
                                         a(
-                                        href="javascript:;"
-                                        class="badge badge-danger"
+                                            href="javascript:;"
+                                            class="badge badge-danger"
+                                            button-change-data = "inactive"
+                                            button-change-type="songs"
                                         ) Dừng hoạt động
                                 td
                                     a(
