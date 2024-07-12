@@ -27,6 +27,13 @@ const SongSchema = new mongoose.Schema(
             default: 0
         }, // lưu tạm, sau này lưu vô collection khác luôn
         status: String,
+        createdBy: {
+            account_id: String,
+            createdAt: {
+                type: Date,
+                default: Date.now
+            }
+        },
         deleted: {
             type: Boolean,
             default: false

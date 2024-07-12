@@ -12,6 +12,7 @@ import {index as paginationHelper} from "../../helper/pagination.helper";
 
 // interface
 import { filterStatusInterface, findSongInterface } from "../../config/interface";
+import Account from "../../models/account.model";
 
 // [GET] /admin/songs/
 export const index = async (req: Request, res: Response) => {
@@ -90,7 +91,7 @@ export const index = async (req: Request, res: Response) => {
             songs = records;
         }
 
-        // get singer
+        // get singer & topic & createdBy 
         for(const song of songs){
             const singer = await Singer.findOne({_id: song.singerId}).select("fullName");
              
@@ -103,6 +104,10 @@ export const index = async (req: Request, res: Response) => {
             song["topic"] = {
                 title: topic ? topic.title: "Đang cập nhật"
             }
+
+            const createdFullName = await Account.findOne({_id: song.createdBy.account_id}).select("fullName");
+
+            song.createdBy["fullName"] = createdFullName ? createdFullName.fullName : "Đang cập nhật" 
         }
         res.render('admin/pages/songs/index', {
             title: "Danh sách bài nhạc",
@@ -145,6 +150,11 @@ export const createUI = async (req: Request, res: Response) => {
 // [POST] /admin/songs/create
 export const create = async (req: Request, res: Response) => {
     try{
+        const findObjectSong: findSongInterface = {
+            status: "active",
+            deleted: false
+        };
+
         if(req.body["avatar"]){
             req.body.avatar = req.body["avatar"][0]; // only one file avatar of music
         }
@@ -152,6 +162,16 @@ export const create = async (req: Request, res: Response) => {
         if(req.body["audio"]){
             req.body.audio = req.body["audio"][0]; // only one file audio
         }
+        const sizeOfDocuments = await Topic.countDocuments(findObjectSong); // count document
+
+        if(req.body.position === ""){
+            req.body["position"] = sizeOfDocuments + 1;  
+        }
+
+        req.body["createdBy"] = {
+            account_id: res.locals.user._id
+        }
+
         const record = new Song(req.body);
         await record.save();
         res.redirect('back');

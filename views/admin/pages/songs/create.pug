@@ -80,6 +80,16 @@ block main
                 source(src="")
             span(close-audio class="hide") x
         div(class="form-group")
+            label(for="position") Vị trí
+            input(
+                type="number"
+                class="form-control"
+                id="position"
+                name="position"
+                placeholder="Tự động tăng"
+                min="1"
+            )
+        div(class="form-group")
             label(for="desc") Mô tả
             textarea(
                 type="text"

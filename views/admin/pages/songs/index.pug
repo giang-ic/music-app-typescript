@@ -48,6 +48,7 @@ block main
                             th Chủ đề
                             th Vị trí
                             th Trạng thái
+                            th Tạo bởi
                             th Hành động
 
                     tbody
@@ -97,6 +98,9 @@ block main
                                             button-change-data = "inactive"
                                             button-change-type="songs"
                                         ) Dừng hoạt động
+                                td
+                                    div(class="mb-2") #{item.createdBy.fullName}
+                                    div #{moment(item.createdBy.createdAt).format("DD-MM-YYYY HH:mm")}
                                 td
                                     a(
                                         class="btn btn-secondary btn-sm"
