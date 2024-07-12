@@ -7,6 +7,7 @@ import Singer from "../../models/singer.model";
 
 // helper
 import * as filterHelper from "../../helper/filter.helper";
+import * as searchHelper from "../../helper/search.helper";
 
 // interface
 import { filterStatusInterface, findSongInterface } from "../../config/interface";
@@ -26,12 +27,37 @@ export const index = async (req: Request, res: Response) => {
         const filterStatusArray: filterStatusInterface[] = filterHelper.status(req.query);
         // end filter
 
-        const songs = await Song.find(findObjectSong);
+        // search
+        const keyword: string = req.query.keyword ? `${req.query.keyword}` : undefined;
+        const keywordObjectHelper = searchHelper.keywordAdvance(req.query);
+        // end search
+
+        // declare variable
+        let songs;
+
+        if(req.query.keyword){
+            // get database
+            const records = await Song.find({   
+                $or: [
+                    {title: keywordObjectHelper.keywordRegexTitle},
+                    {slug: keywordObjectHelper.keywordRegexSlug}
+                ],
+                ...findObjectSong
+            });
+            
+            songs = records;
+        }
+
+        else {
+            const records = await Song.find(findObjectSong);
+            songs = records;
+        }
 
         res.render('admin/pages/songs/index', {
             title: "Danh sách bài nhạc",
             songs,
-            filterStatusArray
+            filterStatusArray,
+            keyword
         });
     }
     catch(error){

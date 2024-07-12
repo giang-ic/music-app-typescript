@@ -10,16 +10,21 @@ block main
 
 
     .card.mb-3
-        .card-header Danh sách
-        .card-body
-            .row
+        .card-header 
+            .row 
                 .col-8
-                    | Danh sách 
-                    +filter-status(filterStatusArray)
+                    |   Danh sách
+                    +filter-status(filterStatusArray) 
                     a(
                         class=`btn btn-sm ml-1 btn-outline-success`
                         href=`${path_admin}/topics/trash`
                     ) Đã xóa
+                .col-4
+                    +search(keyword)
+        .card-body
+            .row
+                .col-8
+                    
                 .col-4.text-right
                     a(
                         href=`${path_admin}/songs/create`
