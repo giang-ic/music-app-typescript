@@ -44,8 +44,8 @@ block main
                             th STT
                             th Hình ảnh
                             th Tiêu đề
-                            //- th Ca sĩ
-                            //- th Chủ đề
+                            th Ca sĩ
+                            th Chủ đề
                             th Vị trí
                             th Trạng thái
                             th Hành động
@@ -69,7 +69,10 @@ block main
                                     )
                                 td #{item.title}
                                 //- td Dữ liệu ca sĩ
-                                //- td Dữ liệu chủ đề
+                                td 
+                                    div #{item.singer.fullName}
+                                td 
+                                    div #{item.topic.title}
                                 //- td Dữ liệu vị trí
                                 td
                                     input(

@@ -90,6 +90,20 @@ export const index = async (req: Request, res: Response) => {
             songs = records;
         }
 
+        // get singer
+        for(const song of songs){
+            const singer = await Singer.findOne({_id: song.singerId}).select("fullName");
+             
+            song["singer"] = {
+                fullName: singer ? singer.fullName : "Đang cập nhật"
+            }
+
+            const topic = await Topic.findOne({_id: song.topicId}).select("title");
+
+            song["topic"] = {
+                title: topic ? topic.title: "Đang cập nhật"
+            }
+        }
         res.render('admin/pages/songs/index', {
             title: "Danh sách bài nhạc",
             songs,
