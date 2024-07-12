@@ -46,7 +46,7 @@ block main
                             th Tiêu đề
                             //- th Ca sĩ
                             //- th Chủ đề
-                            //- th Vị trí
+                            th Vị trí
                             th Trạng thái
                             th Hành động
 
@@ -71,6 +71,14 @@ block main
                                 //- td Dữ liệu ca sĩ
                                 //- td Dữ liệu chủ đề
                                 //- td Dữ liệu vị trí
+                                td
+                                    input(
+                                        name="position"
+                                        value=item.position
+                                        type="number"
+                                        style="width: 60px;"
+                                        min="1"
+                                    )
                                 td(button-change-id = item.id)
                                     if (item.status === "active")
                                         a(
