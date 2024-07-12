@@ -325,6 +325,10 @@ export const deleteSoft = async (req: Request, res: Response) => {
             {
                 status: "inactive",
                 deleted: true,
+                deletedBy: {
+                    account_id: res.locals.user._id,
+                    deletedAt: Date.now()
+                }
             }
         );
 
@@ -345,13 +349,13 @@ export const trashUI = async (req: Request, res: Response) => {
         };
         const songs = await Song.find(findObjectSong);
 
-        // // get user
-        // for(const topic of topics){
-        //     const deletedFullName = await Account.findOne({
-        //         _id: topic.deletedBy.account_id,
-        //     }).select("fullName");
-        //     topic["deletedFullName"] = deletedFullName ? deletedFullName.fullName : "Đang cập nhật";
-        // }
+        // get user
+        for(const song of songs){
+            const deletedFullName = await Account.findOne({
+                _id: song.deletedBy.account_id,
+            }).select("fullName");
+            song["deletedFullName"] = deletedFullName ? deletedFullName.fullName : "Đang cập nhật";
+        }
 
         res.render("admin/pages/songs/trash",{
             title: "Bài nhạc đã xóa",

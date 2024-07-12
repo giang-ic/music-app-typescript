@@ -34,11 +34,17 @@ const SongSchema = new mongoose.Schema(
                 default: Date.now
             }
         },
+        deletedBy: {
+            account_id: String,
+            deletedAt: {
+                type: Date,
+                default: Date
+            }
+        },
         deleted: {
             type: Boolean,
             default: false
         },
-        deletedAt: Date
     },
     {
         timestamps: true
