@@ -49,6 +49,7 @@ block main
                             th Vị trí
                             th Trạng thái
                             th Tạo bởi
+                            th Chỉnh sửa bởi
                             th Hành động
 
                     tbody
@@ -101,6 +102,10 @@ block main
                                 td
                                     div(class="mb-2") #{item.createdBy.fullName}
                                     div #{moment(item.createdBy.createdAt).format("DD-MM-YYYY HH:mm")}
+                                td
+                                    div(class="mb-2") #{item.lastUpdatedBy.fullName}
+                                    div(class="mb-2") #{item.lastUpdatedBy.did}
+                                    div #{moment(item.lastUpdatedBy.updatedAt).format("DD-MM-YYYY HH:mm")}
                                 td
                                     a(
                                         class="btn btn-secondary btn-sm"

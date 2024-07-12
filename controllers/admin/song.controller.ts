@@ -108,6 +108,23 @@ export const index = async (req: Request, res: Response) => {
             const createdFullName = await Account.findOne({_id: song.createdBy.account_id}).select("fullName");
 
             song.createdBy["fullName"] = createdFullName ? createdFullName.fullName : "Đang cập nhật" 
+
+            // get last account to update
+            const sizeOfUpdatedBy = song["updatedBy"].length || 0;
+            const lastAccountToUpdate =  song["updatedBy"][sizeOfUpdatedBy-1];
+            let account = undefined;
+
+            if(lastAccountToUpdate){
+                account = await Account.findOne({_id:lastAccountToUpdate.account_id}).select("fullName");
+            }
+            
+            
+            song["lastUpdatedBy"] = {
+                fullName: account ? account.fullName : "Đang cập nhật",
+                did: lastAccountToUpdate ? lastAccountToUpdate.did : "Đang cập nhật",
+                updatedAt: lastAccountToUpdate ? lastAccountToUpdate.updatedAt : ""
+            }
+            
         }
         res.render('admin/pages/songs/index', {
             title: "Danh sách bài nhạc",
@@ -242,6 +259,13 @@ export const changeStatus = async (req: Request, res: Response) => {
                 deleted: false
             },{
                 status: status,
+                $push: {
+                    updatedBy: {
+                        account_id: res.locals.user._id,
+                        did: "Thay đổi trạng thái chủ đề",
+                        updatedAt: Date.now()
+                    }
+                }   
             }
         );
 
@@ -269,6 +293,13 @@ export const changeMulti = async (req: Request, res: Response) => {
                     },
                     {
                         status: "active",
+                        $push: {
+                            updatedBy: {
+                                account_id: res.locals.user._id,
+                                did: "Thay đổi trạng thái chủ đề",
+                                updatedAt: Date.now()
+                            }
+                        }  
                     }
                 );
                 break;
@@ -280,6 +311,13 @@ export const changeMulti = async (req: Request, res: Response) => {
                     },
                     {
                         status: "inactive",
+                        $push: {
+                            updatedBy: {
+                                account_id: res.locals.user._id,
+                                did: "Thay đổi trạng thái chủ đề",
+                                updatedAt: Date.now()
+                            }
+                        }   
                     }
                 );
             case "position":
@@ -289,6 +327,13 @@ export const changeMulti = async (req: Request, res: Response) => {
                         {_id: id},
                         {
                             position: position,
+                            $push: {
+                                updatedBy: {
+                                    account_id: res.locals.user._id,
+                                    did: "Thay đổi vị trí chủ đề",
+                                    updatedAt: Date.now()
+                                }
+                            }   
                         }
                     );
                 }
