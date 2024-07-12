@@ -100,6 +100,40 @@ export const index = async (req: Request, res: Response) => {
                 _id: topic.createdBy.account_id,
             }).select("fullName");
             topic["createdFullName"] = createdFullName ? createdFullName.fullName : "Đang cập nhật";
+
+            // get last account to update
+            const sizeOfUpdatedBy = topic["updatedBy"].length;
+            const lastAccountToUpdate =  topic["updatedBy"][sizeOfUpdatedBy-1];
+            if(lastAccountToUpdate){
+                const account = await Account.findOne({_id: lastAccountToUpdate.account_id}).select("fullName");
+                topic["lastUpdatedBy"] = {
+                    fullName: account.fullName,
+                    did: lastAccountToUpdate.did,
+                    updatedAt: lastAccountToUpdate.updatedAt
+                }
+            }
+            else {
+                topic["lastUpdatedBy"] = {
+                    fullName: "Đang cập nhật",
+                    did: "Đang cập nhật",
+                    updatedAt: topic.createdAt
+                }
+            }
+            // if(sizeOfUpdatedBy> 0){
+            //     for(const item of topic["updatedBy"]){
+            //         const updatedAccount = await Account.findOne({_id: item.account_id}).select("fullName");
+            //         item["updatedBy"] = {
+            //             fullName: updatedAccount.fullName,
+            //             did: item.did,
+            //             updatedAt: item.updatedAt
+            //         } 
+            //     }
+            // }
+           
+            // topic["updatedLastBy"] = {
+            //     fullName: "Đang cập nhật",
+            //     did: "Đang cập nhật"
+            // }
         }
         // end get user
 
@@ -129,7 +163,14 @@ export const changeStatus = async (req: Request, res: Response) => {
                 _id: topicID,
                 deleted: false
             },{
-                status: status
+                status: status,
+                $push: {
+                    updatedBy: {
+                        account_id: res.locals.user._id,
+                        did: "Thay đổi trạng thái chủ đề",
+                        updatedAt: Date.now()
+                    }
+                }   
             }
         );
 
@@ -156,7 +197,14 @@ export const changeMulti = async (req: Request, res: Response) => {
                         _id: {$in : listID}
                     },
                     {
-                        status: "active"
+                        status: "active",
+                        $push: {
+                            updatedBy: {
+                                account_id: res.locals.user._id,
+                                did: "Thay đổi trạng thái chủ đề",
+                                updatedAt: Date.now()
+                            }
+                        }   
                     }
                 );
                 break;
@@ -167,7 +215,14 @@ export const changeMulti = async (req: Request, res: Response) => {
                         _id: {$in : listID}
                     },
                     {
-                        status: "inactive"
+                        status: "inactive",
+                        $push: {
+                            updatedBy: {
+                                account_id: res.locals.user._id,
+                                did: "Thay đổi trạng thái chủ đề",
+                                updatedAt: Date.now()
+                            }
+                        }   
                     }
                 );
             case "position":
@@ -176,7 +231,14 @@ export const changeMulti = async (req: Request, res: Response) => {
                     await Topic.updateOne(
                         {_id: id},
                         {
-                            position: position
+                            position: position,
+                            $push: {
+                                updatedBy: {
+                                    account_id: res.locals.user._id,
+                                    did: "Thay đổi vị trí chủ đề",
+                                    updatedAt: Date.now()
+                                }
+                            }   
                         }
                     );
                 }
@@ -188,7 +250,7 @@ export const changeMulti = async (req: Request, res: Response) => {
                     },
                     {
                         status: "inactive",
-                        deleted: true
+                        deleted: true,
                     }
                 );
                 break;
@@ -262,7 +324,14 @@ export const restore = async (req: Request, res: Response) => {
         await Topic.updateOne(
             {_id: topicID},
             {
-                deleted: false
+                deleted: false,
+                $push: {
+                    updatedBy: {
+                        account_id: res.locals.user._id,
+                        did: "Khôi phục chủ đề đã xóa",
+                        updatedAt: Date.now()
+                    }
+                }   
             }
         );
         res.status(200).json({

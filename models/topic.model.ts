@@ -22,6 +22,13 @@ const TopicSchema = new mongoose.Schema(
                 default: Date.now
             }
         },
+        updatedBy: [
+            {
+                account_id: String,
+                did: String,
+                updatedAt: Date
+            }
+        ],
         deletedBy: {
             account_id: String,
             deletedAt: Date
