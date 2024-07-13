@@ -271,3 +271,29 @@ export const changeMulti = async (req: Request, res: Response) => {
 
     }
 }
+
+// [PATCH] /admin/singers/delete-soft/:singerID
+export const deleteSoft = async (req: Request, res: Response) => {
+    try{
+        const singerID: string = req.params.singerID;
+        
+        await Singer.updateOne(
+            {_id: singerID},
+            {
+                status: "inactive",
+                deleted: true,
+                // deletedBy: {
+                //     account_id: res.locals.user._id,
+                //     deletedAt: Date.now()
+                // }
+            }
+        );
+
+        res.status(200).json({
+            code: 200,
+        })
+    }
+    catch(error){
+
+    }
+}

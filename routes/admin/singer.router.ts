@@ -50,6 +50,11 @@ router.patch(
     '/change-multi',
     controller.changeMulti
 );
+
+router.patch(
+    '/delete-soft/:singerID',
+    controller.deleteSoft
+);
 // export
 export const SingerRouter: Router = router;
 
