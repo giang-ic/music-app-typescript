@@ -139,6 +139,7 @@ if(listButtonChangeStatus.length > 0){
                         child.classList.add("badge");
                         child.classList.add(status === "active" ? "badge-success" : "badge-danger");
                         child.setAttribute("button-change-data", status);   
+                        child.setAttribute("button-change-type", type);   
                         child.innerText = status === "active" ? "Hoạt động" : "Dừng hoạt động";
 
                         // append

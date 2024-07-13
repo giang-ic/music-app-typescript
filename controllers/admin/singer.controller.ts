@@ -75,7 +75,7 @@ export const index = async (req: Request, res: Response) => {
 
             // pagination
             paginationObject =  paginationHelper(req.query, 5, sizeOfDocuments);
-            
+
             const records = await Singer.find(findObjectSinger)
                                         .limit(paginationObject.limit)
                                         .skip(paginationObject.skip)
@@ -83,7 +83,6 @@ export const index = async (req: Request, res: Response) => {
 
         }
         
-
         res.render('admin/pages/singer/index', {
             title: "Danh sách ca sĩ",
             singers,
@@ -155,6 +154,39 @@ export const edit = async (req: Request, res: Response) => {
             req.body
         );
         res.redirect('back');
+    }
+    catch(error){
+
+    }
+}
+
+// [PATCH] /admin/singers/change-status/:status/:singerID
+export const changeStatus = async (req: Request, res: Response) => {
+    try{
+        const singerID: string = req.params.singerID;
+        const status: string  = req.params.status;
+
+        await Singer.updateOne(
+            {
+                _id: singerID,
+                deleted: false
+            },{
+                status: status,
+                // $push: {
+                //     updatedBy: {
+                //         account_id: res.locals.user._id,
+                //         did: "Thay đổi trạng thái chủ đề",
+                //         updatedAt: Date.now()
+                //     }
+                // }   
+            }
+        );
+
+        res.json({
+            code: 200,
+            id: singerID,
+            status
+        })
     }
     catch(error){
 

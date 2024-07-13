@@ -41,6 +41,10 @@ router.patch(
     controller.edit
 );
 
+router.patch(
+    '/change-status/:status/:singerID',
+    controller.changeStatus
+);
 // export
 export const SingerRouter: Router = router;
 
