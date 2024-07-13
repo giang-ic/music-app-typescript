@@ -65,6 +65,11 @@ router.patch(
     '/restore/:singerID',
     controller.restore
 );
+
+router.get(
+    '/detail/:singerID',
+    controller.detailUI
+);
 // export
 export const SingerRouter: Router = router;
 

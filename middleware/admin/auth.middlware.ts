@@ -3,6 +3,7 @@ import { Response, Request, NextFunction } from "express";
 
 // model
 import Account from "../../models/account.model";
+import Role from "../../models/role.model";
 
 // system config
 import { systemConfig } from "../../config/system";
@@ -34,7 +35,16 @@ export const requireAuth = async (req: Request, res: Response, next: NextFunctio
         }
         // end check status
 
+        // role of user
+        const role = await Role.findOne({
+            _id: res.locals.user.role_id,
+            status: "active",
+            deleted: false
+        });
+
+
         res.locals.user = user;
+        res.locals.role = role;
 
         next(); // next middlware
     }
