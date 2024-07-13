@@ -1,29 +1,32 @@
 extends ../../layouts/default.pug
 
 block main
-    if (topic.title)
-        h1(class="mb-4") #{topic.title}
+    if(role.permissions.includes('topics_view'))
+        if (topic.title)
+            h1(class="mb-4") #{topic.title}
 
-    //- if (topic.stock)
-    //-     div(class="mb-4") Còn lại: <b>#{topic.stock}</b>
+        //- if (topic.stock)
+        //-     div(class="mb-4") Còn lại: <b>#{topic.stock}</b>
 
-    if (topic.avatar)
-        div(class="mb-4")
-        img(
-            src=topic.avatar
-            style="width: 100px"
-        )
+        if (topic.avatar)
+            div(class="mb-4")
+            img(
+                src=topic.avatar
+                style="width: 100px"
+            )
 
-    if (topic.status)
-        div(class="mb-4")
-        span Trạng thái:
-        if (topic.status === "active")
-            span(class="badge badge-success") Hoạt động
-        else
-            span(class="badge badge-danger") Dừng hoạt động
+        if (topic.status)
+            div(class="mb-4")
+            span Trạng thái:
+            if (topic.status === "active")
+                span(class="badge badge-success") Hoạt động
+            else
+                span(class="badge badge-danger") Dừng hoạt động
 
-    if (topic.position)
-        div(class="mb-4") Vị trí: <b>#{topic.position}</b>
+        if (topic.position)
+            div(class="mb-4") Vị trí: <b>#{topic.position}</b>
 
-    if (topic.description)
-        div(class="mb-4") !{topic.description}
+        if (topic.description)
+            div(class="mb-4") !{topic.description}
+    else
+        h1(class="mb-4") Không tìm thấy trang    

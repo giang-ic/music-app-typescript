@@ -16,7 +16,7 @@ const RoleSchema = new mongoose.Schema({
     },{
         timestamps: true
     }
-);
+);  
 
 // define model
 const Role = mongoose.model('Role', RoleSchema, 'roles');

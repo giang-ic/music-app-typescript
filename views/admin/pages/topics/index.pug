@@ -5,109 +5,115 @@ include ../../mixins/pagination.pug
 include ../../mixins/sort.pug
 include ../../mixins/change-multi.pug
 block main
-  h1(class="mb-4") #{title}
+    if(role.permissions.includes('topics_view'))
+        h1(class="mb-4") #{title}
+        .card.mb-3
+            .card-header 
+                .row 
+                    .col-8
+                        |   Danh sách
+                        +filter-status(filterStatusArray) 
+                        if(role.permissions.includes('topics_delete'))
+                            a(
+                                class=`btn btn-sm ml-1 btn-outline-success`
+                                href=`${path_admin}/topics/trash`
+                            ) Đã xóa
+                    .col-4
+                        +search(keyword)
+                +sort-criteria
+            .card-body
+                .row
+                    .col-8
+                        if(role.permissions.includes('topics_edit'))
+                            +select-change-multi("topics")
+                    .col-4.text-right.mb-2
+                        if(role.permissions.includes('topics_create'))
+                            a(
+                                href=`${path_admin}/topics/create`
+                                class="btn btn-outline-success"
+                            ) + Thêm mới
 
-
-  .card.mb-3
-        .card-header 
-            .row 
-                .col-8
-                    |   Danh sách
-                    +filter-status(filterStatusArray) 
-                    a(
-                        class=`btn btn-sm ml-1 btn-outline-success`
-                        href=`${path_admin}/topics/trash`
-                    ) Đã xóa
-                .col-4
-                    +search(keyword)
-            +sort-criteria
-        .card-body
-            .row
-                .col-8
-                    +select-change-multi("topics")
-                .col-4.text-right.mb-2
-                    a(
-                        href=`${path_admin}/topics/create`
-                        class="btn btn-outline-success"
-                    ) + Thêm mới
-
-                table(
-                    class="table table-hover table-sm"
-                    table-data
-                )
-                    thead
-                        tr
-                            td
-                                input(type="checkbox" name="checkall")
-                            th STT
-                            th Hình ảnh
-                            th Tiêu đề
-                            th Vị trí
-                            th Trạng thái
-                            th Tạo bởi
-                            th Chỉnh sửa bởi
-                            th Hành động
-
-                    tbody
-                        each item, index in topics
-                            tr 
+                    table(
+                        class="table table-hover table-sm"
+                        table-data
+                    )
+                        thead
+                            tr
                                 td
-                                    input(
-                                        type="checkbox" 
-                                        name="checkbox-single" 
-                                        value=item.id
-                                    )
-                                td #{index+1}
-                                td
-                                    img(
-                                        src=item.avatar
-                                        alt=item.title
-                                        width="100px"
-                                        height="auto"
-                                    )
-                                td #{item.title}
-                                td
-                                    input(
-                                        name="position"
-                                        value=item.position
-                                        type="number"
-                                        style="width: 60px;"
-                                        min="1"
-                                    )
-                                td(button-change-id = item.id)
-                                    if (item.status === "active")
+                                    input(type="checkbox" name="checkall")
+                                th STT
+                                th Hình ảnh
+                                th Tiêu đề
+                                th Vị trí
+                                th Trạng thái
+                                th Tạo bởi
+                                th Chỉnh sửa bởi
+                                th Hành động
+
+                        tbody
+                            each item, index in topics
+                                tr 
+                                    td
+                                        input(
+                                            type="checkbox" 
+                                            name="checkbox-single" 
+                                            value=item.id
+                                        )
+                                    td #{index+1}
+                                    td
+                                        img(
+                                            src=item.avatar
+                                            alt=item.title
+                                            width="100px"
+                                            height="auto"
+                                        )
+                                    td #{item.title}
+                                    td
+                                        input(
+                                            name="position"
+                                            value=item.position
+                                            type="number"
+                                            style="width: 60px;"
+                                            min="1"
+                                        )
+                                    td(button-change-id = role.permissions.includes('topics_edit') ? item.id : "")
+                                        if (item.status === "active")
+                                            a(
+                                                href="javascript:;"
+                                                class="badge badge-success"                            
+                                                button-change-data = "active"
+                                                button-change-type="topics"
+                                            ) Hoạt động
+                                        else
+                                            a(
+                                                href="javascript:;"
+                                                class="badge badge-danger"
+                                                button-change-data = "inactive"
+                                                button-change-type="topics"
+                                            ) Dừng hoạt động
+                                    td
+                                        div(class="mb-2") #{item.createdFullName}
+                                        div #{moment(item.createdAt).format("DD-MM-YYYY HH:mm")}
+                                    td
+                                        div(class="mb-2") #{item.lastUpdatedBy.fullName}
+                                        div(class="mb-2") #{item.lastUpdatedBy.did}
+                                        div #{moment(item.lastUpdatedBy.updatedAt).format("DD-MM-YYYY HH:mm")}
+                                    td
                                         a(
-                                            href="javascript:;"
-                                            class="badge badge-success"                            
-                                            button-change-data = "active"
-                                            button-change-type="topics"
-                                        ) Hoạt động
-                                    else
-                                        a(
-                                            href="javascript:;"
-                                            class="badge badge-danger"
-                                            button-change-data = "inactive"
-                                            button-change-type="topics"
-                                        ) Dừng hoạt động
-                                td
-                                    div(class="mb-2") #{item.createdFullName}
-                                    div #{moment(item.createdAt).format("DD-MM-YYYY HH:mm")}
-                                td
-                                    div(class="mb-2") #{item.lastUpdatedBy.fullName}
-                                    div(class="mb-2") #{item.lastUpdatedBy.did}
-                                    div #{moment(item.lastUpdatedBy.updatedAt).format("DD-MM-YYYY HH:mm")}
-                                td
-                                    a(
-                                        class="btn btn-secondary btn-sm"
-                                        href=`${path_admin}/topics/detail/${item.id}`
-                                    ) Chi tiết
-                                    a(
-                                        class="btn btn-warning btn-sm ml-1"
-                                        href=`${path_admin}/topics/edit/${item.id}`
-                                    ) Sửa
-                                    button(
-                                        class="btn btn-danger btn-sm ml-1"
-                                        button-delete-soft=item.id
-                                        button-delete-type= "topics"
-                                    ) Xóa
-                +pagination(paginationObject)
+                                            class="btn btn-secondary btn-sm"
+                                            href=`${path_admin}/topics/detail/${item.id}`
+                                        ) Chi tiết
+                                        if(role.permissions.includes('topics_edit'))
+                                            a(
+                                                class="btn btn-warning btn-sm ml-1"
+                                                href=`${path_admin}/topics/edit/${item.id}`
+                                            ) Sửa
+                                        if(role.permissions.includes('topics_delete'))
+                                            button(
+                                                class="btn btn-danger btn-sm ml-1"
+                                                button-delete-soft=item.id
+                                                button-delete-type= "topics"
+                                            ) Xóa
+                    +pagination(paginationObject)
+    else
+        h1(class="mb-4") Không tìm thấy trang
