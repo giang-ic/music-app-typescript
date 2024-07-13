@@ -137,6 +137,10 @@ export const createUI = async (req: Request, res: Response) => {
 // [POST] /admin/singers/create
 export const create = async (req: Request, res: Response) => {
     try{
+        req.body["createdBy"] = {
+            account_id: res.locals.user._id
+        }
+
         const record = new Singer(req.body);
         await record.save();
         res.redirect(PATH_ADMIN + '/singers/');
