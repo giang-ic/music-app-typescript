@@ -12,6 +12,7 @@ const PATH_ADMIN = systemConfig.prefix_admin;
 // helper
 import * as filterHelper from "../../helper/filter.helper";
 import * as searchHelper from "../../helper/search.helper";
+import {index as paginationHelper} from "../../helper/pagination.helper";
 
 // interface
 import { findSingerInterface, filterStatusInterface } from "../../config/interface";
@@ -40,8 +41,22 @@ export const index = async (req: Request, res: Response) => {
 
         // declare 
         let singers;
+        let sizeOfDocuments: number = 0;
+        let paginationObject; // pagination
 
         if(req.query.keyword){
+            sizeOfDocuments = await Singer.countDocuments({
+                $or: [
+                    {title: keywordObjectHelper.keywordRegexTitle},
+                    {slug: keywordObjectHelper.keywordRegexSlug}
+                ],
+                ...findObjectSinger
+            }); // count documents
+
+            // pagination
+            paginationObject =  paginationHelper(req.query, 5, sizeOfDocuments);
+
+
             // get database
             const records = await Singer.find({   
                 $or: [
@@ -49,13 +64,21 @@ export const index = async (req: Request, res: Response) => {
                     {slug: keywordObjectHelper.keywordRegexSlug}
                 ],
                 ...findObjectSinger
-            })
+            }).limit(paginationObject.limit)
+            .skip(paginationObject.skip)
             
             singers = records;
 
         }
         else{
-            const records = await Singer.find(findObjectSinger);
+            sizeOfDocuments = await Topic.countDocuments(findObjectSinger); // count documents
+
+            // pagination
+            paginationObject =  paginationHelper(req.query, 5, sizeOfDocuments);
+            
+            const records = await Singer.find(findObjectSinger)
+                                        .limit(paginationObject.limit)
+                                        .skip(paginationObject.skip)
             singers = records;
 
         }
@@ -65,11 +88,13 @@ export const index = async (req: Request, res: Response) => {
             title: "Danh sách ca sĩ",
             singers,
             filterStatusArray,
-            keyword
+            keyword,
+            sizeOfDocuments,
+            paginationObject
         })
     }
     catch(error){
-        
+        console.log(error);
     }
 }
 
