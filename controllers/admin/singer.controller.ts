@@ -330,7 +330,7 @@ export const trashUI = async (req: Request, res: Response) => {
         // }
 
         res.render("admin/pages/singer/trash",{
-            title: "Chủ đề đã xóa",
+            title: "Ca sĩ đã xóa",
             singers
         })
     }
@@ -362,5 +362,20 @@ export const restore = async (req: Request, res: Response) => {
     }
     catch(error){
         console.log(error);
+    }
+}
+
+// [GET] /admin/topics/detail/:singerID
+export const detailUI = async (req: Request, res: Response) => {
+    try{
+        const singerID: string = req.params.singerID;
+        const singer = await Singer.findOne({ _id: singerID });
+        res.render("admin/pages/singer/detail", {
+            title: "Chi tiết ca sĩ",
+            singer
+        })
+    }
+    catch(error){
+
     }
 }
