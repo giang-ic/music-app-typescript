@@ -6,6 +6,7 @@ const SingerSchema = new mongoose.Schema(
         fullName: String,
         avatar: String,
         status: String,
+        position: Number,
         deleted: {
             type: Boolean,
             default: false

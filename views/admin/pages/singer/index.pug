@@ -67,6 +67,14 @@ block main
                                         height="auto"
                                     )
                                 td #{item.fullName}
+                                td
+                                    input(
+                                        name="position"
+                                        value=item.position
+                                        type="number"
+                                        style="width: 60px;"
+                                        min="1"
+                                    )
                                 //- td Dữ liệu ca sĩ
                                 //- td Dữ liệu chủ đề
                                 //- td Dữ liệu vị trí
