@@ -45,6 +45,11 @@ router.patch(
     '/change-status/:status/:singerID',
     controller.changeStatus
 );
+
+router.patch(
+    '/change-multi',
+    controller.changeMulti
+);
 // export
 export const SingerRouter: Router = router;
 

@@ -192,3 +192,82 @@ export const changeStatus = async (req: Request, res: Response) => {
 
     }
 }
+
+// [PATCH] /admin/singers/change-multi
+export const changeMulti = async (req: Request, res: Response) => {
+    try{
+        const type: string = req.body.type;
+        const listID: string[] = (req.body.ids).split(", ");
+        switch(type){
+            case "active":
+                await Singer.updateMany(
+                    {
+                        _id: {$in : listID}
+                    },
+                    {
+                        status: "active",
+                        // $push: {
+                        //     updatedBy: {
+                        //         account_id: res.locals.user._id,
+                        //         did: "Thay đổi trạng thái chủ đề",
+                        //         updatedAt: Date.now()
+                        //     }
+                        // }   
+                    }
+                );
+                break;
+            
+            case "inactive":
+                await Singer.updateMany(
+                    {
+                        _id: {$in : listID}
+                    },
+                    {
+                        status: "inactive",
+                        // $push: {
+                        //     updatedBy: {
+                        //         account_id: res.locals.user._id,
+                        //         did: "Thay đổi trạng thái chủ đề",
+                        //         updatedAt: Date.now()
+                        //     }
+                        // }   
+                    }
+                );
+            case "position":
+                for(const item of listID){
+                    const [id, position] = item.split("-");
+                    await Singer.updateOne(
+                        {_id: id},
+                        {
+                            position: position,
+                            // $push: {
+                            //     updatedBy: {
+                            //         account_id: res.locals.user._id,
+                            //         did: "Thay đổi vị trí chủ đề",
+                            //         updatedAt: Date.now()
+                            //     }
+                            // }   
+                        }
+                    );
+                }
+                break;
+            case "delete":
+                await Singer.updateMany(
+                    {
+                        _id: {$in : listID}
+                    },
+                    {
+                        status: "inactive",
+                        deleted: true,
+                    }
+                );
+                break;
+            default: 
+                break;
+        }
+        res.redirect('back');
+    }
+    catch(error){
+
+    }
+}
