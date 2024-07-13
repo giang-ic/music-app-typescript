@@ -38,6 +38,19 @@ export const index = async (req: Request, res: Response) => {
         const keywordObjectHelper = searchHelper.keywordAdvance(req.query);
         // End Search keyword
 
+        // sort citeria
+        const sortObject = {};
+
+        if(req.query.sortKey && req.query.sortValue){
+            const sortKey: string = `${req.query.sortKey}`;
+            const sortValue: string = `${req.query.sortValue}`;
+
+            sortObject[sortKey] = sortValue;
+        }
+        else {
+            sortObject["position"] = "desc";
+        }
+        // end sort citeria
 
         // declare 
         let singers;
@@ -66,6 +79,7 @@ export const index = async (req: Request, res: Response) => {
                 ...findObjectSinger
             }).limit(paginationObject.limit)
             .skip(paginationObject.skip)
+            .sort(sortObject);
             
             singers = records;
 
@@ -79,6 +93,7 @@ export const index = async (req: Request, res: Response) => {
             const records = await Singer.find(findObjectSinger)
                                         .limit(paginationObject.limit)
                                         .skip(paginationObject.skip)
+                                        .sort(sortObject);
             singers = records;
 
         }
