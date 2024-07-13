@@ -11,6 +11,9 @@ const PATH_ADMIN = systemConfig.prefix_admin;
 
 // helper
 import * as filterHelper from "../../helper/filter.helper";
+import * as searchHelper from "../../helper/search.helper";
+
+// interface
 import { findSingerInterface, filterStatusInterface } from "../../config/interface";
 
 // [GET] /admin/singers/
@@ -29,12 +32,40 @@ export const index = async (req: Request, res: Response) => {
         const filterStatusArray: filterStatusInterface[] = filterHelper.status(req.query);
         // End Filter stautus
 
-        const singers = await Singer.find(findObjectSinger);
+        // Search keyword
+        const keyword: string = req.query.keyword ? `${req.query.keyword}` : undefined;
+        const keywordObjectHelper = searchHelper.keywordAdvance(req.query);
+        // End Search keyword
+
+
+        // declare 
+        let singers;
+
+        if(req.query.keyword){
+            // get database
+            const records = await Singer.find({   
+                $or: [
+                    {title: keywordObjectHelper.keywordRegexTitle},
+                    {slug: keywordObjectHelper.keywordRegexSlug}
+                ],
+                ...findObjectSinger
+            })
+            
+            singers = records;
+
+        }
+        else{
+            const records = await Singer.find(findObjectSinger);
+            singers = records;
+
+        }
+        
 
         res.render('admin/pages/singer/index', {
             title: "Danh sách ca sĩ",
             singers,
-            filterStatusArray
+            filterStatusArray,
+            keyword
         })
     }
     catch(error){
