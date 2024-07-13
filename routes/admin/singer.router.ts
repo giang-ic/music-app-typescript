@@ -60,6 +60,11 @@ router.get(
     '/trash',
     controller.trashUI
 );
+
+router.patch(
+    '/restore/:singerID',
+    controller.restore
+);
 // export
 export const SingerRouter: Router = router;
 

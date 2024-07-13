@@ -338,3 +338,29 @@ export const trashUI = async (req: Request, res: Response) => {
         console.log(error);
     }
 }
+
+// [PATCH] /admin/singers/restore/:singerID
+export const restore = async (req: Request, res: Response) => {
+    try{
+        const singerID = req.params.singerID;
+        await Singer.updateOne(
+            {_id: singerID},
+            {
+                deleted: false,
+                // $push: {
+                //     updatedBy: {
+                //         account_id: res.locals.user._id,
+                //         did: "Khôi phục chủ đề đã xóa",
+                //         updatedAt: Date.now()
+                //     }
+                // }   
+            }
+        );
+        res.status(200).json({
+            code: 200
+        });
+    }
+    catch(error){
+        console.log(error);
+    }
+}
