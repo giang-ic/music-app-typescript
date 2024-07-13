@@ -312,3 +312,29 @@ export const deleteSoft = async (req: Request, res: Response) => {
 
     }
 }
+
+// [PATCH] /admin/singers/trash
+export const trashUI = async (req: Request, res: Response) => {
+    try{
+        const findObjectSinger: findSingerInterface = {
+            deleted: true
+        };
+        const singers = await Singer.find(findObjectSinger);
+
+        // get user
+        // for(const topic of topics){
+        //     const deletedFullName = await Account.findOne({
+        //         _id: topic.deletedBy.account_id,
+        //     }).select("fullName");
+        //     topic["deletedFullName"] = deletedFullName ? deletedFullName.fullName : "Đang cập nhật";
+        // }
+
+        res.render("admin/pages/singer/trash",{
+            title: "Chủ đề đã xóa",
+            singers
+        })
+    }
+    catch(error){
+        console.log(error);
+    }
+}

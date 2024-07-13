@@ -55,6 +55,11 @@ router.patch(
     '/delete-soft/:singerID',
     controller.deleteSoft
 );
+
+router.get(
+    '/trash',
+    controller.trashUI
+);
 // export
 export const SingerRouter: Router = router;
 

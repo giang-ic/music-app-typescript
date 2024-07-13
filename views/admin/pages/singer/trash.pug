@@ -14,23 +14,23 @@ block main
             .row 
                 .col-8
                     |   Danh sách
-                    +filter-status(filterStatusArray) 
+                    //- +filter-status(filterStatusArray) 
                     a(
                         class=`btn btn-sm ml-1 btn-outline-success`
-                        href=`${path_admin}/singers/trash`
+                        href=`${path_admin}/songs/trash`
                     ) Đã xóa
                 .col-4
-                    +search(keyword)
-            +sort-criteria
+                    //- +search(keyword)
+            //- +sort-criteria
         .card-body
             .row
                 .col-8
-                    +select-change-multi("singers")
+                    //- +select-change-multi("singers")
                 .col-4.text-right
-                    a(
-                        href=`${path_admin}/singers/create`
-                        class="btn btn-outline-success"
-                    ) + Thêm mới
+                    //- a(
+                    //-     href=`${path_admin}/singers/create`
+                    //-     class="btn btn-outline-success"
+                    //- ) + Thêm mới
 
 
                 table(
@@ -104,8 +104,8 @@ block main
                                         href=`${path_admin}/singers/edit/${item.id}`
                                     ) Sửa
                                     button(
-                                        class="btn btn-danger btn-sm ml-1"
-                                        button-delete-soft=item.id
-                                        button-delete-type= "singers"
-                                    ) Xóa
-                +pagination(paginationObject)
+                                        class="btn btn-success btn-sm ml-1"
+                                        button-restore=item.id
+                                        button-restore-type= "singers"
+                                    ) Khôi phục
+                //- +pagination(paginationObject)
