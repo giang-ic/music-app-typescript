@@ -6,118 +6,124 @@ include ../../mixins/sort.pug
 include ../../mixins/change-multi.pug
 
 block main
-    h1(class="mb-4") #{title}
+    if(role.permissions.includes('songs_view'))
+        h1(class="mb-4") #{title}
+        .card.mb-3
+            .card-header 
+                .row 
+                    .col-8
+                        |   Danh sách
+                        +filter-status(filterStatusArray) 
+                        if(role.permissions.includes('songs_delete'))
+                            a(
+                                class=`btn btn-sm ml-1 btn-outline-success`
+                                href=`${path_admin}/singers/trash`
+                            ) Đã xóa
+                    .col-4
+                        +search(keyword)
+                if(role.permissions.includes('songs_edit'))
+                    +sort-criteria
+            .card-body
+                .row
+                    .col-8
+                        +select-change-multi("songs")
+                    .col-4.text-right
+                        if(role.permissions.includes('songs_create'))
+                            a(
+                                href=`${path_admin}/songs/create`
+                                class="btn btn-outline-success"
+                            ) + Thêm mới
 
 
-    .card.mb-3
-        .card-header 
-            .row 
-                .col-8
-                    |   Danh sách
-                    +filter-status(filterStatusArray) 
-                    a(
-                        class=`btn btn-sm ml-1 btn-outline-success`
-                        href=`${path_admin}/singers/trash`
-                    ) Đã xóa
-                .col-4
-                    +search(keyword)
-            +sort-criteria
-        .card-body
-            .row
-                .col-8
-                    +select-change-multi("songs")
-                .col-4.text-right
-                    a(
-                        href=`${path_admin}/songs/create`
-                        class="btn btn-outline-success"
-                    ) + Thêm mới
-
-
-                table(
-                    class="table table-hover table-sm"
-                    table-data
-                )
-                    thead
-                        tr
-                            td
-                                input(type="checkbox" name="checkall")
-                            th STT
-                            th Hình ảnh
-                            th Tiêu đề
-                            th Ca sĩ
-                            th Chủ đề
-                            th Vị trí
-                            th Trạng thái
-                            th Tạo bởi
-                            th Chỉnh sửa bởi
-                            th Hành động
-
-                    tbody
-                        each item, index in songs
-                            tr 
+                    table(
+                        class="table table-hover table-sm"
+                        table-data
+                    )
+                        thead
+                            tr
                                 td
-                                    input(
-                                        type="checkbox" 
-                                        name="checkbox-single" 
-                                        value=item.id
-                                    )
-                                td #{index+1}
-                                td
-                                    img(
-                                        src=item.avatar
-                                        alt=item.title
-                                        width="80px"
-                                        height="auto"
-                                    )
-                                td #{item.title}
-                                //- td Dữ liệu ca sĩ
-                                td 
-                                    div #{item.singer.fullName}
-                                td 
-                                    div #{item.topic.title}
-                                //- td Dữ liệu vị trí
-                                td
-                                    input(
-                                        name="position"
-                                        value=item.position
-                                        type="number"
-                                        style="width: 60px;"
-                                        min="1"
-                                    )
-                                td(button-change-id = item.id)
-                                    if (item.status === "active")
+                                    input(type="checkbox" name="checkall")
+                                th STT
+                                th Hình ảnh
+                                th Tiêu đề
+                                th Ca sĩ
+                                th Chủ đề
+                                th Vị trí
+                                th Trạng thái
+                                th Tạo bởi
+                                th Chỉnh sửa bởi
+                                th Hành động
+
+                        tbody
+                            each item, index in songs
+                                tr 
+                                    td
+                                        input(
+                                            type="checkbox" 
+                                            name="checkbox-single" 
+                                            value=item.id
+                                        )
+                                    td #{index+1}
+                                    td
+                                        img(
+                                            src=item.avatar
+                                            alt=item.title
+                                            width="80px"
+                                            height="auto"
+                                        )
+                                    td #{item.title}
+                                    //- td Dữ liệu ca sĩ
+                                    td 
+                                        div #{item.singer.fullName}
+                                    td 
+                                        div #{item.topic.title}
+                                    //- td Dữ liệu vị trí
+                                    td
+                                        input(
+                                            name="position"
+                                            value=item.position
+                                            type="number"
+                                            style="width: 60px;"
+                                            min="1"
+                                        )
+                                    td(button-change-id = role.permissions.includes('songs_edit') ? item.id : "")
+                                        if (item.status === "active")
+                                            a(
+                                                href="javascript:;"
+                                                class="badge badge-success"                            
+                                                button-change-data = "active"
+                                                button-change-type="songs"
+                                            ) Hoạt động
+                                        else
+                                            a(
+                                                href="javascript:;"
+                                                class="badge badge-danger"
+                                                button-change-data = "inactive"
+                                                button-change-type="songs"
+                                            ) Dừng hoạt động
+                                    td
+                                        div(class="mb-2") #{item.createdBy.fullName}
+                                        div #{moment(item.createdBy.createdAt).format("DD-MM-YYYY HH:mm")}
+                                    td
+                                        div(class="mb-2") #{item.lastUpdatedBy.fullName}
+                                        div(class="mb-2") #{item.lastUpdatedBy.did}
+                                        div #{moment(item.lastUpdatedBy.updatedAt).format("DD-MM-YYYY HH:mm")}
+                                    td
                                         a(
-                                            href="javascript:;"
-                                            class="badge badge-success"                            
-                                            button-change-data = "active"
-                                            button-change-type="songs"
-                                        ) Hoạt động
-                                    else
-                                        a(
-                                            href="javascript:;"
-                                            class="badge badge-danger"
-                                            button-change-data = "inactive"
-                                            button-change-type="songs"
-                                        ) Dừng hoạt động
-                                td
-                                    div(class="mb-2") #{item.createdBy.fullName}
-                                    div #{moment(item.createdBy.createdAt).format("DD-MM-YYYY HH:mm")}
-                                td
-                                    div(class="mb-2") #{item.lastUpdatedBy.fullName}
-                                    div(class="mb-2") #{item.lastUpdatedBy.did}
-                                    div #{moment(item.lastUpdatedBy.updatedAt).format("DD-MM-YYYY HH:mm")}
-                                td
-                                    a(
-                                        class="btn btn-secondary btn-sm"
-                                        href=`${path_admin}/songs/detail/${item.id}`
-                                    ) Chi tiết
-                                    a(
-                                        class="btn btn-warning btn-sm ml-1"
-                                        href=`${path_admin}/songs/edit/${item.id}`
-                                    ) Sửa
-                                    button(
-                                        class="btn btn-danger btn-sm ml-1"
-                                        button-delete-soft=item.id
-                                        button-delete-type= "songs"
-                                    ) Xóa
-                +pagination(paginationObject)
+                                            class="btn btn-secondary btn-sm"
+                                            href=`${path_admin}/songs/detail/${item.id}`
+                                        ) Chi tiết
+                                        if(role.permissions.includes('songs_edit'))
+                                            a(
+                                                class="btn btn-warning btn-sm ml-1"
+                                                href=`${path_admin}/songs/edit/${item.id}`
+                                            ) Sửa
+                                        if(role.permissions.includes('songs_delete'))
+                                            button(
+                                                class="btn btn-danger btn-sm ml-1"
+                                                button-delete-soft=item.id
+                                                button-delete-type= "songs"
+                                            ) Xóa
+                    +pagination(paginationObject)
+    else
+        h1(class="mb-4") Không tìm thấy trang    
