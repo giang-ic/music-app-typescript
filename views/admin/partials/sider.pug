@@ -3,20 +3,30 @@
         ul
             li
                 a(href=`${path_admin}/dashboard`) Tổng quan
-            li
-                a(href=`${path_admin}/topics`) Quản lý chủ đề
-            li
-                a(href=`${path_admin}/songs`) Quản lý bài hát
-            li
-                a(href=`${path_admin}/singers`) Quản lý ca sĩ
-            li
-                a(href=`${path_admin}/roles`) Nhóm quyền
-                
+
+            if(role.permissions.includes('topics_view'))
+                li
+                    a(href=`${path_admin}/topics`) Quản lý chủ đề
+
+            if(role.permissions.includes('songs_view'))
+                li
+                    a(href=`${path_admin}/songs`) Quản lý bài hát
+
+            if(role.permissions.includes('singers_view'))
+                li
+                    a(href=`${path_admin}/singers`) Quản lý ca sĩ
+
+            if(role.permissions.includes('roles_view'))
+                li
+                    a(href=`${path_admin}/roles`) Nhóm quyền
+
             if(role.permissions.includes('roles_edit'))
                 li
                     a(href=`${path_admin}/roles/permissions`) Phân quyền
-            li
-                a(href=`${path_admin}/accounts`) Tài khoản admin
+
+            if(role.permissions.includes('accounts_view'))
+                li
+                    a(href=`${path_admin}/accounts`) Tài khoản admin
             li
                 a(href=`${path_admin}/users`) Tài khoản user
             li
