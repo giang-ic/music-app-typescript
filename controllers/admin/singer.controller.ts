@@ -1,6 +1,7 @@
 // model 
 import Singer from "../../models/singer.model";
 import Topic  from "../../models/topic.model";
+import Account from "../../models/account.model";
 
 // instance Express
 import { Request, Response } from "express";
@@ -98,6 +99,15 @@ export const index = async (req: Request, res: Response) => {
 
         }
         
+        // get user
+        for(const singer of singers){
+            const createdFullName = await Account.findOne({
+                _id: singer.createdBy.account_id,
+            }).select("fullName");
+            
+            singer["createdFullName"] = createdFullName ? createdFullName.fullName : "Đang cập nhật";
+
+        }
         res.render('admin/pages/singer/index', {
             title: "Danh sách ca sĩ",
             singers,
