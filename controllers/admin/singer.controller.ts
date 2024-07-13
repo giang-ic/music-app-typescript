@@ -311,10 +311,10 @@ export const deleteSoft = async (req: Request, res: Response) => {
             {
                 status: "inactive",
                 deleted: true,
-                // deletedBy: {
-                //     account_id: res.locals.user._id,
-                //     deletedAt: Date.now()
-                // }
+                deletedBy: {
+                    account_id: res.locals.user._id,
+                    deletedAt: Date.now()
+                }
             }
         );
 
@@ -336,12 +336,12 @@ export const trashUI = async (req: Request, res: Response) => {
         const singers = await Singer.find(findObjectSinger);
 
         // get user
-        // for(const topic of topics){
-        //     const deletedFullName = await Account.findOne({
-        //         _id: topic.deletedBy.account_id,
-        //     }).select("fullName");
-        //     topic["deletedFullName"] = deletedFullName ? deletedFullName.fullName : "Đang cập nhật";
-        // }
+        for(const singer of singers){
+            const deletedFullName = await Account.findOne({
+                _id: singer.deletedBy.account_id,
+            }).select("fullName");
+            singer["deletedFullName"] = deletedFullName ? deletedFullName.fullName : "Đang cập nhật";
+        }
 
         res.render("admin/pages/singer/trash",{
             title: "Ca sĩ đã xóa",
